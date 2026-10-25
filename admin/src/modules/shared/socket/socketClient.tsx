@@ -5,7 +5,7 @@ let socket: Socket | null = null;
 
 function getSocketUrl() {
   const baseURL = (authAxios.defaults.baseURL || '').replace(/\/api\/?$/, '');
-  return baseURL;
+  return baseURL || undefined; // "" -> connect to the page's own origin
 }
 
 export function getSocket(userId: string, isAdmin: boolean = false): Socket | null {

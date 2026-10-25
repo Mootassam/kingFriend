@@ -1,6 +1,6 @@
 
 import Axios from 'axios';
-// import config from 'src/config';
+import config from 'src/config';
 import { getLanguageCode } from '../../../i18n';
 import Qs from 'qs';
 import moment from 'moment';
@@ -8,14 +8,15 @@ import AuthToken from 'src/modules/auth/authToken';
 
 const authAxios = Axios.create({
 
-  // Demo Link
-  baseURL: "http://200.234.47.155:8082/api",
+  // Put any API URL here (http or https)
+  baseURL: "/api", // nginx forwards /api to the backend container
+  // baseURL: "http://72.62.210.173:8083/api",
+
+  // Same-origin, proxied by nginx to the URL above
+  // baseURL: config.backendUrl,
 
   // Dev Link
-    //  baseURL : "http://localhost:8082/api", 
-
-  // Prod Link
-  // baseURL: "https://indiaallvorafx.cc/api",
+  // baseURL: "http://localhost:8082/api",
 
   paramsSerializer: function (params) {
     return Qs.stringify(params, {

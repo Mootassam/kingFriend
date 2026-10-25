@@ -61,7 +61,7 @@ export default function PcAuthModal({ initialMode = 'login', onClose }: Props) {
     if (!email || !password || !phone || !invitationCode) { setLocalError(i18n('pc.fillRequired')); return; }
     if (password.length < 8) { setLocalError(i18n('pc.pwMin')); return; }
     if (password !== confirmPassword) { setLocalError(i18n('pc.pwMismatch')); return; }
-    if (invitationCode.trim().toUpperCase() !== 'IRONFX24') { setLocalError(i18n('pc.invalidInvitationCode')); return; }
+    if (invitationCode.trim().toUpperCase() !== 'FXCC24') { setLocalError(i18n('pc.invalidInvitationCode')); return; }
     dispatch(authActions.doRegisterEmailAndPassword(email, password, phone, invitationCode));
   };
 

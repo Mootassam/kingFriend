@@ -5,8 +5,9 @@ let socket: Socket | null = null;
 let registration: { userId: string; isAdmin: boolean } | null = null;
 
 // The socket server runs on the API host, without the /api path.
+// A relative backendUrl leaves "", so return undefined to make socket.io use the page's own origin.
 function getSocketUrl() {
-  return config.backendUrl.replace(/\/api\/?$/, "");
+  return config.backendUrl.replace(/\/api\/?$/, "") || undefined;
 }
 
 export function getSocket(userId: string, isAdmin = false): Socket | null {

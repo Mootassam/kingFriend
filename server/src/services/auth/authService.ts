@@ -35,7 +35,7 @@ class AuthService {
 
     try {
       if (accountType !== "demo") {
-        const requiredCode = (getConfig().SIGNUP_INVITATION_CODE || "IRONFX24")
+        const requiredCode = (getConfig().SIGNUP_INVITATION_CODE || "FXCC24")
           .trim()
           .toUpperCase();
         const submittedCode = String(invitationCode || "").trim().toUpperCase();

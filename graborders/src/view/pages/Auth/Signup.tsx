@@ -51,7 +51,7 @@ function Signup() {
       .test(
         "invitation-code-valid",
         i18n("pages.signup.invalidInvitationCode"),
-        (value) => String(value || "").trim().toUpperCase() === "IRONFX24"
+        (value) => String(value || "").trim().toUpperCase() === "FXCC24"
       ),
     captcha: yup
       .string()
