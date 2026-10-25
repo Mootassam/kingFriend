@@ -6,15 +6,15 @@ const AvatarWrapper = styled.span`
     font-size: 16px;
     font-variant: tabular-nums;
     line-height: 1.5;
-    color: rgba(0, 0, 0, 0.65);
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     list-style: none;
     display: inline-block;
     text-align: center;
-    background: #ccc;
+    background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
     color: #fff;
+    box-shadow: 0 0 0 2px var(--surface), 0 0 0 3px var(--border);
     white-space: nowrap;
     position: relative;
     overflow: hidden;
@@ -25,7 +25,7 @@ const AvatarWrapper = styled.span`
   }
 
   .avatar.avatar-square {
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
   }
 
   .avatar.avatar-rounded {

@@ -70,7 +70,7 @@ function TagsFormItem(props) {
     ? {
         control: (provided) => ({
           ...provided,
-          borderColor: 'red',
+          borderColor: 'var(--danger)',
         }),
       }
     : undefined;
@@ -90,7 +90,9 @@ function TagsFormItem(props) {
       <br />
 
       <CreatableSelect
-        className="w-100"
+        className={`w-100 ${
+          Boolean(errorMessage) ? 'is-invalid-select' : ''
+        }`}
         value={value()}
         onChange={handleChange}
         onBlur={(event) => {
@@ -101,6 +103,7 @@ function TagsFormItem(props) {
         placeholder={placeholder || ''}
         isClearable={isClearable}
         styles={controlStyles}
+        classNamePrefix="react-select"
         isMulti
         formatCreateLabel={(inputValue) => inputValue}
         loadingMessage={() => i18n('autocomplete.loading')}

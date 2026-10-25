@@ -397,7 +397,7 @@ function FuturesListTable() {
                           </div>
                           <div className="to-inject-target">
                             Target&nbsp;
-                            <strong style={{ color: (order.pnl ?? order.injectionTargetPrice ?? 0) >= (order.entryPrice ?? 0) ? '#36c836' : '#e03030' }}>
+                            <strong style={{ color: (order.pnl ?? order.injectionTargetPrice ?? 0) >= (order.entryPrice ?? 0) ? 'var(--success)' : 'var(--danger)' }}>
                               {fmtPrice(order.injectionTargetPrice)}
                             </strong>
                           </div>
@@ -663,34 +663,34 @@ const INLINE_CSS = `
   .to-filter-btn {
     padding: 6px 14px;
     border-radius: 20px;
-    border: 1.5px solid #444;
-    background: #1c1c1c;
-    color: #aaa;
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--text-muted);
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.15s;
   }
-  .to-filter-btn:hover { border-color: #106cf5; color: #106cf5; }
-  .to-filter-btn.active { background: #106cf5; border-color: #106cf5; color: #fff; }
+  .to-filter-btn:hover { border-color: var(--accent); color: var(--accent-text); }
+  .to-filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
   .to-refresh-btn {
     padding: 6px 14px;
     border-radius: 8px;
-    border: 1px solid #444;
-    background: #2a2a2a;
-    color: #ccc;
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--text-2);
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
     transition: background 0.15s;
   }
-  .to-refresh-btn:hover:not(:disabled) { background: #333; }
+  .to-refresh-btn:hover:not(:disabled) { background: var(--hover); }
   .to-refresh-btn:disabled { opacity: 0.5; }
 
   .to-error {
-    background: rgba(224,48,48,0.1);
-    border: 1px solid rgba(224,48,48,0.3);
-    color: #e03030;
+    background: var(--danger-soft);
+    border: 1px solid var(--danger-border);
+    color: var(--danger);
     padding: 10px 16px;
     border-radius: 8px;
     margin: 8px 16px;
@@ -699,16 +699,16 @@ const INLINE_CSS = `
 
   /* Column widths */
   .to-control-th { min-width: 270px; }
-  .to-idx  { width: 36px; text-align: center; color: #666; font-size: 12px; }
-  .to-user { font-size: 12px; color: #000; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .to-idx  { width: 36px; text-align: center; color: var(--text-muted); font-size: 12px; }
+  .to-user { font-size: 12px; color: var(--text); max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .to-num  { font-family: monospace; font-size: 13px; }
-  .to-date { font-size: 11px; color: #888; white-space: nowrap; }
+  .to-date { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
 
   /* Symbol badge */
   .to-symbol {
     font-weight: 700;
     font-size: 13px;
-    color: #000;
+    color: var(--text);
     letter-spacing: 0.3px;
   }
 
@@ -721,13 +721,13 @@ const INLINE_CSS = `
     text-transform: uppercase;
     letter-spacing: 0.3px;
   }
-  .to-type-badge.market  { background: #1a2e1a; color: #36c836; border: 1px solid #2a4a2a; }
-  .to-type-badge.pending { background: #2a2a1a; color: #f0c040; border: 1px solid #4a4a1a; }
+  .to-type-badge.market  { background: var(--success-soft); color: var(--success); border: 1px solid var(--success-border); }
+  .to-type-badge.pending { background: var(--warning-soft); color: var(--warning); border: 1px solid var(--warning-border); }
 
   /* Direction */
   .to-dir { font-weight: 700; font-size: 13px; }
-  .to-dir.buy  { color: #36c836; }
-  .to-dir.sell { color: #e03030; }
+  .to-dir.buy  { color: var(--success); }
+  .to-dir.sell { color: var(--danger); }
 
   /* Status badge */
   .to-status {
@@ -739,28 +739,28 @@ const INLINE_CSS = `
     letter-spacing: 0.3px;
     display: inline-block;
   }
-  .to-status.active    { background: rgba(16,108,245,0.15);  color: #106cf5; border: 1px solid rgba(16,108,245,0.3); }
-  .to-status.waiting   { background: rgba(240,192,64,0.12);  color: #f0c040; border: 1px solid rgba(240,192,64,0.3); }
-  .to-status.closed    { background: rgba(100,100,100,0.15); color: #888;    border: 1px solid #444; }
-  .to-status.cancelled { background: rgba(224,48,48,0.1);    color: #e03030; border: 1px solid rgba(224,48,48,0.25); }
+  .to-status.active    { background: var(--accent-soft);  color: var(--accent-text); border: 1px solid var(--accent-border); }
+  .to-status.waiting   { background: var(--warning-soft);  color: var(--warning); border: 1px solid var(--warning-border); }
+  .to-status.closed    { background: var(--surface-3); color: var(--text-muted);    border: 1px solid var(--border-strong); }
+  .to-status.cancelled { background: var(--danger-soft);    color: var(--danger); border: 1px solid var(--danger-border); }
   @keyframes closingPulse { 0%,100%{opacity:1} 50%{opacity:0.55} }
 
   /* Row tinting by status */
-  .to-row-active    { background: rgba(16,108,245,0.03); }
-  .to-row-waiting   { background: rgba(240,192,64,0.03); }
+  .to-row-active    { background: var(--accent-soft); }
+  .to-row-waiting   { background: var(--warning-soft); }
   .to-row-closed    { opacity: 0.8; }
   .to-row-cancelled { opacity: 0.55; }
 
   /* Price arrows */
-  .to-target       { color: #f0c040; font-weight: 600; }
-  .to-close-arrow  { color: #666; font-size: 12px; }
-  .to-close-profit { color: #36c836; font-weight: 700; font-size: 13px; }
-  .to-close-loss   { color: #e03030; font-weight: 700; font-size: 13px; }
+  .to-target       { color: var(--warning); font-weight: 600; }
+  .to-close-arrow  { color: var(--text-muted); font-size: 12px; }
+  .to-close-profit { color: var(--success); font-weight: 700; font-size: 13px; }
+  .to-close-loss   { color: var(--danger); font-weight: 700; font-size: 13px; }
   .to-close-badge  { font-size: 10px; }
 
   /* P&L */
-  .to-pnl-pos { color: #36c836; font-weight: 700; }
-  .to-pnl-neg { color: #e03030; font-weight: 700; }
+  .to-pnl-pos { color: var(--success); font-weight: 700; }
+  .to-pnl-neg { color: var(--danger); font-weight: 700; }
 
   /* Finalized result */
   .fin-badge-wrap { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }
@@ -768,33 +768,33 @@ const INLINE_CSS = `
     font-size: 11px; font-weight: 700; padding: 3px 10px;
     border-radius: 6px; text-transform: uppercase; letter-spacing: 0.3px;
   }
-  .fin-badge.profit    { background: rgba(54,200,54,0.15);  color: #36c836; border: 1px solid rgba(54,200,54,0.3); }
-  .fin-badge.loss      { background: rgba(224,48,48,0.15);  color: #e03030; border: 1px solid rgba(224,48,48,0.3); }
-  .fin-badge.cancelled { background: rgba(100,100,100,0.15); color: #888;   border: 1px solid #444; }
+  .fin-badge.profit    { background: var(--success-soft);  color: var(--success); border: 1px solid var(--success-border); }
+  .fin-badge.loss      { background: var(--danger-soft);  color: var(--danger); border: 1px solid var(--danger-border); }
+  .fin-badge.cancelled { background: var(--surface-3); color: var(--text-muted);   border: 1px solid var(--border-strong); }
   .fin-pnl { font-size: 12px; font-weight: 600; }
-  .fin-pnl.profit { color: #36c836; }
-  .fin-pnl.loss   { color: #e03030; }
+  .fin-pnl.profit { color: var(--success); }
+  .fin-pnl.loss   { color: var(--danger); }
   .to-close-reason {
     font-size: 9px; font-weight: 700; padding: 2px 6px;
-    border-radius: 4px; background: #2a2a2a; color: #888;
+    border-radius: 4px; background: var(--surface-3); color: var(--text-muted);
     text-transform: uppercase; letter-spacing: 0.3px;
   }
 
   /* Waiting info */
   .to-waiting-info  { display: flex; flex-direction: column; gap: 2px; margin-bottom: 6px; }
-  .to-waiting-label { font-size: 11px; color: #888; }
-  .to-waiting-price { font-size: 14px; font-weight: 700; color: #f0c040; }
+  .to-waiting-label { font-size: 11px; color: var(--text-muted); }
+  .to-waiting-price { font-size: 14px; font-weight: 700; color: var(--warning); }
 
   /* Injection (chart animation) status */
   .to-inject-info   { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
-  .to-inject-badge  { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: #ff8c00;
-                      background: rgba(255,140,0,0.12); border: 1px solid rgba(255,140,0,0.3);
+  .to-inject-badge  { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: var(--orange);
+                      background: var(--orange-soft); border: 1px solid var(--orange);
                       border-radius: 6px; padding: 3px 8px; }
-  .to-inject-dot    { width: 7px; height: 7px; border-radius: 50%; background: #ff8c00;
+  .to-inject-dot    { width: 7px; height: 7px; border-radius: 50%; background: var(--orange);
                       animation: closingPulse 1.2s ease-in-out infinite; }
-  .to-inject-timer  { font-size: 14px; font-weight: 700; color: #ff8c00; font-family: monospace; }
-  .to-inject-target { font-size: 13px; color: #aaa; }
-  .to-inject-note   { font-size: 10px; color: #777; line-height: 1.4; }
+  .to-inject-timer  { font-size: 14px; font-weight: 700; color: var(--orange); font-family: monospace; }
+  .to-inject-target { font-size: 13px; color: var(--text-muted); }
+  .to-inject-note   { font-size: 10px; color: var(--text-muted); line-height: 1.4; }
 
   /* ── Control panel ── */
   .ctrl-panel { display: flex; flex-direction: column; gap: 8px; }
@@ -804,8 +804,8 @@ const INLINE_CSS = `
   .pct-input-wrap {
     display: flex;
     align-items: center;
-    background: #1c1c1c;
-    border: 1px solid #444;
+    background: var(--input-bg);
+    border: 1px solid var(--border-strong);
     border-radius: 6px;
     overflow: hidden;
     flex-shrink: 0;
@@ -814,7 +814,7 @@ const INLINE_CSS = `
     width: 56px;
     background: transparent;
     border: none;
-    color: #fff;
+    color: var(--text);
     font-size: 13px;
     font-weight: 600;
     padding: 5px 8px;
@@ -823,7 +823,7 @@ const INLINE_CSS = `
   }
   .pct-input::-webkit-inner-spin-button,
   .pct-input::-webkit-outer-spin-button { -webkit-appearance: none; }
-  .pct-symbol { padding: 5px 8px 5px 0; color: #aaa; font-size: 13px; font-weight: 600; user-select: none; }
+  .pct-symbol { padding: 5px 8px 5px 0; color: var(--text-muted); font-size: 13px; font-weight: 600; user-select: none; }
 
   .ctrl-btn {
     flex: 1;
@@ -837,10 +837,10 @@ const INLINE_CSS = `
     white-space: nowrap;
     letter-spacing: 0.2px;
   }
-  .ctrl-btn.profit { background: #1a2e1a; color: #36c836; border-color: #2a4a2a; }
-  .ctrl-btn.profit:hover, .ctrl-btn.profit.selected { background: #36c836; color: #fff; border-color: #36c836; }
-  .ctrl-btn.loss   { background: #2e1a1a; color: #e03030; border-color: #4a2a2a; }
-  .ctrl-btn.loss:hover, .ctrl-btn.loss.selected { background: #e03030; color: #fff; border-color: #e03030; }
+  .ctrl-btn.profit { background: var(--success-soft); color: var(--success); border-color: var(--success-border); }
+  .ctrl-btn.profit:hover, .ctrl-btn.profit.selected { background: var(--success); color: #fff; border-color: var(--success); }
+  .ctrl-btn.loss   { background: var(--danger-soft); color: var(--danger); border-color: var(--danger-border); }
+  .ctrl-btn.loss:hover, .ctrl-btn.loss.selected { background: var(--danger); color: #fff; border-color: var(--danger); }
 
   .ctrl-preview {
     display: flex;
@@ -851,18 +851,18 @@ const INLINE_CSS = `
     font-size: 12px;
     line-height: 1.4;
   }
-  .ctrl-preview.profit { background: rgba(54,200,54,0.08);  border: 1px solid rgba(54,200,54,0.2);  color: #ccc; }
-  .ctrl-preview.loss   { background: rgba(224,48,48,0.08);  border: 1px solid rgba(224,48,48,0.2);  color: #ccc; }
+  .ctrl-preview.profit { background: var(--success-soft);  border: 1px solid var(--success-border);  color: var(--text-2); }
+  .ctrl-preview.loss   { background: var(--danger-soft);  border: 1px solid var(--danger-border);  color: var(--text-2); }
   .preview-icon   { font-size: 14px; }
-  .preview-profit { color: #36c836; }
-  .preview-loss   { color: #e03030; }
+  .preview-profit { color: var(--success); }
+  .preview-loss   { color: var(--danger); }
 
   .ctrl-close-btn {
     width: 100%;
     padding: 8px 14px;
     border-radius: 6px;
     border: none;
-    background: #106cf5;
+    background: var(--accent);
     color: #fff;
     font-size: 12px;
     font-weight: 700;
@@ -870,117 +870,117 @@ const INLINE_CSS = `
     transition: opacity 0.15s, background 0.15s;
     letter-spacing: 0.2px;
   }
-  .ctrl-close-btn:hover:not(:disabled) { background: #0d5ed4; }
+  .ctrl-close-btn:hover:not(:disabled) { background: var(--accent-hover); }
   .ctrl-close-btn:disabled { opacity: 0.35; cursor: default; }
 
   .ctrl-cancel-btn {
     width: 100%;
     padding: 8px 14px;
     border-radius: 6px;
-    border: 1px solid rgba(224,48,48,0.3);
-    background: rgba(224,48,48,0.1);
-    color: #e03030;
+    border: 1px solid var(--danger-border);
+    background: var(--danger-soft);
+    color: var(--danger);
     font-size: 12px;
     font-weight: 700;
     cursor: pointer;
     transition: background 0.15s;
   }
-  .ctrl-cancel-btn:hover:not(:disabled) { background: rgba(224,48,48,0.2); }
+  .ctrl-cancel-btn:hover:not(:disabled) { background: var(--danger-soft); }
   .ctrl-cancel-btn:disabled { opacity: 0.4; cursor: default; }
 
   /* ── Confirm modal ── */
   .cp-modal-overlay {
     position: fixed; inset: 0;
-    background: rgba(0,0,0,0.7);
+    background: var(--overlay);
     z-index: 9999;
     display: flex; align-items: center; justify-content: center;
     animation: cpFadeIn 0.15s ease;
   }
   .cp-modal {
-    background: #1a1a1a;
-    border: 1px solid #333;
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 14px;
     width: 100%; max-width: 400px;
     padding: 24px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+    box-shadow: var(--shadow-lg);
     animation: cpSlideUp 0.2s ease;
   }
   .cp-modal-title {
-    font-size: 17px; font-weight: 700; color: #fff;
+    font-size: 17px; font-weight: 700; color: var(--text);
     margin-bottom: 20px; text-align: center;
   }
   .cp-modal-body  { display: flex; flex-direction: column; gap: 0; margin-bottom: 24px; }
   .cp-modal-row {
     display: flex; justify-content: space-between; align-items: center;
-    font-size: 14px; color: #aaa;
-    padding: 11px 0; border-bottom: 1px solid #2a2a2a;
+    font-size: 14px; color: var(--text-muted);
+    padding: 11px 0; border-bottom: 1px solid var(--border);
   }
   .cp-modal-row:last-child { border-bottom: none; }
-  .cp-modal-row strong { color: #fff; }
+  .cp-modal-row strong { color: var(--text); }
   .cp-delay-select {
-    background: #2a2a2a; border: 1px solid #444; border-radius: 6px;
-    color: #fff; font-size: 13px; font-weight: 600; padding: 4px 10px;
+    background: var(--surface-3); border: 1px solid var(--border-strong); border-radius: 6px;
+    color: var(--text); font-size: 13px; font-weight: 600; padding: 4px 10px;
     cursor: pointer; outline: none;
   }
-  .cp-delay-select:focus { border-color: #106cf5; }
+  .cp-delay-select:focus { border-color: var(--accent); }
   .cp-modal-footer { display: flex; gap: 10px; }
   .cp-btn-cancel {
     flex: 1; padding: 11px; border-radius: 8px;
-    border: 1px solid #444; background: #2a2a2a;
-    color: #aaa; font-size: 14px; font-weight: 600; cursor: pointer;
+    border: 1px solid var(--border-strong); background: var(--surface-3);
+    color: var(--text-muted); font-size: 14px; font-weight: 600; cursor: pointer;
     transition: background 0.15s;
   }
-  .cp-btn-cancel:hover { background: #333; }
+  .cp-btn-cancel:hover { background: var(--hover); }
   .cp-btn-confirm {
     flex: 2; padding: 11px; border-radius: 8px;
     border: none; font-size: 14px; font-weight: 700; cursor: pointer;
     transition: opacity 0.15s;
   }
-  .cp-btn-confirm.profit { background: #36c836; color: #fff; }
+  .cp-btn-confirm.profit { background: var(--success); color: #fff; }
   .cp-btn-confirm.profit:hover { opacity: 0.9; }
-  .cp-btn-confirm.loss   { background: #e03030; color: #fff; }
+  .cp-btn-confirm.loss   { background: var(--danger); color: #fff; }
   .cp-btn-confirm.loss:hover   { opacity: 0.9; }
 
   @keyframes cpFadeIn  { from { opacity: 0; }              to { opacity: 1; } }
   @keyframes cpSlideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
   /* Table overrides for new column */
-  .table-th { padding: 10px 12px; font-size: 12px; color: #aaa; text-align: left; white-space: nowrap; border-bottom: 1px solid #2a2a2a; }
+  .table-th { padding: 10px 12px; font-size: 12px; color: var(--text-muted); text-align: left; white-space: nowrap; border-bottom: 1px solid var(--border); }
 
   /* ── Duration input (ctrl-panel row) ── */
-  .dur-label { font-size: 11px; color: #888; flex-shrink: 0; }
+  .dur-label { font-size: 11px; color: var(--text-muted); flex-shrink: 0; }
   .dur-input-wrap {
     display: flex; align-items: center;
-    background: #1c1c1c; border: 1px solid #444; border-radius: 6px;
+    background: var(--input-bg); border: 1px solid var(--border-strong); border-radius: 6px;
     overflow: hidden; flex-shrink: 0;
   }
   .dur-input {
     width: 50px; background: transparent; border: none;
-    color: #fff; font-size: 13px; font-weight: 600;
+    color: var(--text); font-size: 13px; font-weight: 600;
     padding: 5px 6px; outline: none;
     -moz-appearance: textfield;
   }
   .dur-input::-webkit-inner-spin-button,
   .dur-input::-webkit-outer-spin-button { -webkit-appearance: none; }
-  .dur-hint { font-size: 10px; color: #106cf5; font-weight: 600; margin-left: 4px; }
+  .dur-hint { font-size: 10px; color: var(--accent-text); font-weight: 600; margin-left: 4px; }
 
   /* ── Duration input (confirm modal) ── */
   .cp-dur-wrap  { display: flex; align-items: center; gap: 6px; }
   .cp-dur-input {
     width: 64px; padding: 4px 8px;
-    background: #2a2a2a; border: 1px solid #444; border-radius: 6px;
-    color: #fff; font-size: 14px; font-weight: 700; outline: none;
+    background: var(--surface-3); border: 1px solid var(--border-strong); border-radius: 6px;
+    color: var(--text); font-size: 14px; font-weight: 700; outline: none;
     -moz-appearance: textfield;
   }
   .cp-dur-input::-webkit-inner-spin-button,
   .cp-dur-input::-webkit-outer-spin-button { -webkit-appearance: none; }
-  .cp-dur-input:focus { border-color: #106cf5; }
-  .cp-dur-unit  { color: #aaa; font-size: 13px; }
+  .cp-dur-input:focus { border-color: var(--accent); }
+  .cp-dur-unit  { color: var(--text-muted); font-size: 13px; }
   .cp-dur-badge {
     font-size: 10px; font-weight: 700; padding: 2px 7px;
     border-radius: 4px; text-transform: uppercase; letter-spacing: 0.3px;
   }
-  .cp-dur-badge.instant { background: rgba(16,108,245,0.18); color: #106cf5; }
+  .cp-dur-badge.instant { background: var(--accent-soft); color: var(--accent-text); }
 `;
 
 export default FuturesListTable;

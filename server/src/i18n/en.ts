@@ -105,6 +105,13 @@ const en = {
     stripeNotConfigured: 'Stripe is not configured.',
   },
 
+  deposit: {
+    errors: {
+      createdByRequired:
+        'This deposit has no owner, so no funds can be credited.',
+    },
+  },
+
   importer: {
     errors: {
       invalidFileEmpty: 'The file is empty',

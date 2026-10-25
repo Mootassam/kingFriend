@@ -57,6 +57,13 @@ const it = {
     stripeNotConfigured: 'Stripe non è configurato.',
   },
 
+  deposit: {
+    errors: {
+      createdByRequired:
+        'Questo deposito non ha un proprietario, quindi non è possibile accreditare fondi.',
+    },
+  },
+
   importer: {
     errors: {
       invalidFileEmpty: 'Il file è vuoto',

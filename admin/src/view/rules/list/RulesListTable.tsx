@@ -272,7 +272,7 @@ function RulesListTable(props) {
           left: 0;
           width: 100%;
           height: 100%;
-          background: rgba(0, 0, 0, 0.8);
+          background: var(--overlay);
           backdrop-filter: blur(5px);
         }
 
@@ -281,7 +281,7 @@ function RulesListTable(props) {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          background: white;
+          background: var(--surface);
           border-radius: 8px;
           max-width: max-content;
           max-height: 90%;
@@ -294,7 +294,7 @@ function RulesListTable(props) {
           justify-content: space-between;
           align-items: center;
           padding: 1rem;
-          border-bottom: 1px solid #eee;
+          border-bottom: 1px solid var(--border);
         }
 
         .modal-header h3 {
@@ -307,11 +307,11 @@ function RulesListTable(props) {
           border: none;
           font-size: 2rem;
           cursor: pointer;
-          color: #666;
+          color: var(--text-muted);
         }
 
         .close-button:hover {
-          color: #000;
+          color: var(--text);
         }
 
         .image-container {
@@ -331,7 +331,7 @@ function RulesListTable(props) {
 
         .modal-footer {
           padding: 1rem;
-          border-top: 1px solid #eee;
+          border-top: 1px solid var(--border);
           text-align: right;
         }
 
@@ -373,24 +373,24 @@ function RulesListTable(props) {
         /* Spot list table styles (from CouponsListTable) */
         .spot-list-container {
           padding: 1rem;
-          background: #fff;
+          background: var(--surface);
           border-radius: 8px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          box-shadow: var(--shadow-xs);
         }
         .spot-list-table {
           width: 100%;
           border-collapse: collapse;
         }
         .table-header th {
-          background: #f5f5f5;
+          background: var(--surface-2);
           padding: 12px;
           font-weight: 600;
           text-align: left;
-          border-bottom: 2px solid #ddd;
+          border-bottom: 2px solid var(--border);
         }
         .table-body td {
           padding: 12px;
-          border-bottom: 1px solid #eee;
+          border-bottom: 1px solid var(--border);
           vertical-align: middle;
         }
         .checkbox-column {
@@ -425,11 +425,11 @@ function RulesListTable(props) {
           display: inline-block;
         }
         .btn-action.edit {
-          background: #4caf50;
+          background: var(--success);
           color: white;
         }
         .btn-action.delete {
-          background: #f44336;
+          background: var(--danger);
           color: white;
         }
         .btn-action:hover {
@@ -446,7 +446,7 @@ function RulesListTable(props) {
           gap: 10px;
         }
         .no-data-content {
-          color: #999;
+          color: var(--text-muted);
         }
         .no-data-icon {
           font-size: 3rem;

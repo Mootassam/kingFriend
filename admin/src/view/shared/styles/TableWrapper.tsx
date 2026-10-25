@@ -6,21 +6,21 @@ const TableWrapper = styled.div`
     border-collapse: collapse;
   }
   .itemType {
-    cursor:pointer;
-    background-color: #009efb;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-
-    
+    cursor: pointer;
+    background-color: var(--accent);
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--radius);
+    transition: background-color 0.15s var(--ease);
   }
-  .itemType  span { 
-   
-    color :#fff;
-
+  .itemType:hover {
+    background-color: var(--accent-hover);
+  }
+  .itemType span {
+    color: #fff;
   }
   .p_items {
-  padding 0.3rem 1rem ;
-  cursor : pointer ;
+    padding: 0.3rem 1rem;
+    cursor: pointer;
   }
 
   .table td,
@@ -50,6 +50,11 @@ const TableWrapper = styled.div`
 
   .table .td-actions a {
     margin-right: 8px;
+  }
+
+  .table .td-actions .btn-link {
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-sm);
   }
 `;
 

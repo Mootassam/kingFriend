@@ -19,7 +19,7 @@ export const PC_CSS = `
   }
   .pc-logo { font-size: 18px; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 6px; }
   .pc-logo span { color: var(--text); }
-  .pc-header-left img { height: 44px; width: auto; }
+  .pc-header-left img { height: 29px; width: auto; }
   .pc-header-center { flex: 1; display: flex; justify-content: center; }
   .pc-asset-chip { display: flex; align-items: center; gap: 8px; background: var(--bg-light); padding: 6px 14px; border-radius: 10px; font-size: 14px; }
   .pc-asset-price { font-weight: 700; color: var(--primary); }

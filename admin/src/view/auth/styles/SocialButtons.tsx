@@ -10,6 +10,12 @@ const SocialButtons = styled.div`
     margin-right: 16px;
     font-size: 36px;
     cursor: pointer;
+    color: var(--text-2);
+    transition: color 0.15s var(--ease);
+  }
+
+  i:hover {
+    color: var(--text);
   }
 `;
 

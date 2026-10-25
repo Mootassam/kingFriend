@@ -26,7 +26,12 @@ export default function FilterPreview(props) {
     );
 
   return (
-    <div onClick={onClick} className="filter-preview">
+    <div
+      onClick={onClick}
+      className={`filter-preview ${
+        props.expanded ? 'is-expanded' : ''
+      }`}
+    >
       {!itemsNotEmpty.length || props.expanded ? (
         <div className="filter-preview-left">
           {i18n('common.filters')}
@@ -48,8 +53,8 @@ export default function FilterPreview(props) {
                 {onRemove && (
                   <i
                     style={{
-                      marginLeft: 4,
-                      backgroundColor: 'rgba(0,0,0,0.5)',
+                      marginLeft: 6,
+                      opacity: 0.7,
                       padding: 2,
                       borderRadius: 999,
                       cursor: 'pointer',

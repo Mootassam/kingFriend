@@ -126,7 +126,7 @@ function AutocompleteFormItem(props) {
     ? {
         control: (provided) => ({
           ...provided,
-          borderColor: 'red',
+          borderColor: 'var(--danger)',
         }),
       }
     : undefined;
@@ -145,8 +145,11 @@ function AutocompleteFormItem(props) {
       )}
       <div style={{ display: 'flex' }}>
         <AsyncSelect
-          className="w-100"
+          className={`w-100 ${
+            isInvalid ? 'is-invalid-select' : ''
+          }`}
           styles={controlStyles}
+          classNamePrefix="react-select"
           id={name}
           name={name}
           defaultOptions={true}

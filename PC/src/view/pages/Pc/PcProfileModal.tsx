@@ -27,7 +27,6 @@ const ITEMS: MenuItem[] = [
   { icon: 'fas fa-shield-alt',      name: i18n('pc.password'),      path: '/typepassword', requiresKyc: true },
   { icon: 'fas fa-file-alt',        name: i18n('pc.history'),       path: '/history',     requiresKyc: true },
   { icon: 'fas fa-bell',            name: i18n('pc.notifications'), path: '/notification' },
-  { icon: 'fas fa-headset',         name: i18n('pc.onlineService'), path: '/online-service' },
   { icon: 'fas fa-building',        name: i18n('pc.aboutUs'),       path: '/about' },
   { icon: 'fas fa-question-circle', name: i18n('pc.help'),          path: '/support' },
 ];

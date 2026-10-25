@@ -60,6 +60,13 @@ const ptBR = {
     stripeNotConfigured: 'Stripe não está configurado.',
   },
 
+  deposit: {
+    errors: {
+      createdByRequired:
+        'Este depósito não tem proprietário, portanto nenhum valor pode ser creditado.',
+    },
+  },
+
   importer: {
     errors: {
       invalidFileEmpty: 'O arquivo está vazio',

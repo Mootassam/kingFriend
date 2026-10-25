@@ -14,21 +14,20 @@ const ImageModalWrapper = styled.div`
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0, 0, 0); /* Fallback color */
-    background-color: rgba(
-      0,
-      0,
-      0,
-      0.9
-    ); /* Black w/ opacity */
+    background-color: rgba(5, 6, 12, 0.88);
+    backdrop-filter: blur(6px);
   }
 
-  /* Modal Content (Image) */
-  .modal-content {
+  /* Modal Content (Image). Doubled selector outranks the global .modal-content theme. */
+  && .modal-content {
     margin: auto;
     display: block;
     width: 80%;
     max-width: 700px;
+    background: transparent;
+    border: 0;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
   }
 
   /* Caption of Modal Image (Image Text) - Same Width as the Image */
@@ -60,26 +59,28 @@ const ImageModalWrapper = styled.div`
   }
 
   /* The Close Button */
-  .close {
+  && .close {
     position: absolute;
     top: 15px;
     right: 35px;
     color: #f1f1f1;
+    opacity: 0.85;
     font-size: 40px;
-    font-weight: bold;
+    font-weight: 300;
     transition: 0.3s;
   }
 
-  .close:hover,
-  .close:focus {
-    color: #bbb;
+  && .close:hover,
+  && .close:focus {
+    color: #fff;
+    opacity: 1;
     text-decoration: none;
     cursor: pointer;
   }
 
   /* 100% Image Width on Smaller Screens */
   @media only screen and (max-width: 700px) {
-    .modal-content {
+    && .modal-content {
       width: 100%;
     }
   }

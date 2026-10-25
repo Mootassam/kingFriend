@@ -1,0 +1,1729 @@
+/* =============================================================================
+   Admin design system — light & dark themes
+   Every rule is scoped to html[data-theme] so it outranks the Bootstrap theme
+   file (public/theme/dist/*.css) no matter which stylesheet loads last.
+   The active theme is set by src/modules/layout/themeMode.tsx.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- Tokens -- */
+
+html[data-theme] {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', monospace;
+
+  --radius-sm: 6px;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Sidebar stays dark in both themes so tenant logos always read well. */
+  --sidebar-bg: #0f1120;
+  --sidebar-text: rgba(226, 229, 240, 0.66);
+  --sidebar-text-strong: #ffffff;
+  --sidebar-muted: rgba(226, 229, 240, 0.36);
+  --sidebar-hover: rgba(255, 255, 255, 0.055);
+  --sidebar-active: rgba(129, 140, 248, 0.16);
+  --sidebar-indicator: #818cf8;
+  --sidebar-border: rgba(255, 255, 255, 0.07);
+}
+
+html[data-theme='light'] {
+  --bg: #f4f5f9;
+  --surface: #ffffff;
+  --surface-2: #f8f9fb;
+  --surface-3: #eef0f5;
+  --hover: #f3f4f8;
+  --border: #e6e8ef;
+  --border-strong: #d5d9e3;
+  --input-bg: #ffffff;
+
+  --text: #171a26;
+  --text-2: #4a5065;
+  --text-muted: #868c9f;
+
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-text: #4f46e5;
+  --accent-soft: rgba(79, 70, 229, 0.08);
+  --accent-border: rgba(79, 70, 229, 0.28);
+
+  --success: #0f9d63;
+  --success-hover: #0c8754;
+  --success-soft: rgba(15, 157, 99, 0.1);
+  --success-border: rgba(15, 157, 99, 0.3);
+  --danger: #e5484d;
+  --danger-hover: #d13a3f;
+  --danger-soft: rgba(229, 72, 77, 0.09);
+  --danger-border: rgba(229, 72, 77, 0.3);
+  --warning: #b97500;
+  --warning-solid: #f5a524;
+  --warning-soft: rgba(245, 165, 36, 0.14);
+  --warning-border: rgba(245, 165, 36, 0.4);
+  --info: #0a7cc4;
+  --info-solid: #0b8ad9;
+  --info-soft: rgba(11, 138, 217, 0.1);
+  --info-border: rgba(11, 138, 217, 0.3);
+  --orange: #e2690b;
+  --orange-soft: rgba(226, 105, 11, 0.1);
+
+  --overlay: rgba(15, 17, 32, 0.45);
+  --shadow-xs: 0 1px 2px rgba(16, 24, 40, 0.04);
+  --shadow-sm: 0 1px 3px rgba(16, 24, 40, 0.07), 0 1px 2px rgba(16, 24, 40, 0.04);
+  --shadow-md: 0 10px 28px -8px rgba(16, 24, 40, 0.14), 0 2px 6px rgba(16, 24, 40, 0.05);
+  --shadow-lg: 0 28px 56px -16px rgba(16, 24, 40, 0.3);
+  --focus-ring: 0 0 0 3px rgba(79, 70, 229, 0.18);
+  --scrollbar: rgba(23, 26, 38, 0.16);
+  --scrollbar-hover: rgba(23, 26, 38, 0.3);
+
+  /* Bootstrap / legacy variables that old components still reference. */
+  --primary: var(--accent);
+  --primary-color: var(--accent);
+  --link-color: var(--accent-text);
+  --error-color: var(--danger);
+  --hover: #f3f4f8;
+}
+
+html[data-theme='dark'] {
+  --bg: #0b0d14;
+  --surface: #12151f;
+  --surface-2: #161a25;
+  --surface-3: #1d2130;
+  --hover: #1a1e2b;
+  --border: #242838;
+  --border-strong: #323849;
+  --input-bg: #0f121b;
+
+  --text: #e8eaf2;
+  --text-2: #b2b7c9;
+  --text-muted: #7b8196;
+
+  --accent: #6366f1;
+  --accent-hover: #7577f5;
+  --accent-text: #a5b0fc;
+  --accent-soft: rgba(129, 140, 248, 0.13);
+  --accent-border: rgba(129, 140, 248, 0.38);
+
+  --success: #34c38b;
+  --success-hover: #2bb07c;
+  --success-soft: rgba(52, 195, 139, 0.13);
+  --success-border: rgba(52, 195, 139, 0.35);
+  --danger: #f2555a;
+  --danger-hover: #f46c70;
+  --danger-soft: rgba(242, 85, 90, 0.13);
+  --danger-border: rgba(242, 85, 90, 0.38);
+  --warning: #f2b544;
+  --warning-solid: #f2b544;
+  --warning-soft: rgba(242, 181, 68, 0.13);
+  --warning-border: rgba(242, 181, 68, 0.38);
+  --info: #4db2f5;
+  --info-solid: #2a9be6;
+  --info-soft: rgba(77, 178, 245, 0.13);
+  --info-border: rgba(77, 178, 245, 0.35);
+  --orange: #ff9a45;
+  --orange-soft: rgba(255, 154, 69, 0.13);
+
+  --sidebar-bg: #0d0f18;
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+
+  --overlay: rgba(3, 4, 9, 0.65);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 12px 32px -8px rgba(0, 0, 0, 0.6), 0 2px 6px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 30px 60px -12px rgba(0, 0, 0, 0.75);
+  --focus-ring: 0 0 0 3px rgba(129, 140, 248, 0.28);
+  --scrollbar: rgba(255, 255, 255, 0.12);
+  --scrollbar-hover: rgba(255, 255, 255, 0.22);
+
+  --primary: var(--accent);
+  --primary-color: var(--accent);
+  --link-color: var(--accent-text);
+  --error-color: var(--danger);
+}
+
+/* ------------------------------------------------------------------ Base -- */
+
+html[data-theme] body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv11', 'ss01';
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+html[data-theme] ::selection {
+  background: var(--accent-soft);
+  color: inherit;
+}
+
+html[data-theme] * {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar) transparent;
+}
+html[data-theme] ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+html[data-theme] ::-webkit-scrollbar-track {
+  background: transparent;
+}
+html[data-theme] ::-webkit-scrollbar-thumb {
+  background: var(--scrollbar);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+html[data-theme] ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-hover);
+}
+
+html[data-theme] h1,
+html[data-theme] h2,
+html[data-theme] h3,
+html[data-theme] h4,
+html[data-theme] h5,
+html[data-theme] h6,
+html[data-theme] .h1,
+html[data-theme] .h2,
+html[data-theme] .h3,
+html[data-theme] .h4,
+html[data-theme] .h5,
+html[data-theme] .h6 {
+  color: var(--text);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+html[data-theme] a {
+  color: var(--accent-text);
+  transition: color 0.15s var(--ease);
+}
+html[data-theme] a:hover {
+  color: var(--accent-hover);
+}
+html[data-theme='dark'] a:hover {
+  color: #c3cbfd;
+}
+
+html[data-theme] hr {
+  border-top-color: var(--border);
+}
+
+html[data-theme] code {
+  color: var(--accent-text);
+  font-family: var(--font-mono);
+}
+html[data-theme] pre {
+  color: var(--text);
+}
+
+html[data-theme] .numeric,
+html[data-theme] .to-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* --------------------------------------------------------------- Utilities */
+
+html[data-theme] .text-muted {
+  color: var(--text-muted) !important;
+}
+html[data-theme] .text-primary {
+  color: var(--accent-text) !important;
+}
+html[data-theme] .text-success {
+  color: var(--success) !important;
+}
+html[data-theme] .text-danger {
+  color: var(--danger) !important;
+}
+html[data-theme] .text-warning {
+  color: var(--warning) !important;
+}
+html[data-theme] .text-info {
+  color: var(--info) !important;
+}
+html[data-theme] .text-dark,
+html[data-theme] .text-body {
+  color: var(--text) !important;
+}
+html[data-theme] .bg-white {
+  background-color: var(--surface) !important;
+}
+html[data-theme] .bg-light {
+  background-color: var(--surface-2) !important;
+}
+html[data-theme] .bg-primary {
+  background-color: var(--accent) !important;
+}
+html[data-theme] .bg-success {
+  background-color: var(--success) !important;
+}
+html[data-theme] .bg-danger {
+  background-color: var(--danger) !important;
+}
+html[data-theme] .bg-warning {
+  background-color: var(--warning-solid) !important;
+}
+html[data-theme] .border,
+html[data-theme] .border-top,
+html[data-theme] .border-right,
+html[data-theme] .border-bottom,
+html[data-theme] .border-left {
+  border-color: var(--border) !important;
+}
+html[data-theme] .rounded {
+  border-radius: var(--radius) !important;
+}
+html[data-theme] .shadow-sm {
+  box-shadow: var(--shadow-sm) !important;
+}
+html[data-theme] .shadow {
+  box-shadow: var(--shadow-md) !important;
+}
+
+/* ----------------------------------------------------------------- Cards -- */
+
+html[data-theme] .card {
+  background-color: var(--surface);
+  border-color: var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  color: var(--text);
+}
+html[data-theme] .card-header,
+html[data-theme] .card-footer {
+  background-color: var(--surface-2);
+  border-color: var(--border);
+}
+html[data-theme] .card-header:first-child {
+  border-radius: calc(var(--radius-lg) - 1px) calc(var(--radius-lg) - 1px) 0 0;
+}
+html[data-theme] .card-title {
+  color: var(--text);
+}
+
+html[data-theme] .list-group-item {
+  background-color: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+}
+html[data-theme] .list-group-item-action:hover {
+  background-color: var(--hover);
+}
+html[data-theme] .list-group-item.active {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ---------------------------------------------------------------- Tables -- */
+
+html[data-theme] .table {
+  color: var(--text);
+  border-color: var(--border);
+}
+html[data-theme] .table th,
+html[data-theme] .table td {
+  border-top-color: var(--border);
+}
+html[data-theme] .table thead th,
+html[data-theme] .table .thead th {
+  background-color: var(--surface-2);
+  color: var(--text-muted);
+  border-top: 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+html[data-theme] .table thead th a,
+html[data-theme] .table thead th .btn-link {
+  color: var(--text-muted);
+}
+html[data-theme] .table tbody th {
+  font-weight: 500;
+}
+html[data-theme] .table-striped tbody tr:nth-of-type(odd) {
+  background-color: transparent;
+}
+html[data-theme] .table-striped tbody tr:nth-of-type(even) {
+  background-color: var(--surface-2);
+}
+html[data-theme] .table tbody tr {
+  transition: background-color 0.12s var(--ease);
+}
+html[data-theme] .table tbody tr:hover,
+html[data-theme] .table-hover tbody tr:hover {
+  background-color: var(--hover);
+  color: var(--text);
+}
+html[data-theme] .table-bordered,
+html[data-theme] .table-bordered th,
+html[data-theme] .table-bordered td {
+  border-color: var(--border);
+}
+html[data-theme] .table-dark,
+html[data-theme] .thead-dark th {
+  background-color: var(--surface-3);
+  color: var(--text);
+  border-color: var(--border);
+}
+html[data-theme] .table-success,
+html[data-theme] .table-success > td {
+  background-color: var(--success-soft);
+}
+html[data-theme] .table-danger,
+html[data-theme] .table-danger > td {
+  background-color: var(--danger-soft);
+}
+html[data-theme] .table-warning,
+html[data-theme] .table-warning > td {
+  background-color: var(--warning-soft);
+}
+
+html[data-theme] .table-responsive {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface);
+  padding-bottom: 0;
+}
+html[data-theme] .table-responsive > .table {
+  margin-top: 0 !important;
+  margin-bottom: 0;
+}
+
+/* ---------------------------------------------------------------- Forms -- */
+
+html[data-theme] .form-control,
+html[data-theme] .custom-select,
+html[data-theme] select.form-control {
+  background-color: var(--input-bg);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  color: var(--text);
+  box-shadow: var(--shadow-xs);
+  transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease),
+    background-color 0.15s var(--ease);
+}
+html[data-theme] .form-control:hover:not(:disabled):not([readonly]),
+html[data-theme] .custom-select:hover:not(:disabled) {
+  border-color: var(--text-muted);
+}
+html[data-theme] .form-control:focus,
+html[data-theme] .custom-select:focus {
+  background-color: var(--input-bg);
+  border-color: var(--accent);
+  box-shadow: var(--focus-ring);
+  color: var(--text);
+}
+html[data-theme] .form-control::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+html[data-theme] .form-control:disabled,
+html[data-theme] .form-control[readonly] {
+  background-color: var(--surface-2);
+  color: var(--text-2);
+  box-shadow: none;
+}
+html[data-theme] .form-control.is-invalid,
+html[data-theme] .was-validated .form-control:invalid {
+  border-color: var(--danger);
+}
+html[data-theme] .form-control.is-invalid:focus {
+  box-shadow: 0 0 0 3px var(--danger-soft);
+}
+html[data-theme] .form-control-plaintext {
+  color: var(--text);
+}
+html[data-theme] select option,
+html[data-theme] select optgroup {
+  background-color: var(--surface);
+  color: var(--text);
+}
+html[data-theme] .input-group-text {
+  background-color: var(--surface-2);
+  border-color: var(--border-strong);
+  color: var(--text-2);
+  border-radius: var(--radius);
+}
+html[data-theme] label,
+html[data-theme] .col-form-label {
+  color: var(--text-2);
+}
+html[data-theme] .col-form-label {
+  font-weight: 500;
+}
+html[data-theme] .invalid-feedback {
+  color: var(--danger);
+}
+html[data-theme] .valid-feedback {
+  color: var(--success);
+}
+html[data-theme] .form-text {
+  color: var(--text-muted);
+}
+html[data-theme] input[type='checkbox'],
+html[data-theme] input[type='radio'],
+html[data-theme] input[type='range'],
+html[data-theme] progress {
+  accent-color: var(--accent);
+}
+html[data-theme] input:-webkit-autofill,
+html[data-theme] input:-webkit-autofill:hover,
+html[data-theme] input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--text);
+  -webkit-box-shadow: 0 0 0 1000px var(--input-bg) inset;
+  caret-color: var(--text);
+}
+
+/* Custom checkbox (".adherent-checkbox", table ".form-checkbox") */
+html[data-theme] .adherent-control {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  position: relative;
+}
+html[data-theme] .adherent-control-label {
+  margin: 0;
+  cursor: pointer;
+  font-size: 0;
+}
+html[data-theme] .adherent-control-input,
+html[data-theme] .form-checkbox {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  flex-shrink: 0;
+  display: inline-grid;
+  place-content: center;
+  vertical-align: middle;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 5px;
+  background-color: var(--input-bg);
+  cursor: pointer;
+  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease),
+    box-shadow 0.15s var(--ease);
+}
+html[data-theme] .adherent-control-input::before,
+html[data-theme] .form-checkbox::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  transform: scale(0);
+  transition: transform 0.12s var(--ease);
+  background-color: #fff;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+html[data-theme] .adherent-control-input:hover,
+html[data-theme] .form-checkbox:hover {
+  border-color: var(--accent);
+}
+html[data-theme] .adherent-control-input:checked,
+html[data-theme] .form-checkbox:checked {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+html[data-theme] .adherent-control-input:checked::before,
+html[data-theme] .form-checkbox:checked::before {
+  transform: scale(1);
+}
+html[data-theme] .adherent-control-input:focus-visible,
+html[data-theme] .form-checkbox:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+html[data-theme] .adherent-control-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Switch (".adherent-switch") */
+html[data-theme] .adherent-switch {
+  display: flex;
+  padding: 4px 0;
+}
+html[data-theme] .adherent-switch .adherent-control-input {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+  border: 0;
+  border-radius: 999px;
+  background-color: var(--border-strong);
+}
+html[data-theme] .adherent-switch .adherent-control-input::before {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  clip-path: none;
+  transform: none;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: left 0.18s var(--ease);
+}
+html[data-theme] .adherent-switch .adherent-control-input:checked {
+  background-color: var(--accent);
+}
+html[data-theme] .adherent-switch .adherent-control-input:checked::before {
+  left: 19px;
+}
+
+/* --------------------------------------------------------------- Buttons -- */
+
+html[data-theme] .btn {
+  font-weight: 500;
+  border-radius: var(--radius);
+  letter-spacing: -0.005em;
+  transition: color 0.15s var(--ease), background-color 0.15s var(--ease),
+    border-color 0.15s var(--ease), box-shadow 0.15s var(--ease),
+    transform 0.1s var(--ease);
+}
+html[data-theme] .btn:not(:disabled):not(.disabled):not(.btn-link):active {
+  transform: translateY(0.5px);
+}
+html[data-theme] .btn:focus,
+html[data-theme] .btn.focus {
+  box-shadow: var(--focus-ring);
+}
+html[data-theme] .btn.disabled,
+html[data-theme] .btn:disabled {
+  opacity: 0.5;
+}
+html[data-theme] .btn-sm {
+  border-radius: var(--radius-sm);
+}
+
+html[data-theme] .btn-primary {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: var(--shadow-xs), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+html[data-theme] .btn-primary:hover,
+html[data-theme] .btn-primary:not(:disabled):not(.disabled):active,
+html[data-theme] .btn-primary:not(:disabled):not(.disabled).active,
+html[data-theme] .show > .btn-primary.dropdown-toggle {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: #fff;
+}
+html[data-theme] .btn-primary:focus,
+html[data-theme] .btn-primary.focus,
+html[data-theme] .btn-primary:not(:disabled):not(.disabled):active:focus {
+  box-shadow: var(--focus-ring);
+}
+html[data-theme] .btn-primary.disabled,
+html[data-theme] .btn-primary:disabled {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+html[data-theme] .btn-secondary {
+  background-color: var(--surface-3);
+  border-color: var(--surface-3);
+  color: var(--text);
+}
+html[data-theme] .btn-secondary:hover,
+html[data-theme] .btn-secondary:not(:disabled):not(.disabled):active {
+  background-color: var(--border);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+html[data-theme] .btn-light,
+html[data-theme] .btn-outline-secondary,
+html[data-theme] .btn-outline-dark,
+html[data-theme] .btn-outline-light {
+  background-color: var(--surface);
+  border-color: var(--border-strong);
+  color: var(--text);
+  box-shadow: var(--shadow-xs);
+}
+html[data-theme] .btn-light:hover,
+html[data-theme] .btn-light:not(:disabled):not(.disabled):active,
+html[data-theme] .btn-light:not(:disabled):not(.disabled).active,
+html[data-theme] .btn-outline-secondary:hover,
+html[data-theme] .btn-outline-secondary:not(:disabled):not(.disabled):active,
+html[data-theme] .btn-outline-dark:hover,
+html[data-theme] .btn-outline-light:hover {
+  background-color: var(--hover);
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+html[data-theme] .btn-light:disabled,
+html[data-theme] .btn-light.disabled {
+  background-color: var(--surface);
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+html[data-theme] .btn-outline-primary {
+  background-color: transparent;
+  border-color: var(--accent-border);
+  color: var(--accent-text);
+}
+html[data-theme] .btn-outline-primary:hover,
+html[data-theme] .btn-outline-primary:not(:disabled):not(.disabled):active {
+  background-color: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+html[data-theme] .btn-success {
+  background-color: var(--success);
+  border-color: var(--success);
+  color: #fff;
+}
+html[data-theme] .btn-success:hover,
+html[data-theme] .btn-success:not(:disabled):not(.disabled):active {
+  background-color: var(--success-hover);
+  border-color: var(--success-hover);
+  color: #fff;
+}
+html[data-theme] .btn-danger {
+  background-color: var(--danger);
+  border-color: var(--danger);
+  color: #fff;
+}
+html[data-theme] .btn-danger:hover,
+html[data-theme] .btn-danger:not(:disabled):not(.disabled):active {
+  background-color: var(--danger-hover);
+  border-color: var(--danger-hover);
+  color: #fff;
+}
+html[data-theme] .btn-warning {
+  background-color: var(--warning-solid);
+  border-color: var(--warning-solid);
+  color: #1f1600;
+}
+html[data-theme] .btn-warning:hover {
+  filter: brightness(0.95);
+  color: #1f1600;
+}
+html[data-theme] .btn-info {
+  background-color: var(--info-solid);
+  border-color: var(--info-solid);
+  color: #fff;
+}
+html[data-theme] .btn-info:hover {
+  filter: brightness(0.95);
+  color: #fff;
+}
+html[data-theme] .btn-dark {
+  background-color: var(--text);
+  border-color: var(--text);
+  color: var(--surface);
+}
+html[data-theme] .btn-outline-success {
+  border-color: var(--success-border);
+  color: var(--success);
+}
+html[data-theme] .btn-outline-success:hover {
+  background-color: var(--success-soft);
+  color: var(--success);
+}
+html[data-theme] .btn-outline-danger {
+  border-color: var(--danger-border);
+  color: var(--danger);
+}
+html[data-theme] .btn-outline-danger:hover {
+  background-color: var(--danger-soft);
+  color: var(--danger);
+}
+
+html[data-theme] .btn-link {
+  color: var(--accent-text);
+  font-weight: 500;
+  text-decoration: none;
+  box-shadow: none;
+}
+html[data-theme] .btn-link:hover {
+  color: var(--accent-hover);
+  text-decoration: none;
+  background-color: var(--accent-soft);
+}
+html[data-theme='dark'] .btn-link:hover {
+  color: #c3cbfd;
+}
+html[data-theme] .btn-link:focus {
+  text-decoration: none;
+}
+html[data-theme] .btn-link:disabled {
+  color: var(--text-muted);
+  background: none;
+}
+
+html[data-theme] .btnCircle {
+  color: var(--text-2);
+  transition: background-color 0.15s var(--ease), color 0.15s var(--ease);
+}
+html[data-theme] .btnCircle:hover {
+  background-color: var(--hover);
+  color: var(--text);
+}
+
+html[data-theme] .close {
+  color: var(--text);
+  text-shadow: none;
+  opacity: 0.5;
+  font-weight: 400;
+  transition: opacity 0.15s var(--ease);
+}
+html[data-theme] .close:hover {
+  color: var(--text);
+  opacity: 0.9;
+}
+
+/* Theme toggle button (header + auth pages) */
+html[data-theme] .theme-toggle {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  color: var(--text-2);
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.15s var(--ease), color 0.15s var(--ease),
+    border-color 0.15s var(--ease);
+}
+html[data-theme] .theme-toggle i {
+  padding: 0 !important;
+  font-size: 14px;
+}
+html[data-theme] .theme-toggle:hover {
+  background-color: var(--hover);
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+html[data-theme] .theme-toggle:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* ------------------------------------------------------------ Dropdowns -- */
+
+html[data-theme] .dropdown-menu {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  color: var(--text);
+  padding: 4px;
+  font-size: 13px;
+}
+html[data-theme] .dropdown-item {
+  color: var(--text-2);
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  transition: background-color 0.12s var(--ease), color 0.12s var(--ease);
+}
+html[data-theme] .dropdown-item i {
+  color: var(--text-muted);
+  width: 18px;
+  text-align: center;
+}
+html[data-theme] .dropdown-item:hover,
+html[data-theme] .dropdown-item:focus {
+  background-color: var(--hover);
+  color: var(--text);
+}
+html[data-theme] .dropdown-item:hover i {
+  color: var(--accent-text);
+}
+html[data-theme] .dropdown-item.active,
+html[data-theme] .dropdown-item:active {
+  background-color: var(--accent-soft);
+  color: var(--accent-text);
+}
+html[data-theme] .dropdown-divider {
+  border-top-color: var(--border);
+}
+html[data-theme] .dropdown-header {
+  color: var(--text-muted);
+}
+
+/* ---------------------------------------------------------------- Modals -- */
+
+html[data-theme] .modal-backdrop {
+  background-color: #070912;
+}
+html[data-theme] .modal-backdrop.show {
+  opacity: 0.55;
+}
+html[data-theme] .modal-content {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  color: var(--text);
+}
+html[data-theme] .modal-header,
+html[data-theme] .modal-footer {
+  border-color: var(--border);
+}
+html[data-theme] .modal-footer {
+  background-color: var(--surface-2);
+  border-bottom-left-radius: calc(var(--radius-lg) - 1px);
+  border-bottom-right-radius: calc(var(--radius-lg) - 1px);
+}
+html[data-theme] .modal-title {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+html[data-theme] .popover {
+  background-color: var(--surface);
+  border-color: var(--border);
+  box-shadow: var(--shadow-md);
+}
+html[data-theme] .popover-body {
+  color: var(--text);
+}
+
+/* --------------------------------------------------------- Badges/alerts -- */
+
+html[data-theme] .badge {
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.01em;
+}
+html[data-theme] .badge-primary {
+  background-color: var(--accent-soft);
+  color: var(--accent-text);
+}
+html[data-theme] .badge-secondary,
+html[data-theme] .badge-light {
+  background-color: var(--surface-3);
+  color: var(--text-2);
+}
+html[data-theme] .badge-success {
+  background-color: var(--success-soft);
+  color: var(--success);
+}
+html[data-theme] .badge-danger {
+  background-color: var(--danger-soft);
+  color: var(--danger);
+}
+html[data-theme] .badge-warning {
+  background-color: var(--warning-soft);
+  color: var(--warning);
+}
+html[data-theme] .badge-info {
+  background-color: var(--info-soft);
+  color: var(--info);
+}
+html[data-theme] .badge-dark {
+  background-color: var(--accent-soft);
+  color: var(--accent-text);
+  border: 1px solid var(--accent-border);
+}
+
+html[data-theme] .alert {
+  border-radius: var(--radius);
+  border-width: 1px;
+}
+html[data-theme] .alert-primary,
+html[data-theme] .alert-info {
+  background-color: var(--info-soft);
+  border-color: var(--info-border);
+  color: var(--info);
+}
+html[data-theme] .alert-success {
+  background-color: var(--success-soft);
+  border-color: var(--success-border);
+  color: var(--success);
+}
+html[data-theme] .alert-danger {
+  background-color: var(--danger-soft);
+  border-color: var(--danger-border);
+  color: var(--danger);
+}
+html[data-theme] .alert-warning {
+  background-color: var(--warning-soft);
+  border-color: var(--warning-border);
+  color: var(--warning);
+}
+html[data-theme] .alert-secondary,
+html[data-theme] .alert-light,
+html[data-theme] .alert-dark {
+  background-color: var(--surface-2);
+  border-color: var(--border);
+  color: var(--text-2);
+}
+
+/* ------------------------------------------------------------ Navigation -- */
+
+html[data-theme] .breadcrumb {
+  background-color: transparent;
+}
+html[data-theme] .breadcrumb-item,
+html[data-theme] .breadcrumb-item.active {
+  color: var(--text-2);
+}
+html[data-theme] .breadcrumb-item + .breadcrumb-item::before {
+  color: var(--border-strong);
+}
+
+html[data-theme] .nav-tabs {
+  border-bottom-color: var(--border);
+}
+html[data-theme] .nav-tabs .nav-link {
+  color: var(--text-muted);
+  border: 0;
+  border-bottom: 2px solid transparent;
+  font-weight: 500;
+}
+html[data-theme] .nav-tabs .nav-link:hover {
+  color: var(--text);
+  border-color: transparent;
+}
+html[data-theme] .nav-tabs .nav-link.active,
+html[data-theme] .nav-tabs .nav-item.show .nav-link {
+  background-color: transparent;
+  color: var(--accent-text);
+  border-bottom-color: var(--accent);
+}
+html[data-theme] .nav-pills .nav-link {
+  color: var(--text-2);
+  border-radius: var(--radius);
+}
+html[data-theme] .nav-pills .nav-link.active {
+  background-color: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+html[data-theme] .page-link {
+  background-color: var(--surface);
+  border-color: var(--border);
+  color: var(--text-2);
+}
+html[data-theme] .page-link:hover {
+  background-color: var(--hover);
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+html[data-theme] .page-item.active .page-link {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+html[data-theme] .page-item.disabled .page-link {
+  background-color: var(--surface);
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+
+/* ---------------------------------------------------------------- Misc -- */
+
+html[data-theme] .progress {
+  background-color: var(--surface-3);
+  border-radius: 999px;
+}
+html[data-theme] .progress-bar {
+  background-color: var(--accent);
+}
+html[data-theme] .spinner-border.text-primary {
+  color: var(--accent) !important;
+}
+html[data-theme] .img-thumbnail {
+  background-color: var(--surface);
+  border-color: var(--border);
+  border-radius: var(--radius);
+}
+html[data-theme] .tooltip-inner {
+  border-radius: var(--radius-sm);
+}
+
+/* nprogress */
+html[data-theme] #nprogress .bar {
+  background: var(--accent);
+  height: 2px;
+}
+html[data-theme] #nprogress .peg {
+  box-shadow: 0 0 10px var(--accent), 0 0 5px var(--accent);
+}
+html[data-theme] #nprogress .spinner-icon {
+  border-top-color: var(--accent);
+  border-left-color: var(--accent);
+}
+
+/* toastr */
+html[data-theme] #toast-container > div {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  opacity: 0.97;
+  font-family: var(--font-sans);
+  font-size: 13px;
+}
+html[data-theme] #toast-container > div:hover {
+  box-shadow: var(--shadow-lg);
+  opacity: 1;
+}
+html[data-theme] #toast-container > .toast-success {
+  background-color: var(--success);
+}
+html[data-theme] #toast-container > .toast-error {
+  background-color: var(--danger);
+}
+html[data-theme] #toast-container > .toast-info {
+  background-color: var(--info-solid);
+}
+html[data-theme] #toast-container > .toast-warning {
+  background-color: #d48806;
+}
+html[data-theme] .toast-title {
+  font-weight: 600;
+}
+
+/* react-select (components pass classNamePrefix="react-select") */
+html[data-theme] .react-select__control {
+  background-color: var(--input-bg);
+  border-color: var(--border-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-xs);
+  transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
+}
+html[data-theme] .react-select__control:hover {
+  border-color: var(--text-muted);
+}
+html[data-theme] .react-select__control--is-focused,
+html[data-theme] .react-select__control--is-focused:hover {
+  border-color: var(--accent);
+  box-shadow: var(--focus-ring);
+}
+html[data-theme] .react-select__control--is-disabled {
+  background-color: var(--surface-2);
+}
+html[data-theme] .react-select__single-value,
+html[data-theme] .react-select__input,
+html[data-theme] .react-select__input input {
+  color: var(--text) !important;
+}
+html[data-theme] .react-select__placeholder {
+  color: var(--text-muted);
+}
+html[data-theme] .react-select__indicator-separator {
+  background-color: var(--border);
+}
+html[data-theme] .react-select__indicator {
+  color: var(--text-muted);
+}
+html[data-theme] .react-select__indicator:hover {
+  color: var(--text-2);
+}
+html[data-theme] .react-select__menu {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  z-index: 20;
+}
+html[data-theme] .react-select__menu-list {
+  padding: 4px;
+}
+html[data-theme] .react-select__option {
+  color: var(--text-2);
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+}
+html[data-theme] .react-select__option--is-focused {
+  background-color: var(--hover);
+  color: var(--text);
+}
+html[data-theme] .react-select__option--is-selected {
+  background-color: var(--accent);
+  color: #fff;
+}
+html[data-theme] .react-select__menu-notice {
+  color: var(--text-muted);
+}
+html[data-theme] .react-select__multi-value {
+  background-color: var(--accent-soft);
+  border-radius: var(--radius-sm);
+}
+html[data-theme] .react-select__multi-value__label {
+  color: var(--accent-text);
+}
+html[data-theme] .react-select__multi-value__remove {
+  color: var(--accent-text);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+html[data-theme] .react-select__multi-value__remove:hover {
+  background-color: var(--danger-soft);
+  color: var(--danger);
+}
+html[data-theme] .is-invalid-select .react-select__control {
+  border-color: var(--danger);
+}
+
+/* react-datepicker */
+html[data-theme] .react-datepicker {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+html[data-theme] .react-datepicker__header {
+  background-color: var(--surface-2);
+  border-bottom-color: var(--border);
+}
+html[data-theme] .react-datepicker__header:not(.react-datepicker__header--has-time-select) {
+  border-top-right-radius: var(--radius-lg);
+}
+html[data-theme] .react-datepicker__header:first-child {
+  border-top-left-radius: var(--radius-lg);
+}
+html[data-theme] .react-datepicker__current-month,
+html[data-theme] .react-datepicker-time__header,
+html[data-theme] .react-datepicker-year-header,
+html[data-theme] .react-datepicker__day-name,
+html[data-theme] .react-datepicker__day,
+html[data-theme] .react-datepicker__time-name {
+  color: var(--text);
+}
+html[data-theme] .react-datepicker__day-name {
+  color: var(--text-muted);
+}
+html[data-theme] .react-datepicker__day {
+  border-radius: var(--radius-sm);
+}
+html[data-theme] .react-datepicker__day:hover,
+html[data-theme] .react-datepicker__month-text:hover {
+  background-color: var(--hover);
+  border-radius: var(--radius-sm);
+}
+html[data-theme] .react-datepicker__day--selected,
+html[data-theme] .react-datepicker__day--in-selecting-range,
+html[data-theme] .react-datepicker__day--in-range,
+html[data-theme] .react-datepicker__day--keyboard-selected {
+  background-color: var(--accent);
+  color: #fff;
+  border-radius: var(--radius-sm);
+}
+html[data-theme] .react-datepicker__day--selected:hover,
+html[data-theme] .react-datepicker__day--keyboard-selected:hover {
+  background-color: var(--accent-hover);
+}
+html[data-theme] .react-datepicker__day--today {
+  font-weight: 700;
+  color: var(--accent-text);
+}
+html[data-theme] .react-datepicker__day--disabled,
+html[data-theme] .react-datepicker__day--outside-month {
+  color: var(--text-muted);
+}
+html[data-theme] .react-datepicker__navigation--previous {
+  border-right-color: var(--text-muted);
+}
+html[data-theme] .react-datepicker__navigation--next {
+  border-left-color: var(--text-muted);
+}
+html[data-theme] .react-datepicker__time-container,
+html[data-theme] .react-datepicker__time-container .react-datepicker__time {
+  background-color: var(--surface);
+  border-color: var(--border);
+}
+html[data-theme] .react-datepicker__time-list-item:hover {
+  background-color: var(--hover) !important;
+}
+html[data-theme] .react-datepicker__time-list-item--selected {
+  background-color: var(--accent) !important;
+}
+html[data-theme] .react-datepicker-popper[data-placement^='bottom'] .react-datepicker__triangle,
+html[data-theme] .react-datepicker-popper[data-placement^='bottom'] .react-datepicker__triangle::before {
+  border-bottom-color: var(--surface-2);
+}
+html[data-theme] .react-datepicker-popper[data-placement^='top'] .react-datepicker__triangle,
+html[data-theme] .react-datepicker-popper[data-placement^='top'] .react-datepicker__triangle::before {
+  border-top-color: var(--surface);
+}
+html[data-theme] .react-datepicker-popper {
+  z-index: 30;
+}
+
+/* react-draft-wysiwyg (company pages) */
+html[data-theme] .rdw-editor-toolbar {
+  background-color: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+html[data-theme] .rdw-editor-main {
+  background-color: var(--input-bg);
+  border: 1px solid var(--border);
+  border-top: 0;
+  border-radius: 0 0 var(--radius) var(--radius);
+  color: var(--text);
+}
+html[data-theme] .rdw-option-wrapper,
+html[data-theme] .rdw-dropdown-wrapper {
+  background-color: var(--surface);
+  border-color: var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+}
+html[data-theme] .rdw-option-wrapper:hover,
+html[data-theme] .rdw-dropdown-wrapper:hover {
+  box-shadow: none;
+  background-color: var(--hover);
+}
+html[data-theme] .rdw-option-active {
+  box-shadow: inset 0 0 0 1px var(--accent);
+  background-color: var(--accent-soft);
+}
+html[data-theme] .rdw-dropdown-optionwrapper,
+html[data-theme] .rdw-link-modal,
+html[data-theme] .rdw-embedded-modal,
+html[data-theme] .rdw-emoji-modal,
+html[data-theme] .rdw-image-modal,
+html[data-theme] .rdw-colorpicker-modal {
+  background-color: var(--surface);
+  border-color: var(--border);
+  box-shadow: var(--shadow-md);
+  color: var(--text);
+}
+html[data-theme] .rdw-dropdownoption-highlighted {
+  background-color: var(--hover);
+}
+html[data-theme='dark'] .rdw-option-wrapper img,
+html[data-theme='dark'] .rdw-dropdown-carettoopen,
+html[data-theme='dark'] .rdw-dropdown-carettoclose {
+  filter: invert(0.9);
+}
+
+/* reactjs-popup */
+html[data-theme] .popup-content {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  color: var(--text);
+}
+html[data-theme] .popup-arrow {
+  color: var(--surface);
+}
+html[data-theme] .popup-overlay {
+  background: var(--overlay);
+}
+
+/* ============================================================================
+   App-specific classes (originally in public/theme/dist/default.css)
+   ========================================================================== */
+
+/* Header quick actions */
+html[data-theme] .right__section {
+  gap: 10px;
+}
+html[data-theme] .quick_actions {
+  gap: 8px;
+  margin-right: 6px;
+}
+html[data-theme] .action {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  box-shadow: var(--shadow-xs);
+  padding: 6px 14px;
+  min-width: 0;
+  animation: none;
+  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease),
+    box-shadow 0.15s var(--ease);
+}
+html[data-theme] .action:hover {
+  background: var(--hover);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-sm);
+}
+html[data-theme] .action span {
+  color: var(--text-2);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+html[data-theme] .action span b {
+  color: var(--accent-text);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Dashboard (Home) */
+html[data-theme] .admin-home-container {
+  background-color: transparent;
+  padding: 24px 9px;
+}
+html[data-theme] .welcome-section h1 {
+  color: var(--text);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+html[data-theme] .welcome-section p {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+html[data-theme] .stats-grid {
+  gap: 16px;
+}
+html[data-theme] .stat-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+}
+html[data-theme] .stat-box:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
+}
+html[data-theme] .stat-box::before {
+  height: 3px;
+}
+html[data-theme] .user-stat::before {
+  background: linear-gradient(90deg, #6366f1, #22d3ee);
+}
+html[data-theme] .recharge-stat::before {
+  background: linear-gradient(90deg, #10b981, #84cc16);
+}
+html[data-theme] .withdraw-stat::before {
+  background: linear-gradient(90deg, #f43f5e, #f59e0b);
+}
+html[data-theme] .stat-icon {
+  border-radius: var(--radius-lg);
+  width: 52px;
+  height: 52px;
+  font-size: 20px;
+}
+html[data-theme] .user-stat .stat-icon {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+html[data-theme] .recharge-stat .stat-icon {
+  background: var(--success-soft);
+  color: var(--success);
+}
+html[data-theme] .withdraw-stat .stat-icon {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+html[data-theme] .stat-title {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+html[data-theme] .stat-value {
+  color: var(--text);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* "Spot" style data tables */
+html[data-theme] .spot-list-container,
+html[data-theme] .deposit-network-list-container,
+html[data-theme] .deposit-method-list-container {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+}
+html[data-theme] .spot-list-container .table-responsive,
+html[data-theme] .deposit-network-list-container .table-responsive,
+html[data-theme] .deposit-method-list-container .table-responsive {
+  border: 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+html[data-theme] .table-header th,
+html[data-theme] .actions-header {
+  background-color: var(--surface-2);
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+html[data-theme] .table-header th:not(:last-child):not(.actions-header)::after,
+html[data-theme] .table-cell:not(:last-child):not(.actions-cell)::after {
+  background-color: var(--border);
+  opacity: 0.7;
+}
+html[data-theme] .sortable-header:hover {
+  background-color: var(--hover);
+  color: var(--text);
+}
+html[data-theme] .sort-icon {
+  color: var(--accent-text);
+}
+html[data-theme] .table-body,
+html[data-theme] .table-body td {
+  background-color: var(--surface);
+}
+html[data-theme] .table-body td {
+  border-bottom-color: var(--border);
+}
+html[data-theme] .table-row {
+  border-bottom: 1px solid var(--border);
+}
+html[data-theme] .table-row:hover,
+html[data-theme] .table-row:hover > td,
+html[data-theme] .table-row:hover .actions-cell {
+  background-color: var(--hover);
+}
+html[data-theme] .table-row:hover .table-cell::after {
+  background-color: var(--border-strong);
+}
+html[data-theme] .table-cell {
+  color: var(--text);
+}
+html[data-theme] .actions-cell {
+  background-color: var(--surface);
+  box-shadow: -1px 0 0 var(--border);
+}
+html[data-theme] .actions-header {
+  box-shadow: -1px 0 0 var(--border);
+}
+html[data-theme] .loading-text,
+html[data-theme] .no-data-content {
+  color: var(--text-muted);
+}
+html[data-theme] .no-data-icon {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+html[data-theme] .pagination-container {
+  background-color: var(--surface);
+  border-top: 1px solid var(--border);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+html[data-theme] .btn-action {
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  font-weight: 600;
+}
+html[data-theme] .btn-action.view {
+  background-color: var(--surface-3);
+  color: var(--text-2);
+}
+html[data-theme] .btn-action.view:hover {
+  background-color: var(--border);
+  color: var(--text);
+}
+html[data-theme] .btn-action.edit {
+  background-color: var(--success-soft);
+  color: var(--success);
+}
+html[data-theme] .btn-action.edit:hover {
+  background-color: var(--success-soft);
+  border-color: var(--success-border);
+  color: var(--success);
+}
+html[data-theme] .btn-action.delete {
+  background-color: var(--danger-soft);
+  color: var(--danger);
+}
+html[data-theme] .btn-action.delete:hover {
+  background-color: var(--danger-soft);
+  border-color: var(--danger-border);
+  color: var(--danger);
+}
+html[data-theme] .btn-action:hover {
+  opacity: 1;
+}
+
+html[data-theme] .direction-badge,
+html[data-theme] .status-badge,
+html[data-theme] .badge__action {
+  border-radius: var(--radius-sm);
+}
+html[data-theme] .direction-badge.buy {
+  background-color: var(--success-soft);
+  color: var(--success);
+}
+html[data-theme] .direction-badge.sell {
+  background-color: var(--danger-soft);
+  color: var(--danger);
+}
+html[data-theme] .status-badge {
+  background-color: var(--surface-3);
+  color: var(--text-2);
+}
+html[data-theme] .status-badge.success {
+  background-color: var(--info-soft);
+  color: var(--info);
+}
+html[data-theme] .badge__action.profit {
+  background-color: var(--success-soft);
+  color: var(--success);
+}
+html[data-theme] .badge__action.loss {
+  background-color: var(--danger-soft);
+  color: var(--danger);
+}
+
+html[data-theme] .toggle-btn {
+  background: var(--surface);
+  border-color: var(--border-strong);
+  border-radius: var(--radius);
+  color: var(--text-2);
+}
+html[data-theme] .toggle-btn:hover {
+  background: var(--hover);
+}
+html[data-theme] .toggle-btn.loss {
+  color: var(--danger);
+}
+html[data-theme] .toggle-btn.profit {
+  color: var(--success);
+}
+html[data-theme] .toggle-btn.active.loss {
+  background: var(--danger-soft);
+  border-color: var(--danger-border);
+  color: var(--danger);
+}
+html[data-theme] .toggle-btn.active.profit {
+  background: var(--success-soft);
+  border-color: var(--success-border);
+  color: var(--success);
+}
+
+/* Status pills used in list tables */
+html[data-theme] .deposit,
+html[data-theme] .completed {
+  background-color: var(--success-soft) !important;
+  color: var(--success);
+}
+html[data-theme] .withdraw,
+html[data-theme] .canceled {
+  background-color: var(--danger-soft) !important;
+  color: var(--danger);
+}
+html[data-theme] .pending {
+  background-color: var(--warning-soft) !important;
+  color: var(--warning);
+}
+html[data-theme] .vip {
+  background-color: var(--accent-soft);
+  color: var(--accent-text);
+  border-radius: var(--radius);
+}
+html[data-theme] .pending,
+html[data-theme] .canceled,
+html[data-theme] .completed {
+  border-radius: var(--radius);
+  font-weight: 600;
+}
+html[data-theme] .deposit,
+html[data-theme] .withdraw {
+  font-weight: 600;
+}
+
+html[data-theme] .check__number,
+html[data-theme] .numbers__upload,
+html[data-theme] .list__wrong {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+html[data-theme] .addedd {
+  background-color: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--text);
+}
+html[data-theme] .download {
+  background-color: var(--text) !important;
+  border-radius: var(--radius);
+}
+html[data-theme] .download > span,
+html[data-theme] .download .white {
+  color: var(--surface);
+}
+html[data-theme] .validers {
+  background-color: var(--surface-3);
+  border-radius: var(--radius-lg);
+}
+
+/* Company pages */
+html[data-theme] .company__item {
+  outline: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface);
+  box-shadow: var(--shadow-xs);
+  color: var(--text);
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease),
+    transform 0.2s var(--ease);
+}
+html[data-theme] .company__item:hover {
+  background-color: var(--surface);
+  color: var(--text);
+  border-color: var(--accent-border);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+html[data-theme] .item__company {
+  color: var(--accent-text);
+}
+html[data-theme] .company__text {
+  color: var(--text);
+  font-weight: 600;
+}
+html[data-theme] .remove__ligne,
+html[data-theme] .remove__ligne:hover {
+  text-decoration: none;
+}
+html[data-theme] .menu-header {
+  color: var(--text-muted);
+  border-bottom-color: var(--border);
+}
+
+/* Score modal */
+html[data-theme] .modal__socore {
+  background-color: var(--success);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+html[data-theme] .score__close {
+  background-color: var(--surface);
+  color: var(--text);
+  border-radius: 0 var(--radius-lg) 0 var(--radius);
+}
+
+/* ImagesUploader thumbnails */
+html[data-theme] .img-card img {
+  border-radius: var(--radius);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme] *,
+  html[data-theme] *::before,
+  html[data-theme] *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

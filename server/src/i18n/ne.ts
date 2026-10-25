@@ -60,6 +60,13 @@ const ne = {
     stripeNotConfigured: 'स्ट्राइप कन्फिगर गरिएको छैन।',
   },
 
+  deposit: {
+    errors: {
+      createdByRequired:
+        'यो जमाको स्वामी छैन, त्यसैले पैसा जमा गर्न सकिँदैन।',
+    },
+  },
+
   importer: {
     errors: {
       invalidFileEmpty: 'फाइल खाली छ',

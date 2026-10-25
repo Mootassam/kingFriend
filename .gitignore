@@ -1,2 +1,4 @@
-# Secrets — do not commit real values.
-server/.env
+.vercel
+.env*
+node_modules
+dist

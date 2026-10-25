@@ -120,21 +120,12 @@ function SelectFormItem(props) {
 
   const controlStyles = Boolean(errorMessage)
     ? {
-        container: (provided) => ({
-          ...provided,
-          color: 'hsl(0,0%,20%)',
-        }),
         control: (provided) => ({
           ...provided,
-          borderColor: 'red',
+          borderColor: 'var(--danger)',
         }),
       }
-    : {
-        container: (provided) => ({
-          ...provided,
-          color: 'hsl(0,0%,20%)',
-        }),
-      };
+    : undefined;
 
   return (
     <div className="form-group">
@@ -151,7 +142,9 @@ function SelectFormItem(props) {
       <br />
 
       <Select
-        className="w-100"
+        className={`w-100 ${
+          Boolean(errorMessage) ? 'is-invalid-select' : ''
+        }`}
         value={value()}
         onChange={handleSelect}
         onBlur={(event) => {
@@ -164,6 +157,7 @@ function SelectFormItem(props) {
         placeholder={placeholder || ''}
         isClearable={isClearable}
         styles={controlStyles}
+        classNamePrefix="react-select"
         loadingMessage={() => i18n('autocomplete.loading')}
         noOptionsMessage={() =>
           i18n('autocomplete.noOptions')

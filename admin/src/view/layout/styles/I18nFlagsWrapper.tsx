@@ -10,6 +10,14 @@ const I18nFlagsWrapper = styled.div`
   img {
     margin-right: 8px;
     cursor: pointer;
+    border-radius: 4px;
+    opacity: 0.85;
+    transition: opacity 0.15s var(--ease), transform 0.15s var(--ease);
+  }
+
+  img:hover {
+    opacity: 1;
+    transform: translateY(-1px);
   }
 `;
 

@@ -1,24 +1,44 @@
 import styled from 'styled-components';
 
 const FilterWrapper = styled.div`
-  border: 1px solid #e9e9e9;
-  border-radius: 5px;
-  margin-bottom: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface);
+  margin-bottom: 12px;
+  transition: border-color 0.15s var(--ease);
+
+  &:hover {
+    border-color: var(--border-strong);
+  }
 
   .filter-preview {
     display: flex;
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
-    padding-top: 16px;
-    padding-bottom: 16px;
-    padding-right: 15px;
-    padding-left: 15px;
+    padding: 12px 15px;
+    color: var(--text-2);
+    font-weight: 500;
+    user-select: none;
   }
 
   .filter-preview-left {
     display: flex;
     align-items: center;
+  }
+
+  .filter-preview-left:before {
+    content: '\f0b0';
+    font-family: 'Font Awesome 5 Free', 'Font Awesome 6 Free';
+    font-weight: 900;
+    font-size: 11px;
+    margin-right: 8px;
+    color: var(--text-muted);
+  }
+
+  .filter-preview-right {
+    color: var(--text-muted);
+    font-size: 12px;
   }
 
   .filter-preview-values {
@@ -29,8 +49,13 @@ const FilterWrapper = styled.div`
   }
 
   .filter-preview-values .badge {
-    margin: 4px;
-    padding: 0.5em 0.5em;
+    margin: 2px 4px;
+    padding: 0.45em 0.6em;
+    font-weight: 500;
+  }
+
+  .filter-preview.is-expanded {
+    border-bottom: 1px solid var(--border);
   }
 
   .react-datepicker-wrapper {

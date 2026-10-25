@@ -1,37 +1,20 @@
 import styled from 'styled-components';
 
 const ContentWrapper = styled.div`
-  margin-top: 16px;
+  margin-top: 12px;
   padding: 24px;
-  background-color: white;
+  background-color: var(--surface);
+  color: var(--text);
   width: 100%;
-  border-radius: 5px;
-  border: 1px solid #dee2e6 !important;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-xs);
+
   .card-stats .card-body {
     padding: 15px !important;
   }
   .text-center {
     text-align: center !important;
-  }
-  .card-stats .icon-big.icon-danger, .card-stats .icon-big.icon-default, .card-stats .icon-big.icon-info, .card-stats .icon-big.icon-primary, .card-stats .icon-big.icon-secondary, .card-stats .icon-big.icon-success, .card-stats .icon-big.icon-warning {
-    border-radius: 5px;
-}
-.card-stats .icon-big.icon-danger i, .card-stats .icon-big.icon-default i, .card-stats .icon-big.icon-info i, .card-stats .icon-big.icon-primary i, .card-stats .icon-big.icon-secondary i, .card-stats .icon-big.icon-success i, .card-stats .icon-big.icon-warning i {
-  color: #fff!important;
-}
-  .pb-3,
-  .py-3 {
-    padding-bottom: 1rem !important;
-  }
-  .pt-3,
-  .py-3 {
-    padding-top: 1rem !important;
-  }
-  .d-inline-block {
-    display: inline-block !important;
-  }
-  .pl-3, .px-3 {
-    padding-left: 1rem !important;
   }
   .card-stats .icon-big {
     width: 100%;
@@ -41,25 +24,43 @@ const ContentWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-  
+    border-radius: var(--radius-lg);
   }
-  .bubble-shadow-small {
-  position: relative; 
-  }
-
-  .card-title {
-    margin: 0;
-    color: #575962;
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 1.6;
+  .card-stats .icon-big i {
+    color: #fff !important;
   }
   .card-stats .icon-big.icon-primary {
-    background: #177dff;
+    background: var(--accent);
+  }
+  .pb-3,
+  .py-3 {
+    padding-bottom: 1rem !important;
+  }
+  .pt-3,
+  .py-3 {
+    padding-top: 1rem !important;
+  }
   .mt-3,
   .my-3 {
     margin-top: 1rem !important;
   }
-  `;
+  .d-inline-block {
+    display: inline-block !important;
+  }
+  .pl-3,
+  .px-3 {
+    padding-left: 1rem !important;
+  }
+  .bubble-shadow-small {
+    position: relative;
+  }
+  .card-title {
+    margin: 0;
+    color: var(--text-2);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+`;
 
 export default ContentWrapper;

@@ -15,6 +15,7 @@ import PcProfileModal from './PcProfileModal';
 import { PC_CSS } from './pcStyles';
 import ChatWidget from 'src/view/shared/chat/ChatWidget';
 import ThemeToggle from 'src/view/shared/theme/ThemeToggle';
+import { useTheme } from 'src/modules/theme/themeContext';
 
 const CONTRACT_SIZE = 100;
 
@@ -35,6 +36,7 @@ function fmtPrice(p: number | null): string {
 
 export default function PcTrading() {
   const dispatch      = useDispatch();
+  const { theme }     = useTheme();
   const currentUser   = useSelector(authSelectors.selectCurrentUser);
   const currentTenant = useSelector(authSelectors.selectCurrentTenant);
   const listAssets    = useSelector(assetsListSelectors.selectRows);
@@ -251,7 +253,7 @@ export default function PcTrading() {
       {/* ===== HEADER ===== */}
       <header className="pc-header">
         <div className="pc-header-left">
-<img src="/logo.jpg" alt="" />
+<img src={theme === 'dark' ? '/dark.jpg' : '/logo.jpg'} alt="" />
         </div>
 
         <div className="pc-header-center">

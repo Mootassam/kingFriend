@@ -6,6 +6,7 @@ import authSelectors from 'src/modules/auth/authSelectors';
 import layoutActions from 'src/modules/layout/layoutActions';
 import { getHistory } from 'src/modules/store';
 import I18nSelect from 'src/view/layout/I18nSelect';
+import ThemeToggle from 'src/view/layout/ThemeToggle';
 import HeaderWrapper from 'src/view/layout/styles/HeaderWrapper';
 import Avatar from 'src/view/shared/Avatar';
 import config from 'src/config';
@@ -77,7 +78,7 @@ function Header(props) {
   };
 
   return (
-    <HeaderWrapper className="navbar sticky-top navbar-light bg-white border-bottom">
+    <HeaderWrapper className="navbar sticky-top">
       <button
         type="button"
         onClick={doToggleMenu}
@@ -125,6 +126,8 @@ function Header(props) {
         <span className="i18n-select">
           <I18nSelect />
         </span>
+
+        <ThemeToggle />
 
         <div className="dropdown">
           <span

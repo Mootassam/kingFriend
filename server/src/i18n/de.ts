@@ -60,6 +60,13 @@ const de = {
     stripeNotConfigured: 'Stripe ist nicht konfiguriert.',
   },
 
+  deposit: {
+    errors: {
+      createdByRequired:
+        'Diese Einzahlung hat keinen Besitzer, daher können keine Guthaben gutgeschrieben werden.',
+    },
+  },
+
   importer: {
     errors: {
       invalidFileEmpty: 'Die Datei ist leer',

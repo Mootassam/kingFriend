@@ -79,17 +79,17 @@ services:
   #     - CHOKIDAR_USEPOLLING=true
 
 
-  # web2:
-  #   build: ./PC
-  #   ports:
-  #     - "3013:80"
-  #   restart: unless-stopped
-  #   volumes:
-  #     - "./PC:/app"
-  #     - "/app/node_modules"
-  #   stdin_open: true
-  #   environment:
-  #     - CHOKIDAR_USEPOLLING=true
+  web2:
+    build: ./web2
+    ports:
+      - "3013:80"
+    restart: unless-stopped
+    volumes:
+      - "./web2:/app"
+      - "/app/web2/node_modules"
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
 
 volumes:
   phone:

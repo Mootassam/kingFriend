@@ -5,8 +5,10 @@ import { AuthToken } from './modules/auth/authToken';
 import TenantService from './modules/tenant/tenantService';
 import SettingsService from './modules/settings/settingsService';
 import AuthService from 'src/modules/auth/authService';
+import { applyThemeMode } from 'src/modules/layout/themeMode';
 
 (async function () {
+  applyThemeMode();
   const isSocialOnboardRequested = AuthService.isSocialOnboardRequested();
   AuthToken.applyFromLocationUrlIfExists();
   await TenantService.fetchAndApply();

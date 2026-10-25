@@ -60,6 +60,13 @@ const tr = {
     stripeNotConfigured: 'Stripe yapılandırılmamış.',
   },
 
+  deposit: {
+    errors: {
+      createdByRequired:
+        'Bu mevduatın sahibi yok, bu yüzden bakiye yüklenemez.',
+    },
+  },
+
   importer: {
     errors: {
       invalidFileEmpty: 'Dosya boş',

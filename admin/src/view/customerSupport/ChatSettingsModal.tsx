@@ -182,37 +182,37 @@ function ChatSettingsModal({ onClose }: { onClose: () => void }) {
 
       <style>{`
         .csm-overlay {
-          position: fixed; inset: 0; background: rgba(15, 20, 30, 0.45);
+          position: fixed; inset: 0; background: var(--overlay);
           display: flex; align-items: center; justify-content: center; z-index: 10000;
         }
         .csm-modal {
-          width: 440px; max-width: calc(100vw - 32px); background: #fff;
-          border-radius: 12px; box-shadow: 0 16px 48px rgba(0,0,0,0.25);
+          width: 440px; max-width: calc(100vw - 32px); background: var(--surface);
+          border-radius: 12px; box-shadow: var(--shadow-lg);
           display: flex; flex-direction: column; max-height: calc(100vh - 64px);
         }
         .csm-header {
           display: flex; align-items: center; justify-content: space-between;
-          padding: 16px 18px; border-bottom: 1px solid #eef0f4;
+          padding: 16px 18px; border-bottom: 1px solid var(--border);
         }
-        .csm-header h5 { margin: 0; font-size: 15px; font-weight: 700; color: #1a1f2b; }
+        .csm-header h5 { margin: 0; font-size: 15px; font-weight: 700; color: var(--text); }
         .csm-close {
-          border: none; background: transparent; color: #9aa2b1; width: 28px; height: 28px;
+          border: none; background: transparent; color: var(--text-muted); width: 28px; height: 28px;
           border-radius: 6px; cursor: pointer; font-size: 13px;
         }
-        .csm-close:hover { background: #f4f5f8; color: #1a1f2b; }
+        .csm-close:hover { background: var(--surface-3); color: var(--text); }
 
-        .csm-loading { padding: 40px; text-align: center; color: #9aa2b1; font-size: 13px; }
+        .csm-loading { padding: 40px; text-align: center; color: var(--text-muted); font-size: 13px; }
 
         .csm-body { padding: 18px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
 
         .csm-field { display: flex; flex-direction: column; gap: 6px; }
-        .csm-label { font-size: 13px; font-weight: 600; color: #1a1f2b; }
-        .csm-hint { font-size: 11.5px; color: #9aa2b1; line-height: 1.4; }
+        .csm-label { font-size: 13px; font-weight: 600; color: var(--text); }
+        .csm-hint { font-size: 11.5px; color: var(--text-muted); line-height: 1.4; }
         .csm-input {
-          border: 1px solid #e2e6ee; border-radius: 8px; padding: 9px 12px;
-          font-size: 13.5px; outline: none; color: #1a1f2b;
+          border: 1px solid var(--border-strong); border-radius: 8px; padding: 9px 12px;
+          font-size: 13.5px; outline: none; color: var(--text);
         }
-        .csm-input:focus { border-color: #2f6fed; }
+        .csm-input:focus { border-color: var(--accent); }
         .csm-textarea { resize: vertical; font-family: inherit; }
 
         .csm-toggle-row {
@@ -221,29 +221,29 @@ function ChatSettingsModal({ onClose }: { onClose: () => void }) {
         .csm-toggle-row > span:first-child { display: flex; flex-direction: column; gap: 4px; }
 
         .csm-switch {
-          width: 40px; height: 22px; border-radius: 11px; background: #d7dbe3;
+          width: 40px; height: 22px; border-radius: 11px; background: var(--border-strong);
           position: relative; flex-shrink: 0; cursor: pointer; transition: background 0.15s ease; margin-top: 2px;
         }
-        .csm-switch.is-on { background: #2f6fed; }
+        .csm-switch.is-on { background: var(--accent); }
         .csm-switch-knob {
           position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%;
-          background: #fff; transition: left 0.15s ease; box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+          background: var(--surface); transition: left 0.15s ease; box-shadow: 0 1px 3px rgba(0,0,0,0.25);
         }
         .csm-switch.is-on .csm-switch-knob { left: 20px; }
 
-        .csm-error { color: #e5484d; font-size: 12.5px; }
+        .csm-error { color: var(--danger); font-size: 12.5px; }
 
         .csm-footer {
           display: flex; justify-content: flex-end; gap: 8px; padding: 14px 18px;
-          border-top: 1px solid #eef0f4;
+          border-top: 1px solid var(--border);
         }
         .csm-btn-secondary {
-          border: 1px solid #e2e6ee; background: #fff; color: #5b6472; border-radius: 8px;
+          border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-2); border-radius: 8px;
           padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer;
         }
-        .csm-btn-secondary:hover { background: #f4f5f8; }
+        .csm-btn-secondary:hover { background: var(--surface-3); }
         .csm-btn-primary {
-          border: none; background: #2f6fed; color: #fff; border-radius: 8px;
+          border: none; background: var(--accent); color: #fff; border-radius: 8px;
           padding: 8px 18px; font-size: 13px; font-weight: 600; cursor: pointer; min-width: 64px;
         }
         .csm-btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }

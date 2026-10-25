@@ -11,6 +11,7 @@ import yupFormSchemas from "src/modules/shared/yup/yupFormSchemas";
 import InputFormItem from "src/shared/form/InputFormItem";
 import I18nSelect from "src/view/layout/I18nSelect";
 import { i18n } from "../../../i18n";
+import { useTheme } from "src/modules/theme/themeContext";
 
 const schema = yup.object().shape({
   email: yupFormSchemas
@@ -26,6 +27,7 @@ const schema = yup.object().shape({
 function Signin() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { theme } = useTheme();
 
   const loading = useSelector(selectors.selectLoading);
   const externalErrorMessage = useSelector(selectors.selectErrorMessage);
@@ -85,7 +87,7 @@ function Signin() {
         <div className="logo-container">
           <img
             className="logo-img"
-            src="/logo.jpg"
+            src={theme === "dark" ? "/dark.jpg" : "/logo.jpg"}
             alt="FXCC Logo"
           />
         </div>

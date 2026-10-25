@@ -266,7 +266,7 @@ function Signin() {
           margin-bottom: 20px;
         }
         .logo-img {
-          height: 64px;
+        height: 48px;
           width: auto;
         }
 

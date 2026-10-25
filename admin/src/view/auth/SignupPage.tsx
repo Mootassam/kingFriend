@@ -7,12 +7,9 @@ import { i18n } from 'src/i18n';
 import actions from 'src/modules/auth/authActions';
 import selectors from 'src/modules/auth/authSelectors';
 import yupFormSchemas from 'src/modules/shared/yup/yupFormSchemas';
-import Content from 'src/view/auth/styles/Content';
-import Logo from 'src/view/auth/styles/Logo';
-import OtherActions from 'src/view/auth/styles/OtherActions';
-import Wrapper from 'src/view/auth/styles/Wrapper';
+import AuthField from 'src/view/auth/styles/AuthField';
+import AuthSplitLayout from 'src/view/auth/styles/AuthSplitLayout';
 import ButtonIcon from 'src/view/shared/ButtonIcon';
-import InputFormItem from 'src/view/shared/form/items/InputFormItem';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -69,63 +66,53 @@ function SignupPage() {
   };
 
   return (
-    <Wrapper
-      style={{
-        backgroundImage: `url(${
-          backgroundImageUrl || '/images/signup.jpg'
-        })`,
-      }}
+    <AuthSplitLayout
+      backgroundImageUrl={backgroundImageUrl || '/images/signup.jpg'}
+      logoUrl={logoUrl}
+      icon="fas fa-user-plus"
+      title={i18n('auth.layout.signupTitle')}
+      subtitle={i18n('auth.layout.signupSubtitle')}
+      footer={
+        <>
+          {i18n('auth.layout.haveAccount')}
+          <Link to="/auth/signin">{i18n('auth.signin')}</Link>
+        </>
+      }
     >
-      <Content>
-        <Logo>
-          {logoUrl ? (
-            <img
-              src={logoUrl}
-              width="240px"
-              alt={i18n('app.title')}
-            />
-          ) : (
-            <h1>{i18n('app.title')}</h1>
-          )}
-        </Logo>
+      <FormProvider {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
+          <AuthField
+            name="email"
+            label={i18n('user.fields.email')}
+            icon="far fa-envelope"
+            type="email"
+            placeholder="name@company.com"
+            autoComplete="email"
+            autoFocus
+            externalErrorMessage={externalErrorMessage}
+          />
 
-        <FormProvider {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <InputFormItem
-              name="email"
-              placeholder={i18n('user.fields.email')}
-              autoComplete="email"
-              autoFocus
-              externalErrorMessage={externalErrorMessage}
-            />
+          <AuthField
+            name="password"
+            label={i18n('user.fields.password')}
+            icon="fas fa-lock"
+            type="password"
+            placeholder="••••••••"
+            autoComplete="new-password"
+          />
 
-            <InputFormItem
-              name="password"
-              placeholder={i18n('user.fields.password')}
-              autoComplete="password"
-              type="password"
-            />
-            <button
-              className="btn btn-block btn-primary"
-              type="submit"
-              disabled={loading}
-            >
-              <ButtonIcon loading={loading} />
-              {i18n('auth.signup')}
-            </button>
-
-            <OtherActions>
-              <Link
-                className="btn btn-sm btn-link"
-                to="/auth/signin"
-              >
-                {i18n('auth.alreadyHaveAnAccount')}
-              </Link>
-            </OtherActions>
-          </form>
-        </FormProvider>
-      </Content>
-    </Wrapper>
+          <button
+            className="btn btn-block btn-primary mt-4"
+            type="submit"
+            disabled={loading}
+          >
+            <ButtonIcon loading={loading} />
+            {i18n('auth.signup')}
+            {!loading && <i className="fas fa-arrow-right ml-2" />}
+          </button>
+        </form>
+      </FormProvider>
+    </AuthSplitLayout>
   );
 }
 

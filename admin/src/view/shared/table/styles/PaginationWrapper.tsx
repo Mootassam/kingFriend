@@ -8,7 +8,8 @@ const PaginationWrapper = styled.div`
 
   .rc-pagination {
     font-size: 12px;
-    font-family: 'Arial';
+    font-family: var(--font-sans);
+    font-variant-numeric: tabular-nums;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -21,6 +22,7 @@ const PaginationWrapper = styled.div`
     list-style: none;
   }
   .rc-pagination-total-text {
+    color: var(--text-muted);
     float: left;
     height: 30px;
     line-height: 30px;
@@ -38,42 +40,45 @@ const PaginationWrapper = styled.div`
   }
   .rc-pagination-item {
     cursor: pointer;
-    border-radius: 6px;
+    border-radius: var(--radius);
     min-width: 31px;
     height: 31px;
     line-height: 31px;
     text-align: center;
     list-style: none;
     float: left;
-    border: 1px solid #d9d9d9;
-    background-color: #fff;
-    margin-right: 8px;
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+    margin-right: 6px;
+    transition: border-color 0.15s var(--ease), background-color 0.15s var(--ease);
   }
   .rc-pagination-item a {
     text-decoration: none;
-    color: #666;
+    color: var(--text-2);
+    font-weight: 500;
   }
   .rc-pagination-item:hover {
-    border-color: var(--primary);
+    border-color: var(--accent);
   }
   .rc-pagination-item:hover a {
-    color: var(--primary);
+    color: var(--accent-text);
   }
   .rc-pagination-item-disabled {
     cursor: not-allowed;
   }
   .rc-pagination-item-disabled:hover {
-    border-color: #d9d9d9;
+    border-color: var(--border);
   }
   .rc-pagination-item-disabled:hover a {
-    color: #d9d9d9;
+    color: var(--text-muted);
   }
   .rc-pagination-item-active {
-    background-color: var(--primary);
-    border-color: var(--primary);
+    background-color: var(--accent);
+    border-color: var(--accent);
   }
   .rc-pagination-item-active a {
     color: #fff !important;
+    font-weight: 600;
   }
   .rc-pagination-item-active:hover a {
     color: #fff !important;
@@ -83,13 +88,13 @@ const PaginationWrapper = styled.div`
     content: '•••';
     display: block;
     letter-spacing: 2px;
-    color: #ccc;
+    color: var(--text-muted);
     font-size: 12px;
     margin-top: 1px;
   }
   .rc-pagination-jump-prev:hover:after,
   .rc-pagination-jump-next:hover:after {
-    color: var(--primary);
+    color: var(--accent);
   }
   .rc-pagination-jump-prev:hover:after {
     content: '«';
@@ -114,7 +119,7 @@ const PaginationWrapper = styled.div`
     opacity: 1;
     display: block;
     letter-spacing: 2px;
-    color: #ccc;
+    color: var(--text-muted);
     font-size: 12px;
     margin-top: 1px;
   }
@@ -132,7 +137,7 @@ const PaginationWrapper = styled.div`
   .rc-pagination-jump-prev-adherent-icon:hover:after,
   .rc-pagination-jump-next-adherent-icon:hover:after {
     opacity: 0;
-    color: #ccc;
+    color: var(--text-muted);
   }
   .rc-pagination-jump-prev-adherent-icon:hover
     .adherent-icon-jump-prev,
@@ -143,7 +148,7 @@ const PaginationWrapper = styled.div`
   .rc-pagination-jump-next-adherent-icon:hover
     .adherent-icon-jump-next {
     opacity: 1;
-    color: var(--primary);
+    color: var(--accent);
   }
   .rc-pagination-prev,
   .rc-pagination-jump-prev,
@@ -155,9 +160,9 @@ const PaginationWrapper = styled.div`
   .rc-pagination-jump-prev,
   .rc-pagination-jump-next {
     cursor: pointer;
-    color: #666;
+    color: var(--text-2);
     font-size: 10px;
-    border-radius: 6px;
+    border-radius: var(--radius);
     list-style: none;
     min-width: 31px;
     height: 31px;
@@ -175,12 +180,16 @@ const PaginationWrapper = styled.div`
   }
   .rc-pagination-prev,
   .rc-pagination-next {
-    border: 1px solid #d9d9d9;
+    border: 1px solid var(--border);
     font-size: 18px;
   }
   .rc-pagination-prev a,
   .rc-pagination-next a {
-    color: #666;
+    color: var(--text-2);
+  }
+  .rc-pagination-prev:not(.rc-pagination-disabled):hover,
+  .rc-pagination-next:not(.rc-pagination-disabled):hover {
+    border-color: var(--accent);
   }
   .rc-pagination-prev a:after,
   .rc-pagination-next a:after {
@@ -190,7 +199,7 @@ const PaginationWrapper = styled.div`
     cursor: not-allowed;
   }
   .rc-pagination-disabled a {
-    color: #ccc;
+    color: var(--text-muted);
   }
   .rc-pagination-disabled .rc-pagination-item,
   .rc-pagination-disabled .rc-pagination-prev,
@@ -200,12 +209,12 @@ const PaginationWrapper = styled.div`
   .rc-pagination-disabled .rc-pagination-item:hover,
   .rc-pagination-disabled .rc-pagination-prev:hover,
   .rc-pagination-disabled .rc-pagination-next:hover {
-    border-color: #d9d9d9;
+    border-color: var(--border);
   }
   .rc-pagination-disabled .rc-pagination-item:hover a,
   .rc-pagination-disabled .rc-pagination-prev:hover a,
   .rc-pagination-disabled .rc-pagination-next:hover a {
-    color: #d9d9d9;
+    color: var(--text-muted);
   }
   .rc-pagination-disabled .rc-pagination-jump-prev,
   .rc-pagination-disabled .rc-pagination-jump-next {
@@ -228,16 +237,16 @@ const PaginationWrapper = styled.div`
   .rc-pagination-options-quick-jumper input {
     margin: 0 8px;
     box-sizing: border-box;
-    background-color: #fff;
-    border-radius: 6px;
-    border: 1px solid #d9d9d9;
+    background-color: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
     outline: none;
     padding: 3px 12px;
     width: 50px;
     height: 31px;
   }
   .rc-pagination-options-quick-jumper input:hover {
-    border-color: var(--primary);
+    border-color: var(--accent);
   }
   .rc-pagination-options-quick-jumper button {
     display: inline-block;
@@ -252,7 +261,7 @@ const PaginationWrapper = styled.div`
     white-space: nowrap;
     padding: 0 15px;
     font-size: 12px;
-    border-radius: 6px;
+    border-radius: var(--radius);
     height: 31px;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -261,16 +270,16 @@ const PaginationWrapper = styled.div`
     transition: all 0.3s
       cubic-bezier(0.645, 0.045, 0.355, 1);
     position: relative;
-    color: rgba(0, 0, 0, 0.65);
-    background-color: #fff;
-    border-color: #d9d9d9;
+    color: var(--text);
+    background-color: var(--surface);
+    border-color: var(--border);
   }
   .rc-pagination-options-quick-jumper button:hover,
   .rc-pagination-options-quick-jumper button:active,
   .rc-pagination-options-quick-jumper button:focus {
-    color: var(--primary);
-    background-color: #fff;
-    border-color: var(--primary);
+    color: var(--accent);
+    background-color: var(--surface);
+    border-color: var(--accent);
   }
   .rc-pagination-simple .rc-pagination-prev,
   .rc-pagination-simple .rc-pagination-next {
@@ -293,9 +302,9 @@ const PaginationWrapper = styled.div`
   .rc-pagination-simple .rc-pagination-simple-pager input {
     margin: 0 8px;
     box-sizing: border-box;
-    background-color: #fff;
-    border-radius: 6px;
-    border: 1px solid #d9d9d9;
+    background-color: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
     outline: none;
     padding: 5px 8px;
     min-height: 20px;
@@ -303,7 +312,7 @@ const PaginationWrapper = styled.div`
   .rc-pagination-simple
     .rc-pagination-simple-pager
     input:hover {
-    border-color: var(--primary);
+    border-color: var(--accent);
   }
   .rc-pagination-simple .rc-pagination-simple-pager button {
     display: inline-block;
@@ -318,7 +327,7 @@ const PaginationWrapper = styled.div`
     white-space: nowrap;
     padding: 0 8px;
     font-size: 12px;
-    border-radius: 6px;
+    border-radius: var(--radius);
     height: 26px;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -327,9 +336,9 @@ const PaginationWrapper = styled.div`
     transition: all 0.3s
       cubic-bezier(0.645, 0.045, 0.355, 1);
     position: relative;
-    color: rgba(0, 0, 0, 0.65);
-    background-color: #fff;
-    border-color: #d9d9d9;
+    color: var(--text);
+    background-color: var(--surface);
+    border-color: var(--border);
   }
   .rc-pagination-simple
     .rc-pagination-simple-pager
@@ -340,9 +349,9 @@ const PaginationWrapper = styled.div`
   .rc-pagination-simple
     .rc-pagination-simple-pager
     button:focus {
-    color: var(--primary);
-    background-color: #fff;
-    border-color: var(--primary);
+    color: var(--accent);
+    background-color: var(--surface);
+    border-color: var(--accent);
   }
   @media only screen and (max-width: 1024px) {
     .rc-pagination-item-after-jump-prev,

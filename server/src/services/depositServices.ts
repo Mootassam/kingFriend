@@ -105,13 +105,31 @@ export default class DepositServicess {
         ...this.options,
         session,
       });
-      console.log(record.status);
 
-      await WalletRepository.processDeposit(data.createdBy.id, data, {
-        ...this.options,
-        session,
-      });
+      // The deposit stored in the database is what gets credited: the amount, the coin and
+      // the owner come from the record, not from the request body.
+      const owner = record?.createdBy;
+      const ownerId = owner?.id || owner?._id || owner;
 
+      if (!ownerId) {
+        throw new Error400(
+          this.options.language,
+          "deposit.errors.createdByRequired"
+        );
+      }
+
+      await WalletRepository.processDeposit(
+        ownerId,
+        {
+          amount: record.amount,
+          rechargechannel: record.rechargechannel,
+          status: data.status,
+        },
+        {
+          ...this.options,
+          session,
+        }
+      );
 
       await MongooseRepository.commitTransaction(session);
     } catch (error) {

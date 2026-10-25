@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
 const ErrorWrapper = styled.div`
+  background-color: var(--bg);
+  color: var(--text);
+
   .exception {
     display: flex;
     align-items: center;
@@ -39,14 +42,16 @@ const ErrorWrapper = styled.div`
       flex: auto;
 
       h1 {
-        color: #434e59;
+        color: var(--text);
         font-size: 72px;
-        font-weight: 600;
+        font-weight: 800;
+        letter-spacing: -0.04em;
         line-height: 72px;
         margin-bottom: 24px;
       }
 
       .desc {
+        color: var(--text-muted);
         font-size: 20px;
         line-height: 28px;
         margin-bottom: 16px;

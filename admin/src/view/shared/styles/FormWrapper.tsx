@@ -10,7 +10,7 @@ const FormWrapper = styled.div`
     content: '*';
     line-height: 1;
     font-size: 13px;
-    color: #f5222d;
+    color: var(--danger);
   }
   .app__specification {
     padding: 14px;

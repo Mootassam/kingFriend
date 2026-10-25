@@ -9,6 +9,21 @@ const en = {
 
   auth: {
     userNotFound: `Sorry, we don't recognize your credentials`,
+    layout: {
+      badge: 'Admin console',
+      headline: 'Run your whole platform from one place.',
+      tagline:
+        'Manage users, deposits, withdrawals and support from a single, secure dashboard.',
+      featureInsights: 'Real-time insights on every transaction',
+      featureUsers: 'Users, KYC and roles in one view',
+      featureSecurity: 'Role-based access and audit logs',
+      signinTitle: 'Welcome back',
+      signinSubtitle: 'Sign in to your admin account to continue.',
+      signupTitle: 'Create your account',
+      signupSubtitle: 'Set up your admin access in a few seconds.',
+      noAccount: "Don't have an account?",
+      haveAccount: 'Already have an account?',
+    },
     wrongPassword: `Sorry, we don't recognize your credentials`,
     weakPassword: 'This password is too weak',
     emailAlreadyInUse: 'Email is already in use',

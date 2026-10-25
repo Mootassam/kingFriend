@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { i18n } from 'src/i18n';
 import authSelectors from 'src/modules/auth/authSelectors';
 import PermissionChecker from 'src/modules/auth/permissionChecker';
@@ -25,6 +25,7 @@ interface MenuItem {
 
 function Menu(props: { url: string }) {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const logoUrl = useSelector(selectors.selectLogoUrl);
   const currentTenant = useSelector(authSelectors.selectCurrentTenant);
@@ -59,6 +60,14 @@ function Menu(props: { url: string }) {
     const url = props.url;
     const token = url.split('/').slice(0, 2);
     return token.join('/');
+  };
+
+  // Highlight the item for its own page and its sub-pages (/kyc/123/edit).
+  const isActive = (menu: MenuItem) => {
+    const { pathname } = location;
+    if (!menu.path) return false;
+    if (menu.path === '/') return pathname === '/';
+    return pathname === menu.path || pathname.startsWith(`${menu.path}/`);
   };
 
   const match = (permission: any) => {
@@ -105,7 +114,10 @@ function Menu(props: { url: string }) {
             menu.id === 'customer-support' ? customerSupportUnread : 0;
 
           items.push(
-            <li key={index} className={menu.className || "sidebar-menu-item"}>
+            <li
+              key={index}
+              className={`sidebar-menu-item ${isActive(menu) ? 'active' : ''}`}
+            >
               <Link to={menu.path || '#'}>
                 <i className={`sidebar-icon ${menu.icon}`}></i>
                 <span className="sidebar-label">{menu.label}</span>

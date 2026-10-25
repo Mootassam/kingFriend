@@ -60,6 +60,13 @@ const es = {
     stripeNotConfigured: 'Stripe no está configurado.',
   },
 
+  deposit: {
+    errors: {
+      createdByRequired:
+        'Este depósito no tiene propietario, por lo que no se pueden acreditar fondos.',
+    },
+  },
+
   importer: {
     errors: {
       invalidFileEmpty: 'El archivo está vacío',

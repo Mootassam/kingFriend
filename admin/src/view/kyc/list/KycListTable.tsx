@@ -485,7 +485,7 @@ function CouponsListTable(props) {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
+  background: var(--overlay);
   backdrop-filter: blur(5px);
 }
 
@@ -494,7 +494,7 @@ function CouponsListTable(props) {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: white;
+  background: var(--surface);
   border-radius: 8px;
   max-width: max-content;
   max-height: 90%;
@@ -507,7 +507,7 @@ function CouponsListTable(props) {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border);
 }
 
 .modal-header h3 {
@@ -520,11 +520,11 @@ function CouponsListTable(props) {
   border: none;
   font-size: 2rem;
   cursor: pointer;
-  color: #666;
+  color: var(--text-muted);
 }
 
 .close-button:hover {
-  color: #000;
+  color: var(--text);
 }
 
 .image-container {
@@ -544,7 +544,7 @@ function CouponsListTable(props) {
 
 .modal-footer {
   padding: 1rem;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--border);
   text-align: right;
 }
 

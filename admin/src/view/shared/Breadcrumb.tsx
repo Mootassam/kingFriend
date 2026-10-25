@@ -4,14 +4,24 @@ import styled from 'styled-components';
 
 const BreadcrumbNav = styled.nav`
   .breadcrumb {
-    font-size: 13px;
+    font-size: 12.5px;
     margin: 0px;
-    padding: 0px;
+    padding: 14px 0 0;
     background-color: transparent;
   }
 
   .breadcrumb-item:not(.active) a {
-    color: rgba(0, 0, 0, 0.45);
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  .breadcrumb-item:not(.active) a:hover {
+    color: var(--text);
+  }
+
+  .breadcrumb-item.active {
+    color: var(--text);
+    font-weight: 500;
   }
 `;
 

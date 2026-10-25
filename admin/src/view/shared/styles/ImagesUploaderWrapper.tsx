@@ -11,11 +11,13 @@ const ImagesUploaderWrapper = styled.div`
     bottom: 2.1rem;
     width: calc(100px);
     text-align: center;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(10, 12, 20, 0.6);
+    border-radius: 0 0 var(--radius) var(--radius);
+    backdrop-filter: blur(4px);
   }
 
   .img-buttons * {
-    color: white;
+    color: #fff;
   }
 `;
 

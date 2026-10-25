@@ -60,6 +60,13 @@ const ru = {
     stripeNotConfigured: 'Stripe не настроен.',
   },
 
+  deposit: {
+    errors: {
+      createdByRequired:
+        'У этого депозита нет владельца, поэтому средства не могут быть зачислены.',
+    },
+  },
+
   importer: {
     errors: {
       invalidFileEmpty: 'Файл пуст',

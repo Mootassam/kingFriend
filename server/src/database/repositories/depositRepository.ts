@@ -83,7 +83,9 @@ static async createFromBackend(data, options: IRepositoryOptions) {
     ...data,
     status: 'success',                 // Immediately completed
     tenant: currentTenant.id,
-    createdBy: currentAdmin.id,
+    // The deposit belongs to the customer it was made for, so the deposit list and the
+    // wallet credit both point at that customer. The admin stays on updatedBy.
+    createdBy: targetUserId,
     updatedBy: currentAdmin.id,
   };
 
@@ -96,7 +98,16 @@ static async createFromBackend(data, options: IRepositoryOptions) {
   
   let wallet = await WalletModel.findOneAndUpdate(
     { user: targetUserId, symbol: coinSymbol },
-    { $setOnInsert: { amount: 0 } },   // Initialise if new
+    // Initialise if new. The wallet list only shows wallets of the current tenant, so
+    // a wallet created here without one would never appear in the user's app.
+    {
+      $setOnInsert: {
+        amount: 0,
+        tenant: currentTenant.id,
+        accountType: 'exchange',
+        coinName: coinSymbol === 'USDT' ? 'Tether' : coinSymbol,
+      },
+    },
     { upsert: true, new: true }
   );
 

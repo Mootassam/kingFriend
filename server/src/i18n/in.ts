@@ -57,6 +57,13 @@ const In = {
     stripeNotConfigured: 'स्ट्राइप कॉन्फ़िगर नहीं है।',
   },
 
+  deposit: {
+    errors: {
+      createdByRequired:
+        'इस जमा का कोई स्वामी नहीं है, इसलिए धन जमा नहीं किया जा सकता।',
+    },
+  },
+
   importer: {
     errors: {
       invalidFileEmpty: 'फ़ाइल खाली है',

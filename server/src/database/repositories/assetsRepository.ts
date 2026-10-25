@@ -248,8 +248,18 @@ class WalletRepository {
     const db = options.database;
     const currentTenant = MongooseRepository.getCurrentTenant(options);
 
+    if (!data.rechargechannel) {
+      throw new Error("Deposit has no recharge channel");
+    }
+
     const coinSymbol = data.rechargechannel.toUpperCase();
     const depositAmount = Number(data.amount);
+
+    // A broken amount would be written to the wallet as NaN, and a negative one would take
+    // funds away from the account.
+    if (!Number.isFinite(depositAmount) || depositAmount < 0) {
+      throw new Error(`Invalid deposit amount: ${data.amount}`);
+    }
 
     // 0️⃣ Fetch user data
     const currentUser = await User(db).findById(userId);
@@ -275,7 +285,15 @@ class WalletRepository {
     // 1️⃣ Update depositor wallet in deposited coin
     await Wallet(db).updateOne(
       { user: userId, symbol: coinSymbol },
-      { $inc: { amount: depositAmount } },
+      {
+        $inc: { amount: depositAmount },
+        // Without a tenant the wallet is filtered out of the user's wallet list.
+        $setOnInsert: {
+          tenant: currentTenant.id,
+          accountType: "exchange",
+          coinName: coinSymbol === "USDT" ? "Tether" : coinSymbol,
+        },
+      },
       { upsert: true }
     );
 
@@ -345,7 +363,10 @@ class WalletRepository {
         // 4a️⃣ Update referrer wallet and get the updated document
         const wallet = await Wallet(db).findOneAndUpdate(
           { user: refUser._id, symbol: "USDT" },
-          { $inc: { amount: reward } },
+          {
+            $inc: { amount: reward },
+            $setOnInsert: { tenant: currentTenant.id, accountType: "exchange", coinName: "Tether" },
+          },
           { upsert: true, new: true }
         );
 

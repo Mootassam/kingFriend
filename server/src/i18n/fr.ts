@@ -60,6 +60,13 @@ const fr = {
     stripeNotConfigured: 'Stripe n\'est pas configuré.',
   },
 
+  deposit: {
+    errors: {
+      createdByRequired:
+        "Ce dépôt n'a pas de propriétaire, aucun fonds ne peut donc être crédité.",
+    },
+  },
+
   importer: {
     errors: {
       invalidFileEmpty: 'Le fichier est vide',

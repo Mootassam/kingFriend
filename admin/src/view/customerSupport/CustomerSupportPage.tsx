@@ -622,24 +622,24 @@ function CustomerSupportPage() {
           display: flex; align-items: center; justify-content: space-between;
           margin-bottom: 20px;
         }
-        .cs-page-title { margin: 0; font-weight: 700; font-size: 22px; color: #1a1f2b; }
-        .cs-page-subtitle { color: #8a93a6; font-size: 13.5px; margin-top: 2px; }
+        .cs-page-title { margin: 0; font-weight: 700; font-size: 22px; color: var(--text); }
+        .cs-page-subtitle { color: var(--text-muted); font-size: 13.5px; margin-top: 2px; }
         .cs-page-header-actions { display: flex; align-items: center; gap: 10px; }
 
         .cs-status-toggle {
           display: flex; align-items: center; gap: 8px;
-          border: 1px solid #e2e6ee; background: #fff; border-radius: 20px;
-          padding: 7px 14px; font-size: 13px; font-weight: 600; color: #1a1f2b;
+          border: 1px solid var(--border-strong); background: var(--surface); border-radius: 20px;
+          padding: 7px 14px; font-size: 13px; font-weight: 600; color: var(--text);
           cursor: pointer;
         }
-        .cs-status-toggle i { font-size: 10px; color: #8a93a6; margin-left: 2px; }
-        .cs-status-dot { width: 8px; height: 8px; border-radius: 50%; background: #ccc; }
-        .cs-status-toggle.is-online .cs-status-dot { background: #23c16b; }
-        .cs-status-toggle.is-offline .cs-status-dot { background: #b0b6c1; }
+        .cs-status-toggle i { font-size: 10px; color: var(--text-muted); margin-left: 2px; }
+        .cs-status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-strong); }
+        .cs-status-toggle.is-online .cs-status-dot { background: var(--success); }
+        .cs-status-toggle.is-offline .cs-status-dot { background: var(--text-muted); }
 
         .cs-icon-square {
-          width: 34px; height: 34px; border-radius: 8px; border: 1px solid #e2e6ee;
-          background: #fff; color: #5b6472; display: flex; align-items: center; justify-content: center;
+          width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border-strong);
+          background: var(--surface); color: var(--text-2); display: flex; align-items: center; justify-content: center;
           cursor: pointer;
         }
 
@@ -648,39 +648,39 @@ function CustomerSupportPage() {
         }
 
         .cs-list-panel {
-          width: 320px; flex-shrink: 0; background: #fff; border: 1px solid #e9ecf2;
+          width: 320px; flex-shrink: 0; background: var(--surface); border: 1px solid var(--border);
           border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; min-height: 0;
         }
         .cs-list-panel-header {
           display: flex; align-items: center; justify-content: space-between;
-          padding: 14px 16px; border-bottom: 1px solid #eef0f4;
+          padding: 14px 16px; border-bottom: 1px solid var(--border);
         }
-        .cs-list-title { font-weight: 700; font-size: 15px; color: #1a1f2b; display: flex; align-items: center; gap: 8px; }
+        .cs-list-title { font-weight: 700; font-size: 15px; color: var(--text); display: flex; align-items: center; gap: 8px; }
         .cs-count-badge {
-          background: #eaf1ff; color: #2f6fed; font-size: 11px; font-weight: 700;
+          background: var(--accent-soft); color: var(--accent-text); font-size: 11px; font-weight: 700;
           padding: 2px 8px; border-radius: 10px;
         }
-        .cs-list-actions { display: flex; gap: 12px; color: #9aa2b1; font-size: 14px; }
+        .cs-list-actions { display: flex; gap: 12px; color: var(--text-muted); font-size: 14px; }
         .cs-list-actions i { cursor: pointer; }
 
         .cs-search {
           margin: 12px 14px; display: flex; align-items: center; gap: 8px;
-          background: #f4f5f8; border-radius: 8px; padding: 8px 10px;
+          background: var(--surface-3); border-radius: 8px; padding: 8px 10px;
         }
-        .cs-search i { color: #9aa2b1; font-size: 12px; }
+        .cs-search i { color: var(--text-muted); font-size: 12px; }
         .cs-search input {
-          border: none; background: transparent; outline: none; font-size: 13px; flex: 1; color: #1a1f2b;
+          border: none; background: transparent; outline: none; font-size: 13px; flex: 1; color: var(--text);
         }
 
         .cs-conversation-list { flex: 1; overflow-y: auto; min-height: 0; }
-        .cs-empty { padding: 24px; text-align: center; color: #9aa2b1; font-size: 13px; }
+        .cs-empty { padding: 24px; text-align: center; color: var(--text-muted); font-size: 13px; }
 
         .cs-conversation-item {
           display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px;
-          cursor: pointer; border-bottom: 1px solid #f2f3f7; position: relative;
+          cursor: pointer; border-bottom: 1px solid var(--border); position: relative;
         }
-        .cs-conversation-item:hover { background: #f8f9fc; }
-        .cs-conversation-item.is-selected { background: #eef4ff; }
+        .cs-conversation-item:hover { background: var(--hover); }
+        .cs-conversation-item.is-selected { background: var(--accent-soft); }
 
         .cs-avatar {
           width: 38px; height: 38px; border-radius: 50%; color: #fff; font-weight: 700;
@@ -690,22 +690,22 @@ function CustomerSupportPage() {
         .cs-conversation-info { flex: 1; min-width: 0; }
         .cs-conversation-top { display: flex; justify-content: space-between; gap: 6px; }
         .cs-conversation-name {
-          font-size: 13.5px; font-weight: 600; color: #1a1f2b;
+          font-size: 13.5px; font-weight: 600; color: var(--text);
           white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
         .cs-conversation-time-col {
           display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0;
         }
-        .cs-conversation-time { font-size: 11px; color: #9aa2b1; flex-shrink: 0; }
+        .cs-conversation-time { font-size: 11px; color: var(--text-muted); flex-shrink: 0; }
         .cs-conversation-bottom {
           display: flex; justify-content: space-between; align-items: center; gap: 6px; margin-top: 2px;
           padding-right: 76px;
         }
         .cs-conversation-preview {
-          font-size: 12px; color: #8a93a6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+          font-size: 12px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
         .cs-unread-badge {
-          background: #2f6fed; color: #fff; font-size: 10px; font-weight: 700;
+          background: var(--accent); color: #fff; font-size: 10px; font-weight: 700;
           min-width: 16px; height: 16px; border-radius: 8px; display: flex; align-items: center; justify-content: center; padding: 0 4px;
         }
 
@@ -713,53 +713,53 @@ function CustomerSupportPage() {
           position: absolute; right: 14px; bottom: 12px; font-size: 10.5px; font-weight: 600;
           padding: 2px 8px; border-radius: 10px;
         }
-        .cs-status-badge.online { background: #e6f9ee; color: #23c16b; }
-        .cs-status-badge.offline { background: #f2f3f7; color: #9aa2b1; }
-        .cs-status-badge.closed { background: #f2f3f7; color: #9aa2b1; }
+        .cs-status-badge.online { background: var(--success-soft); color: var(--success); }
+        .cs-status-badge.offline { background: var(--surface-3); color: var(--text-muted); }
+        .cs-status-badge.closed { background: var(--surface-3); color: var(--text-muted); }
 
         .cs-thread-panel {
-          flex: 1; background: #fff; border: 1px solid #e9ecf2; border-radius: 12px;
+          flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
           display: flex; flex-direction: column; overflow: hidden; min-width: 0; min-height: 0;
         }
 
         .cs-thread-empty {
           flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-          color: #b0b6c1;
+          color: var(--text-muted);
         }
         .cs-thread-empty i { font-size: 40px; margin-bottom: 10px; }
 
         .cs-thread-header {
           display: flex; align-items: center; gap: 10px; padding: 14px 18px;
-          border-bottom: 1px solid #eef0f4;
+          border-bottom: 1px solid var(--border);
         }
         .cs-thread-header-info { flex: 1; min-width: 0; }
-        .cs-thread-name { font-weight: 700; font-size: 14px; color: #1a1f2b; }
-        .cs-thread-session { font-size: 11.5px; color: #9aa2b1; margin-top: 2px; }
+        .cs-thread-name { font-weight: 700; font-size: 14px; color: var(--text); }
+        .cs-thread-session { font-size: 11.5px; color: var(--text-muted); margin-top: 2px; }
 
         .cs-close-chat-btn {
-          border: 1px solid #f0c3c3; background: #fff; color: #e5484d; border-radius: 8px;
+          border: 1px solid var(--danger-border); background: var(--surface); color: var(--danger); border-radius: 8px;
           padding: 7px 14px; font-size: 12.5px; font-weight: 600; cursor: pointer;
           display: flex; align-items: center; gap: 6px;
         }
-        .cs-close-chat-btn:hover { background: #fff5f5; }
+        .cs-close-chat-btn:hover { background: var(--danger-soft); }
 
         .cs-reopen-chat-btn {
-          border: 1px solid #b7d4ff; background: #fff; color: #2f6fed; border-radius: 8px;
+          border: 1px solid var(--accent-border); background: var(--surface); color: var(--accent-text); border-radius: 8px;
           padding: 7px 14px; font-size: 12.5px; font-weight: 600; cursor: pointer;
           display: flex; align-items: center; gap: 6px;
         }
-        .cs-reopen-chat-btn:hover { background: #eef4ff; }
+        .cs-reopen-chat-btn:hover { background: var(--accent-soft); }
 
         .cs-delete-chat-btn {
-          width: 34px; height: 34px; flex-shrink: 0; border: 1px solid #e2e6ee; background: #fff;
-          color: #9aa2b1; border-radius: 8px; cursor: pointer; display: flex; align-items: center;
+          width: 34px; height: 34px; flex-shrink: 0; border: 1px solid var(--border-strong); background: var(--surface);
+          color: var(--text-muted); border-radius: 8px; cursor: pointer; display: flex; align-items: center;
           justify-content: center; font-size: 13px;
         }
-        .cs-delete-chat-btn:hover { background: #fff5f5; color: #e5484d; border-color: #f0c3c3; }
+        .cs-delete-chat-btn:hover { background: var(--danger-soft); color: var(--danger); border-color: var(--danger-border); }
 
         .cs-thread-body {
           flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 12px;
-          background: #fafbfd; min-height: 0;
+          background: var(--surface-2); min-height: 0;
         }
 
         .cs-message { max-width: 62%; display: flex; flex-direction: column; }
@@ -768,10 +768,10 @@ function CustomerSupportPage() {
 
         .cs-message-bubble {
           padding: 10px 14px; border-radius: 12px; font-size: 13.5px; line-height: 1.45;
-          background: #eef0f4; color: #1a1f2b; word-break: break-word; white-space: pre-wrap;
+          background: var(--surface-3); color: var(--text); word-break: break-word; white-space: pre-wrap;
         }
         .cs-message.is-admin .cs-message-bubble {
-          background: #2f6fed; color: #fff; border-bottom-right-radius: 4px;
+          background: var(--accent); color: #fff; border-bottom-right-radius: 4px;
         }
         .cs-message.is-customer .cs-message-bubble { border-bottom-left-radius: 4px; }
 
@@ -779,41 +779,41 @@ function CustomerSupportPage() {
         .cs-message-image:hover { opacity: 0.85; }
 
         .cs-message-meta {
-          font-size: 10.5px; color: #b0b6c1; margin-top: 4px; display: flex; align-items: center; gap: 5px;
+          font-size: 10.5px; color: var(--text-muted); margin-top: 4px; display: flex; align-items: center; gap: 5px;
         }
 
-        .cs-system-note { text-align: center; color: #b0b6c1; font-size: 12px; padding: 6px 0; }
+        .cs-system-note { text-align: center; color: var(--text-muted); font-size: 12px; padding: 6px 0; }
 
         .cs-composer {
           display: flex; align-items: center; gap: 6px; padding: 12px 16px;
-          border-top: 1px solid #eef0f4; background: #fff; position: relative;
+          border-top: 1px solid var(--border); background: var(--surface); position: relative;
         }
         .cs-icon-btn {
           width: 32px; height: 32px; border-radius: 8px; border: none; background: transparent;
-          color: #8a93a6; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 15px;
+          color: var(--text-muted); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 15px;
         }
-        .cs-icon-btn:hover { background: #f4f5f8; color: #2f6fed; }
+        .cs-icon-btn:hover { background: var(--surface-3); color: var(--accent-text); }
         .cs-icon-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .cs-emoji-wrap { position: relative; }
         .cs-emoji-popover {
-          position: absolute; bottom: 42px; left: 0; background: #fff; border: 1px solid #e9ecf2;
-          border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); padding: 8px; display: flex; gap: 4px;
+          position: absolute; bottom: 42px; left: 0; background: var(--surface); border: 1px solid var(--border);
+          border-radius: 10px; box-shadow: var(--shadow-md); padding: 8px; display: flex; gap: 4px;
         }
         .cs-emoji-popover button {
           border: none; background: transparent; font-size: 18px; cursor: pointer; padding: 4px;
         }
-        .cs-emoji-popover button:hover { background: #f4f5f8; border-radius: 6px; }
+        .cs-emoji-popover button:hover { background: var(--surface-3); border-radius: 6px; }
 
         .cs-composer-input {
-          flex: 1; border: 1px solid #e2e6ee; border-radius: 20px; padding: 9px 16px;
-          font-size: 13.5px; outline: none; color: #1a1f2b;
+          flex: 1; border: 1px solid var(--border-strong); border-radius: 20px; padding: 9px 16px;
+          font-size: 13.5px; outline: none; color: var(--text);
         }
-        .cs-composer-input:focus { border-color: #2f6fed; }
-        .cs-composer-input:disabled { background: #f4f5f8; }
+        .cs-composer-input:focus { border-color: var(--accent); }
+        .cs-composer-input:disabled { background: var(--surface-3); }
 
         .cs-send-btn {
-          width: 36px; height: 36px; border-radius: 50%; background: #2f6fed; color: #fff;
+          width: 36px; height: 36px; border-radius: 50%; background: var(--accent); color: #fff;
           border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px;
           flex-shrink: 0;
         }
@@ -870,31 +870,31 @@ function CustomerSupportPage() {
 
           <style>{`
             .cs-confirm-overlay {
-              position: fixed; inset: 0; background: rgba(15, 20, 30, 0.45);
+              position: fixed; inset: 0; background: var(--overlay);
               display: flex; align-items: center; justify-content: center; z-index: 10001;
             }
             .cs-confirm-modal {
-              width: 380px; max-width: calc(100vw - 32px); background: #fff; border-radius: 12px;
-              box-shadow: 0 16px 48px rgba(0,0,0,0.25); padding: 24px; text-align: center;
+              width: 380px; max-width: calc(100vw - 32px); background: var(--surface); border-radius: 12px;
+              box-shadow: var(--shadow-lg); padding: 24px; text-align: center;
             }
             .cs-confirm-icon {
-              width: 48px; height: 48px; border-radius: 50%; background: #fff5f5; color: #e5484d;
+              width: 48px; height: 48px; border-radius: 50%; background: var(--danger-soft); color: var(--danger);
               display: flex; align-items: center; justify-content: center; font-size: 18px;
               margin: 0 auto 14px;
             }
-            .cs-confirm-modal h5 { margin: 0 0 8px; font-size: 15px; font-weight: 700; color: #1a1f2b; }
-            .cs-confirm-modal p { margin: 0 0 20px; font-size: 13px; color: #5b6472; line-height: 1.5; }
+            .cs-confirm-modal h5 { margin: 0 0 8px; font-size: 15px; font-weight: 700; color: var(--text); }
+            .cs-confirm-modal p { margin: 0 0 20px; font-size: 13px; color: var(--text-2); line-height: 1.5; }
             .cs-confirm-actions { display: flex; gap: 8px; }
             .cs-confirm-cancel {
-              flex: 1; border: 1px solid #e2e6ee; background: #fff; color: #5b6472; border-radius: 8px;
+              flex: 1; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-2); border-radius: 8px;
               padding: 10px; font-size: 13px; font-weight: 600; cursor: pointer;
             }
-            .cs-confirm-cancel:hover { background: #f4f5f8; }
+            .cs-confirm-cancel:hover { background: var(--surface-3); }
             .cs-confirm-delete {
-              flex: 1; border: none; background: #e5484d; color: #fff; border-radius: 8px;
+              flex: 1; border: none; background: var(--danger); color: #fff; border-radius: 8px;
               padding: 10px; font-size: 13px; font-weight: 700; cursor: pointer;
             }
-            .cs-confirm-delete:hover { background: #cc3f44; }
+            .cs-confirm-delete:hover { background: var(--danger-hover); }
             .cs-confirm-cancel:disabled, .cs-confirm-delete:disabled { opacity: 0.6; cursor: not-allowed; }
           `}</style>
         </div>

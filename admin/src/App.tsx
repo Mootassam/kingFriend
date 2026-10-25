@@ -8,6 +8,7 @@ import RoutesComponent from 'src/view/shared/routes/RoutesComponent';
 import jQuery from 'jquery';
 import 'bootstrap/dist/js/bootstrap';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'src/styles/modern.css';
 
 
 (window as any).$ = (window as any).jQuery = jQuery;

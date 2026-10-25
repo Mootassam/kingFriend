@@ -1,1 +1,0 @@
-import{J as s}from"./index-09aa8b3d.js";const e=o=>o.assets.form,t=s([e],o=>o.record),c=s([e],o=>!!o.initLoading),a=s([e],o=>!!o.saveLoading),n=s([e],o=>!!o.showModal),r={selectInitLoading:c,selectSaveLoading:a,selectRecord:t,selectModal:n,selectRaw:e};export{r as c};
