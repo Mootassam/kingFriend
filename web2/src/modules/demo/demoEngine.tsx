@@ -224,6 +224,7 @@ export function createOrder(state: DemoState, request: OrderRequest): DemoState 
     stop: request.stop,
     take: request.take,
     openedAt: Date.now(),
+    leverage: request.leverage,
   };
 
   return request.limit

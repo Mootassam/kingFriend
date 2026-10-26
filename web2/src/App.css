@@ -832,3 +832,463 @@
   font-size: 12px;
   margin-bottom: 3px;
 }
+
+/* Softer light theme: tone down the pure white surfaces. */
+:root[data-theme="light"] {
+  --bg-root: #d6dde6;
+  --bg-sidebar: #e0e5ec;
+  --bg-header: #e0e5ec;
+  --bg-panel: #e4e9ef;
+  --bg-panel-soft: #d7dee7;
+  --border: #bcc7d5;
+  --border-soft: #cbd3de;
+  --glass-2-bg: linear-gradient(135deg, #e6ebf1eb, #d9e0e9d9);
+  --glass-3-bg: linear-gradient(150deg, #e5eaf0f7, #dbe2eaf0);
+  --glass-2-shadow: 0 14px 40px #1e3c641f, inset 0 1px 0 #ffffff59;
+  --glass-3-shadow: 0 20px 60px #1e3c642e, inset 0 1px 0 #ffffff73;
+}
+:root[data-theme="light"] :is(.chart-panel, .ohlc b) {
+  background: var(--bg-panel);
+}
+:root[data-theme="light"] :is(.balance-card, .ready-card) {
+  background: #d5e0ec;
+  border-color: #b4c7de;
+}
+:root[data-theme="light"] .terminal .watch-row:nth-child(2n):not(.selected) {
+  background: #dce2ea;
+}
+:root[data-theme="light"] :is(.market-table-head, .positions-table th, .profile-info h2, .profile-services h2, .table-toolbar, .watch-row:nth-child(2n):not(.selected)) {
+  background: #d3dae4;
+}
+:root[data-theme="light"] :is(.metrics > div, .uid, .nav-icon, .asset-tag, .title-icon, .ready-icon, .avatar, .cards .action-icon, .copy-stats, .confirmation) {
+  background: #d5dde8;
+}
+:root[data-theme="light"] :is(.nav-item:hover, .watch-row:hover, .mover-row:hover) {
+  background: #d9e2ee;
+}
+:root[data-theme="light"] :is(.nav-item.active, .watch-row.selected) {
+  background: #d3e3f8;
+}
+:root[data-theme="light"] .positions-table tbody tr:hover {
+  background: #d9e2ee;
+}
+/* Trade uses the same active style as every other menu item (no green highlight). */
+:root[data-theme="light"] .nav-item.trade-active {
+  color: var(--blue);
+  background: #d3e3f8;
+  border-color: #aed0ff;
+}
+:root[data-theme="light"] .nav-item.trade-active .nav-icon {
+  color: var(--blue);
+  background: #dcecff;
+}
+:root[data-theme="light"] body {
+  background: radial-gradient(circle at 18% 12%, #1482ff0d, transparent 42%), radial-gradient(circle at 85% 70%, #005ad20a, transparent 46%), var(--bg-root);
+}
+
+/* Landing (light): soften the near-white hero and call-to-action banners. */
+:root[data-theme="light"] :is(.landing-module__g1LwZa__hero, .landing-module__g1LwZa__cta) {
+  background: linear-gradient(120deg, #dde5ee, #cfdcea 55%, #dde5ee);
+}
+:root[data-theme="light"] .landing-module__g1LwZa__hero:before {
+  background: radial-gradient(60% 45% at 82% 8%, #008cff2e, #0000 60%), radial-gradient(55% 50% at 6% 95%, #00beff21, #0000 65%), radial-gradient(40% 60% at 50% -10%, #ffffff59, #0000 60%);
+}
+:root[data-theme="light"] :is(.landing-module__g1LwZa__eyebrow, .landing-module__g1LwZa__icon) {
+  background: #d3e0f0;
+}
+
+/* Landing ticker: shimmer placeholder while the first live quote loads. */
+.ticker-skeleton {
+  display: inline-block;
+  align-self: center;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #8cafdc1f 0%, #8cafdc47 50%, #8cafdc1f 100%);
+  background-size: 200% 100%;
+  animation: ticker-shimmer 1.4s ease-in-out infinite;
+}
+.ticker-skeleton-price {
+  width: 64px;
+}
+.ticker-skeleton-change {
+  width: 44px;
+}
+:root[data-theme="light"] .ticker-skeleton {
+  background-image: linear-gradient(90deg, #0a1e3c12 0%, #0a1e3c26 50%, #0a1e3c12 100%);
+}
+@keyframes ticker-shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker-skeleton { animation: none; }
+}
+
+/* Trade: order confirmation dialog. */
+.modal .order-confirm-note {
+  margin: -4px 0 18px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.order-confirm {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg-panel-soft);
+  overflow: hidden;
+}
+.order-confirm-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.order-confirm-head b {
+  display: block;
+  font-size: 17px;
+  letter-spacing: 0.2px;
+}
+.order-confirm-head small {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.order-confirm-side {
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+.order-confirm-side.buy {
+  color: #22c55e;
+  background: #22c55e1a;
+  border-color: #22c55e4d;
+}
+.order-confirm-side.sell {
+  color: #ff5a5f;
+  background: #ff5a5f1a;
+  border-color: #ff5a5f4d;
+}
+.order-confirm-rows {
+  margin: 0;
+  padding: 6px 18px;
+}
+.order-confirm-rows > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 9px 0;
+  font-size: 14px;
+}
+.order-confirm-rows > div + div {
+  border-top: 1px dashed var(--border-soft);
+}
+.order-confirm-rows dt {
+  color: var(--muted);
+}
+.order-confirm-rows dd {
+  margin: 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.order-confirm-rows > .order-confirm-total {
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.order-confirm-total dt {
+  color: var(--text);
+  font-weight: 600;
+}
+.order-confirm-total dd {
+  font-size: 16px;
+  color: var(--blue);
+}
+.order-confirm-actions {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 10px;
+  margin-top: 20px;
+}
+.order-confirm-actions > button {
+  min-height: 48px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.order-confirm-cancel {
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.16s, border-color 0.16s;
+}
+.order-confirm-cancel:hover:not(:disabled) {
+  background: var(--bg-panel-soft);
+  border-color: var(--muted);
+}
+.order-confirm-link {
+  display: block;
+  margin: 14px auto 0;
+  color: var(--muted);
+  background: none;
+  font-size: 13px;
+  cursor: pointer;
+}
+.order-confirm-link:hover:not(:disabled) {
+  color: var(--blue);
+  text-decoration: underline;
+}
+:root[data-theme="light"] .order-confirm-side.buy {
+  color: #087e59;
+}
+:root[data-theme="light"] .order-confirm-side.sell {
+  color: #cf3443;
+}
+
+/* Orders: keep the Action (Close / Cancel) column pinned to the right while the table scrolls. */
+.positions-table th:last-child,
+.positions-table td:last-child {
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  box-shadow: -10px 0 12px -10px #00000080;
+}
+.positions-table td:last-child {
+  background: var(--bg-root);
+}
+.positions-table tbody tr:hover td:last-child {
+  background: #101b2b;
+}
+:root[data-theme="light"] .positions-table th:last-child,
+:root[data-theme="light"] .positions-table td:last-child {
+  box-shadow: -10px 0 12px -10px #1e3c6433;
+}
+:root[data-theme="light"] .positions-table tbody tr:hover td:last-child {
+  background: #d9e2ee;
+}
+
+/* Dark theme: every active menu item uses Trade's green highlight. */
+:root:not([data-theme="light"]) .nav-item.active {
+  color: #fff;
+  background: #39ac19;
+  border-color: #39ac19;
+}
+:root:not([data-theme="light"]) .nav-item.active .nav-icon {
+  color: #fff;
+  background: #64bc49;
+}
+
+/* Orders: clickable rows open the trade details card. */
+.positions-table tbody tr.trade-row {
+  cursor: pointer;
+}
+
+/* Trade details card (same dark look in both themes, like a shareable trade slip). */
+.trade-card {
+  --card-accent: #22c55e;
+  --card-accent-soft: #22c55e1f;
+  position: relative;
+  width: min(440px, 100vw - 32px);
+  max-height: 92dvh;
+  margin: auto;
+  padding: 30px 28px 26px;
+  color: #f4f7fb;
+  border: 1px solid #ffffff14;
+  border-radius: 22px;
+  background:
+    radial-gradient(90% 55% at 100% 0%, var(--card-accent-soft), transparent 70%),
+    radial-gradient(70% 45% at 0% 100%, #0b7df514, transparent 70%),
+    linear-gradient(160deg, #0e1614, #070b0d 70%);
+  box-shadow: 0 30px 80px #000000a6, inset 0 1px 0 #ffffff0f;
+  overflow: auto;
+}
+.trade-card.is-loss {
+  --card-accent: #ff4d57;
+  --card-accent-soft: #ff4d571f;
+  background:
+    radial-gradient(90% 55% at 100% 0%, var(--card-accent-soft), transparent 70%),
+    radial-gradient(70% 45% at 0% 100%, #0b7df514, transparent 70%),
+    linear-gradient(160deg, #171012, #0a0809 70%);
+}
+.trade-card::backdrop {
+  background: #020713c7;
+  backdrop-filter: blur(3px);
+}
+.trade-card-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  color: #9aa6b5;
+  background: #ffffff0d;
+  border: 1px solid #ffffff14;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.16s, background 0.16s;
+}
+.trade-card-close:hover {
+  color: #fff;
+  background: #ffffff1f;
+}
+.trade-card-times {
+  display: grid;
+  gap: 6px;
+  color: #7d8896;
+  font-size: 14px;
+}
+.trade-card-times b {
+  color: #a9b3c0;
+  font-weight: 500;
+}
+.trade-card .trade-card-symbol {
+  margin: 22px 0 12px;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  line-height: 1.1;
+}
+.trade-card-tags {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.trade-card-side {
+  padding: 5px 14px;
+  border-radius: 8px;
+  border: 1px solid;
+  font-size: 16px;
+  font-weight: 700;
+}
+.trade-card-side.long {
+  color: #22c55e;
+  background: #22c55e1f;
+  border-color: #22c55e40;
+}
+.trade-card-side.short {
+  color: #ff4d57;
+  background: #ff4d571f;
+  border-color: #ff4d5740;
+}
+.trade-card-leverage {
+  color: #a9b3c0;
+  font-size: 17px;
+  font-weight: 600;
+}
+.trade-card-pnl {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 26px;
+  color: var(--card-accent);
+  font-size: 54px;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.trade-card-pnl small {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.trade-card-pnl.pending {
+  color: #f6b51b;
+  font-size: 40px;
+}
+.trade-card-percent {
+  margin-top: 12px;
+  color: var(--card-accent);
+  font-size: 22px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.trade-card-prices {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 30px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #ffffff1a;
+}
+.trade-card-prices > div {
+  display: grid;
+  gap: 8px;
+}
+.trade-card-prices > div:last-child {
+  text-align: right;
+}
+.trade-card-prices span {
+  color: #7d8896;
+  font-size: 14px;
+}
+.trade-card-prices b {
+  color: #eef2f7;
+  font-family: var(--font-mono);
+  font-size: 19px;
+  font-weight: 600;
+}
+.trade-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: 22px;
+}
+.trade-card-footer .logo strong {
+  color: #fff;
+  font-size: 30px;
+}
+:root .trade-card-footer .logo small {
+  color: #d8dfe9;
+}
+:root[data-theme="light"] .trade-card-footer .logo strong {
+  color: #fff;
+}
+:root[data-theme="light"] .trade-card-footer .logo small {
+  color: #d8dfe9;
+}
+.trade-card-trend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.trade-card-trend.long {
+  color: #22c55e;
+}
+.trade-card-trend.short {
+  color: #ff4d57;
+}
+.trade-card-qr {
+  flex: none;
+  padding: 10px;
+  background: #fff;
+  border-radius: 14px;
+  line-height: 0;
+}
+@media (max-width: 420px) {
+  .trade-card {
+    padding: 26px 20px 22px;
+  }
+  .trade-card-pnl {
+    font-size: 42px;
+  }
+  .trade-card-qr svg {
+    width: 76px;
+    height: 76px;
+  }
+}

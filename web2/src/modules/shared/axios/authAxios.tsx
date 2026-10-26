@@ -9,11 +9,11 @@ import AuthToken from 'src/modules/auth/authToken';
 const authAxios = Axios.create({
 
   // Put any API URL here (http or https)
-  baseURL: "/api", // nginx forwards /api to the backend container
+  // baseURL: "/api", // nginx forwards /api to the backend container
   // baseURL: "http://72.62.210.173:8083/api",
 
-  // Same-origin, proxied by nginx to the URL above
-  // baseURL: config.backendUrl,
+  // VITE_API_URL in dev (.env.development.local), otherwise same-origin /api proxied by nginx
+  baseURL: config.backendUrl,
 
   // Dev Link
   // baseURL: "http://localhost:8082/api",

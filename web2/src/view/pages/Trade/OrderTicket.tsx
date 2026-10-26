@@ -329,71 +329,116 @@ export default function OrderTicket({ quote }: { quote: Quote }) {
           }
           onClose={() => setConfirmSide(null)}
         >
-          {isDemo ? (
-            <p>
-              This is a practice order using virtual funds, filled at the live{" "}
-              {pendingMode ? "price when it reaches your limit" : confirmSide === "BUY" ? "ask price" : "bid price"}.
-            </p>
-          ) : (
-            <p>
-              {pendingMode
+          <p className="order-confirm-note">
+            {isDemo
+              ? `Practice order using virtual funds, filled at the live ${
+                  pendingMode ? "price when it reaches your limit" : confirmSide === "BUY" ? "ask price" : "bid price"
+                }.`
+              : pendingMode
                 ? "This order executes at the live price when it reaches your limit."
                 : "This order opens at the live market price."}
-            </p>
-          )}
-          <div className="confirmation">
-            <b>{quote.symbol}</b>
-            {isDemo ? (
-              <>
-                <span>
-                  {confirmSide} · {lots.toFixed(2)} lots
-                </span>
-                {!pendingMode && (
-                  <span>
-                    Price now:{" "}
-                    {(confirmSide === "BUY" ? buyPrice(quote) : sellPrice(quote)).toFixed(quote.precision)}
-                  </span>
-                )}
-                <span>Estimated margin: {money(margin)}</span>
-                <span>Handling fee: {money(fee)}</span>
-              </>
-            ) : (
-              <>
-                <span>
-                  {confirmSide === "BUY" ? "Buy" : "Sell"}
-                  {pendingMode ? " Pending" : ""} · {lots.toFixed(2)} Lots · {leverage}×
-                </span>
-                <span>
-                  {pendingMode
-                    ? `Trigger @ ${limit || "0"} · Now ${livePrice !== null ? livePrice.toFixed(5) : "—"}`
-                    : `@ ${livePrice !== null ? livePrice.toFixed(5) : "—"} (market)`}
-                </span>
-                <span>Estimated Margin: {marginText}</span>
-              </>
-            )}
+          </p>
+          <div className="order-confirm">
+            <div className="order-confirm-head">
+              <div>
+                <b>{quote.symbol}</b>
+                <small>{quote.name}</small>
+              </div>
+              <span className={"order-confirm-side " + (confirmSide === "BUY" ? "buy" : "sell")}>
+                {confirmSide === "BUY" ? "Buy" : "Sell"}
+              </span>
+            </div>
+            <dl className="order-confirm-rows">
+              <div>
+                <dt>Order type</dt>
+                <dd>{pendingMode ? "Pending" : "Market"}</dd>
+              </div>
+              <div>
+                <dt>Volume</dt>
+                <dd>{lots.toFixed(2)} Lots</dd>
+              </div>
+              {!isDemo && (
+                <div>
+                  <dt>Leverage</dt>
+                  <dd>{leverage}×</dd>
+                </div>
+              )}
+              {pendingMode ? (
+                <>
+                  <div>
+                    <dt>Trigger price</dt>
+                    <dd>{limit || "0"}</dd>
+                  </div>
+                  {!isDemo && (
+                    <div>
+                      <dt>Current price</dt>
+                      <dd>{livePrice !== null ? livePrice.toFixed(5) : "—"}</dd>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div>
+                  <dt>{isDemo ? "Price now" : "Market price"}</dt>
+                  <dd>
+                    {isDemo
+                      ? (confirmSide === "BUY" ? buyPrice(quote) : sellPrice(quote)).toFixed(quote.precision)
+                      : livePrice !== null
+                        ? livePrice.toFixed(5)
+                        : "—"}
+                  </dd>
+                </div>
+              )}
+              {stopOn && stop && (
+                <div>
+                  <dt>Stop loss</dt>
+                  <dd>{stop}</dd>
+                </div>
+              )}
+              {takeOn && take && (
+                <div>
+                  <dt>Take profit</dt>
+                  <dd>{take}</dd>
+                </div>
+              )}
+              {isDemo && (
+                <div>
+                  <dt>Handling fee</dt>
+                  <dd>{money(fee)}</dd>
+                </div>
+              )}
+              <div className="order-confirm-total">
+                <dt>Estimated margin</dt>
+                <dd>{isDemo ? money(margin) : marginText}</dd>
+              </div>
+            </dl>
           </div>
           {error && (
             <p role="alert" className="negative">
               {error}
             </p>
           )}
-          <button
-            className={confirmSide === "BUY" ? "buy-button" : "sell-button"}
-            disabled={placing}
-            onClick={confirm}
-          >
-            {placing ? "Placing…" : isDemo ? "Confirm " + confirmSide.toLowerCase() : "Confirmation"}
-          </button>
+          <div className="order-confirm-actions">
+            <button className="order-confirm-cancel" disabled={placing} onClick={() => setConfirmSide(null)}>
+              Cancel
+            </button>
+            <button
+              className={confirmSide === "BUY" ? "buy-button" : "sell-button"}
+              disabled={placing}
+              onClick={confirm}
+            >
+              {placing ? "Placing…" : "Confirm " + (confirmSide === "BUY" ? "Buy" : "Sell")}
+            </button>
+          </div>
           {!isDemo && (
             <button
-              className="text-muted"
+              className="order-confirm-link"
               disabled={placing}
               onClick={() => {
                 setConfirmSide(null);
                 history.push("/app/orders");
               }}
             >
-              Order Page
+              View my orders
             </button>
           )}
         </Modal>

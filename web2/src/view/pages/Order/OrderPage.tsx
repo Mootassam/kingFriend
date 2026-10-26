@@ -26,6 +26,9 @@ const toRow = (order: TradeOrder): Position => ({
   take: order.takeProfit ?? undefined,
   closed: order.status === "closed" ? order.closePrice : undefined,
   pnl: order.pnl,
+  leverage: order.multiplier,
+  openedAt: Date.parse(order.openTime ?? order.createdAt) || undefined,
+  closedAt: order.closeTime ? Date.parse(order.closeTime) || undefined : undefined,
 });
 
 export default function OrderPage() {

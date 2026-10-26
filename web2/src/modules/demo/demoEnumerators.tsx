@@ -37,6 +37,7 @@ export interface Position {
   pnl?: number;
   openedAt?: number;
   closedAt?: number;
+  leverage?: number;
 }
 
 export interface DemoState {

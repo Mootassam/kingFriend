@@ -30,7 +30,7 @@ const VOLUME_DOWN = "#51272e";
 
 const palette = (light: boolean) => ({
   layout: {
-    background: { type: ColorType.Solid, color: light ? "#ffffff" : "#111621" },
+    background: { type: ColorType.Solid, color: light ? "#e4e9ef" : "#111621" },
     textColor: light ? "#52627b" : "#7e879a",
     panes: { separatorColor: light ? "#d7e0ec" : "#263044" },
   },

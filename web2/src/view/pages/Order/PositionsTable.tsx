@@ -1,4 +1,5 @@
 import { ListOrdered, X } from "lucide-react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import demoActions from "src/modules/demo/demoActions";
 import { exitPrice, pnl, tradingBlock } from "src/modules/demo/demoEngine";
@@ -6,6 +7,7 @@ import type { Position, Quote } from "src/modules/demo/demoEnumerators";
 import demoSelectors from "src/modules/demo/demoSelectors";
 import { money, price } from "src/shared/Amount";
 import EmptyState from "src/view/shared/EmptyState";
+import TradeDetailsModal from "src/view/pages/Order/TradeDetailsModal";
 
 export type OrderMode = "Positions" | "Pending" | "History";
 
@@ -28,6 +30,11 @@ function fallbackPrice(value: number) {
 
 const show = (quote: Quote | undefined, value: number) => (quote ? price(quote, value) : fallbackPrice(value));
 
+interface Selected {
+  item: Position;
+  value: number | null;
+}
+
 export default function PositionsTable({
   items,
   mode,
@@ -39,6 +46,7 @@ export default function PositionsTable({
 }) {
   const dispatch = useDispatch();
   const quotes = useSelector(demoSelectors.selectQuotes);
+  const [selected, setSelected] = useState<Selected | null>(null);
 
   if (!items.length) {
     return (
@@ -61,24 +69,82 @@ export default function PositionsTable({
   const headings = ["Symbol", "Direction", "Lots", "Open Price", mode === "History" ? "Close Price" : "Current", "Margin", "P&L", "Action"];
 
   return (
-    <div className="table-scroll">
-      <table className="positions-table">
-        <thead>
-          <tr>
-            {headings.map((heading) => (
-              <th key={heading}>{heading}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {items.map((item) => {
-            if (server) {
-              const quote = quotes.find((q) => q.symbol === item.symbol);
-              const current = item.closed !== undefined ? item.closed : server.current(item);
-              const value = server.value(item);
-              const busy = server.busyId === item.id;
+    <>
+      <div className="table-scroll">
+        <table className="positions-table">
+          <thead>
+            <tr>
+              {headings.map((heading) => (
+                <th key={heading}>{heading}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item) => {
+              if (server) {
+                const quote = quotes.find((q) => q.symbol === item.symbol);
+                const current = item.closed !== undefined ? item.closed : server.current(item);
+                const value = server.value(item);
+                const busy = server.busyId === item.id;
+                return (
+                  <tr
+                    key={item.id}
+                    className="trade-row"
+                    onClick={() =>
+                      setSelected({ item, value: mode === "Pending" ? null : value })
+                    }
+                  >
+                    <td>
+                      <b>{item.symbol}</b>
+                    </td>
+                    <td>
+                      <span className={"direction " + (item.side === "BUY" ? "buy" : "sell")}>{item.side}</span>
+                    </td>
+                    <td className="numeric">{item.lots.toFixed(2)}</td>
+                    <td className="numeric">{show(quote, item.open)}</td>
+                    <td className="numeric">{current !== null ? show(quote, current) : "—"}</td>
+                    <td className="numeric">{money(item.margin)}</td>
+                    <td className={"numeric " + ((value ?? 0) >= 0 ? "positive" : "negative")}>
+                      {mode === "Pending" || value === null ? "—" : money(value)}
+                    </td>
+                    <td>
+                      {mode === "History" ? (
+                        <span className="text-muted">{server.status(item)}</span>
+                      ) : (
+                        <button
+                          className="text-muted close-position"
+                          disabled={busy || (mode === "Positions" && current === null)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            server.onAction(item);
+                          }}
+                        >
+                          <X size={15} />
+                          {mode === "Pending" ? (busy ? "Cancelling…" : "Cancel") : busy ? "Closing…" : "Close"}
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                );
+              }
+              const quote = quotes.find((q) => q.symbol === item.symbol)!;
+              const value = mode === "History" ? item.pnl ?? 0 : pnl(item, quotes);
+              const current =
+                item.closed !== undefined
+                  ? item.closed
+                  : quote.ready
+                    ? mode === "Pending"
+                      ? quote.price
+                      : exitPrice(quote, item.side)
+                    : null;
               return (
-                <tr key={item.id}>
+                <tr
+                  key={item.id}
+                  className="trade-row"
+                  onClick={() =>
+                    setSelected({ item, value: mode === "Pending" ? null : value })
+                  }
+                >
                   <td>
                     <b>{item.symbol}</b>
                   </td>
@@ -86,78 +152,41 @@ export default function PositionsTable({
                     <span className={"direction " + (item.side === "BUY" ? "buy" : "sell")}>{item.side}</span>
                   </td>
                   <td className="numeric">{item.lots.toFixed(2)}</td>
-                  <td className="numeric">{show(quote, item.open)}</td>
-                  <td className="numeric">{current !== null ? show(quote, current) : "—"}</td>
+                  <td className="numeric">{price(quote, item.open)}</td>
+                  <td className="numeric">{current !== null ? price(quote, current) : "—"}</td>
                   <td className="numeric">{money(item.margin)}</td>
-                  <td className={"numeric " + ((value ?? 0) >= 0 ? "positive" : "negative")}>
-                    {mode === "Pending" || value === null ? "—" : money(value)}
+                  <td className={"numeric " + (value >= 0 ? "positive" : "negative")}>
+                    {mode === "Pending" ? "—" : money(value)}
                   </td>
                   <td>
                     {mode === "History" ? (
-                      <span className="text-muted">{server.status(item)}</span>
+                      <span className="text-muted">Closed</span>
                     ) : (
                       <button
                         className="text-muted close-position"
-                        disabled={busy || (mode === "Positions" && current === null)}
-                        onClick={() => server.onAction(item)}
+                        disabled={mode === "Positions" && Boolean(tradingBlock(quote))}
+                        title={mode === "Positions" ? tradingBlock(quote) ?? undefined : undefined}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dispatch(
+                            mode === "Pending"
+                              ? demoActions.doCancelPending(item.id)
+                              : demoActions.doClosePosition(item.id),
+                          );
+                        }}
                       >
                         <X size={15} />
-                        {mode === "Pending" ? (busy ? "Cancelling…" : "Cancel") : busy ? "Closing…" : "Close"}
+                        {mode === "Pending" ? "Cancel" : "Close"}
                       </button>
                     )}
                   </td>
                 </tr>
               );
-            }
-            const quote = quotes.find((q) => q.symbol === item.symbol)!;
-            const value = mode === "History" ? item.pnl ?? 0 : pnl(item, quotes);
-            return (
-              <tr key={item.id}>
-                <td>
-                  <b>{item.symbol}</b>
-                </td>
-                <td>
-                  <span className={"direction " + (item.side === "BUY" ? "buy" : "sell")}>{item.side}</span>
-                </td>
-                <td className="numeric">{item.lots.toFixed(2)}</td>
-                <td className="numeric">{price(quote, item.open)}</td>
-                <td className="numeric">
-                  {item.closed !== undefined
-                    ? price(quote, item.closed)
-                    : quote.ready
-                      ? price(quote, mode === "Pending" ? quote.price : exitPrice(quote, item.side))
-                      : "—"}
-                </td>
-                <td className="numeric">{money(item.margin)}</td>
-                <td className={"numeric " + (value >= 0 ? "positive" : "negative")}>
-                  {mode === "Pending" ? "—" : money(value)}
-                </td>
-                <td>
-                  {mode === "History" ? (
-                    <span className="text-muted">Closed</span>
-                  ) : (
-                    <button
-                      className="text-muted close-position"
-                      disabled={mode === "Positions" && Boolean(tradingBlock(quote))}
-                      title={mode === "Positions" ? tradingBlock(quote) ?? undefined : undefined}
-                      onClick={() =>
-                        dispatch(
-                          mode === "Pending"
-                            ? demoActions.doCancelPending(item.id)
-                            : demoActions.doClosePosition(item.id),
-                        )
-                      }
-                    >
-                      <X size={15} />
-                      {mode === "Pending" ? "Cancel" : "Close"}
-                    </button>
-                  )}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+            })}
+          </tbody>
+        </table>
+      </div>
+      {selected && <TradeDetailsModal {...selected} mode={mode} onClose={() => setSelected(null)} />}
+    </>
   );
 }

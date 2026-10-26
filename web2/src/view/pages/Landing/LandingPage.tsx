@@ -15,7 +15,10 @@ import {
   TrendingUp,
   Zap,
 } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import type { LiveUpdate } from "src/modules/demo/demoEngine";
+import { startLiveQuotes } from "src/modules/market/liveQuotesService";
 import Logo from "src/view/shared/Logo";
 import CinematicLink from "src/view/shared/cinematic/CinematicLink";
 import MobileNav from "src/view/pages/Landing/MobileNav";
@@ -23,15 +26,33 @@ import { cx, sectionLinks } from "src/view/pages/Landing/landingClasses";
 import "src/view/shared/styles/css/landing.css";
 import "src/view/shared/styles/css/fonts-manrope.css";
 
-// Illustrative figures shown in the landing ticker; not live quotes.
-const tickerItems: [string, string, string, boolean][] = [
-  ["EUR/USD", "1.08492", "+0.12%", true],
-  ["GBP/USD", "1.26794", "+0.08%", true],
-  ["USD/JPY", "149.482", "-0.05%", false],
-  ["BTC/USD", "67,421", "+1.24%", true],
-  ["XAU/USD", "2049.5", "+0.32%", true],
-  ["AAPL", "185.40", "+0.54%", true],
+// Live quotes from the same TradingView feed as the app; a shimmer placeholder until the first tick arrives.
+const tickerItems: [string, string, number][] = [
+  ["EURUSD", "EUR/USD", 5],
+  ["GBPUSD", "GBP/USD", 5],
+  ["USDJPY", "USD/JPY", 3],
+  ["BTCUSD", "BTC/USD", 0],
+  ["ETHUSD", "ETH/USD", 2],
+  ["XAUUSD", "XAU/USD", 2],
 ];
+
+function useTickerQuotes() {
+  const [quotes, setQuotes] = useState<Record<string, LiveUpdate>>({});
+  useEffect(
+    () =>
+      startLiveQuotes((updates) =>
+        setQuotes((current) => {
+          const next = { ...current };
+          for (const [symbol] of tickerItems) {
+            if (updates[symbol]) next[symbol] = { ...next[symbol], ...updates[symbol] };
+          }
+          return next;
+        }),
+      ),
+    [],
+  );
+  return quotes;
+}
 
 const features = [
   { icon: Zap, title: "Fast Simulated Execution", text: "Practice placing orders with responsive execution and a clear view of your positions." },
@@ -100,6 +121,7 @@ function CallToActions() {
 }
 
 export default function LandingPage() {
+  const quotes = useTickerQuotes();
   return (
     <main className={cx("landing")}>
       <div className={cx("sticky")}>
@@ -124,14 +146,30 @@ export default function LandingPage() {
           </div>
           <MobileNav />
         </header>
-        <div className={cx("ticker")} aria-label="Illustrative demo quotes">
+        <div className={cx("ticker")} aria-label="Live market quotes">
           <div className={cx("tickerTrack")}>
             {[false, true].map((duplicate) =>
-              tickerItems.map(([pair, value, change, up]) => (
-                <span key={pair + duplicate} aria-hidden={duplicate}>
-                  {pair} <b>{value}</b> <strong className={cx(up ? "up" : "down")}>{change}</strong>
-                </span>
-              )),
+              tickerItems.map(([symbol, pair, digits]) => {
+                const { price, change } = quotes[symbol] ?? {};
+                return (
+                  <span key={symbol + duplicate} aria-hidden={duplicate}>
+                    {pair}{" "}
+                    {price === undefined ? (
+                      <i className="ticker-skeleton ticker-skeleton-price" />
+                    ) : (
+                      <b>{price.toLocaleString("en-US", { minimumFractionDigits: digits, maximumFractionDigits: digits })}</b>
+                    )}{" "}
+                    {change === undefined ? (
+                      <i className="ticker-skeleton ticker-skeleton-change" />
+                    ) : (
+                      <strong className={cx(change >= 0 ? "up" : "down")}>
+                        {change >= 0 ? "+" : ""}
+                        {change.toFixed(2)}%
+                      </strong>
+                    )}
+                  </span>
+                );
+              }),
             )}
           </div>
         </div>
