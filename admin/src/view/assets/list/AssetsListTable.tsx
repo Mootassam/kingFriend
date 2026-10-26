@@ -128,6 +128,8 @@ function AssetsListTable(props) {
                   </span>
                 )}
               </th>
+              <th>Margin Used</th>
+              <th>Available Margin</th>
               <th 
                 className="sortable-header"
                 onClick={() => doChangeSort('status')}
@@ -145,7 +147,7 @@ function AssetsListTable(props) {
           <tbody className="table-body">
             {loading && (
               <tr>
-                <td colSpan={8} className="loading-cell">
+                <td colSpan={9} className="loading-cell">
                   <div className="loading-container">
                     <Spinner />
                     <span className="loading-text">Loading data...</span>
@@ -155,7 +157,7 @@ function AssetsListTable(props) {
             )}
             {!loading && !hasRows && (
               <tr>
-                <td colSpan={8} className="no-data-cell">
+                <td colSpan={9} className="no-data-cell">
                   <div className="no-data-content">
                     <i className="fas fa-database no-data-icon"></i>
                     <p>{i18n('table.noData')}</p>
@@ -185,6 +187,12 @@ function AssetsListTable(props) {
                   <td className="table-cell">{row.coinName}</td>
            
                   <td className="table-cell numeric">{row.amount}</td>
+                  <td className="table-cell numeric margin-used">
+                    {Number(row.marginUsed ?? 0).toFixed(2)}
+                  </td>
+                  <td className="table-cell numeric margin-available">
+                    {Number(row.availableMargin ?? 0).toFixed(2)}
+                  </td>
                   <td className="table-cell">
                     <span className={`status-badge ${
                       row.status === 'active' ? 'success' : 

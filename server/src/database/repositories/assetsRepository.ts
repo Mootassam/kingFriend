@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import MongooseRepository from "./mongooseRepository";
 
 import MongooseQueryUtils from "../utils/mongooseQueryUtils";
@@ -6,6 +7,7 @@ import Error404 from "../../errors/Error404";
 import { IRepositoryOptions } from "./IRepositoryOptions";
 import FileRepository from "./fileRepository";
 import Wallet from "../models/wallet";
+import TradeOrder from "../models/tradeOrder";
 import Transaction from "../models/transaction";
 import { sendNotification } from "../../services/notificationServices";
 import axios from "axios";
@@ -554,8 +556,47 @@ class WalletRepository {
     const count = await Wallet(options.database).countDocuments(criteria);
 
     rows = await Promise.all(rows.map(this._fillFileDownloadUrls));
+    rows = await this._withMargins(rows, currentTenant.id, options);
 
     return { rows, count };
+  }
+
+  // Each customer's margin figures, as the web app shows them: margin used is the margin held by
+  // their active orders; available margin is their USDT exchange wallet (margin is taken out of it
+  // when an order opens).
+  static async _withMargins(rows, tenantId, options: IRepositoryOptions) {
+    const userIds = [
+      ...new Set(rows.map((row) => String(row.user?._id ?? row.user ?? "")).filter(Boolean)),
+    ];
+    if (!userIds.length) return rows;
+
+    const objectIds = userIds.map((id) => new mongoose.Types.ObjectId(id));
+    const [used, usdtWallets] = await Promise.all([
+      TradeOrder(options.database).aggregate([
+        { $match: { tenant: new mongoose.Types.ObjectId(String(tenantId)), user: { $in: objectIds }, status: "active" } },
+        {
+          $group: {
+            _id: "$user",
+            total: { $sum: { $cond: [{ $gt: ["$estimatedMargin", 0] }, "$estimatedMargin", "$margin"] } },
+          },
+        },
+      ]),
+      Wallet(options.database)
+        .find({ tenant: tenantId, user: { $in: objectIds }, symbol: "USDT", accountType: "exchange" })
+        .select("user amount"),
+    ]);
+
+    const usedByUser = new Map(used.map((u) => [String(u._id), u.total]));
+    const availableByUser = new Map(usdtWallets.map((w: any) => [String(w.user), w.amount]));
+
+    return rows.map((row) => {
+      const userId = String(row.user?._id ?? row.user ?? "");
+      return {
+        ...row,
+        marginUsed: Number((usedByUser.get(userId) ?? 0).toFixed(2)),
+        availableMargin: Number((availableByUser.get(userId) ?? 0).toFixed(2)),
+      };
+    });
   }
 
 

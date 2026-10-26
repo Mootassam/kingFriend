@@ -1727,3 +1727,13 @@ html[data-theme] .img-card img {
     animation-duration: 0.01ms !important;
   }
 }
+
+/* Assets list: per-customer margin figures */
+.table-cell.margin-used {
+  color: #f59e0b;
+  font-weight: 600;
+}
+.table-cell.margin-available {
+  color: #22c55e;
+  font-weight: 600;
+}
