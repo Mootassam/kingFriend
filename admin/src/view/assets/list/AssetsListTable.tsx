@@ -108,17 +108,6 @@ function AssetsListTable(props) {
               </th>
               <th 
                 className="sortable-header"
-                onClick={() => doChangeSort('coinName')}
-              >
-                {i18n('entities.assets.fields.coinName')}
-                {sorter.field === 'coinName' && (
-                  <span className="sort-icon">
-                    {sorter.order === 'ascend' ? '↑' : '↓'}
-                  </span>
-                )}
-              </th>
-              <th 
-                className="sortable-header"
                 onClick={() => doChangeSort('amount')}
               >
                 {i18n('entities.assets.fields.amount')}
@@ -147,7 +136,7 @@ function AssetsListTable(props) {
           <tbody className="table-body">
             {loading && (
               <tr>
-                <td colSpan={9} className="loading-cell">
+                <td colSpan={8} className="loading-cell">
                   <div className="loading-container">
                     <Spinner />
                     <span className="loading-text">Loading data...</span>
@@ -157,7 +146,7 @@ function AssetsListTable(props) {
             )}
             {!loading && !hasRows && (
               <tr>
-                <td colSpan={9} className="no-data-cell">
+                <td colSpan={8} className="no-data-cell">
                   <div className="no-data-content">
                     <i className="fas fa-database no-data-icon"></i>
                     <p>{i18n('table.noData')}</p>
@@ -184,7 +173,6 @@ function AssetsListTable(props) {
                   </td>
 
                   <td className="table-cell">{row.symbol}</td>
-                  <td className="table-cell">{row.coinName}</td>
            
                   <td className="table-cell numeric">{row.amount}</td>
                   <td className="table-cell numeric margin-used">
