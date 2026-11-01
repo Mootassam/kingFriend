@@ -90,6 +90,22 @@ export default class AuthService {
     return response.data;
   }
 
+  // Forgot password (email code), same endpoints as PC's /auth/forgot-password page.
+  static async sendForgotPasswordOtp(email: string) {
+    const response = await authAxios.post("/auth/forgot-password/send-otp", { email });
+    return response.data;
+  }
+
+  static async verifyForgotPasswordOtp(email: string, code: string) {
+    const response = await authAxios.post("/auth/forgot-password/verify-otp", { email, code });
+    return response.data;
+  }
+
+  static async resetPasswordWithOtp(email: string, newPassword: string) {
+    const response = await authAxios.post("/auth/forgot-password/reset", { email, newPassword });
+    return response.data;
+  }
+
   static async getTenant() {
     const response = await authAxios.get("/single");
     return response.data.rows[0];

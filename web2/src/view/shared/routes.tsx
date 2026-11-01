@@ -12,6 +12,10 @@ const publicRoutes = [
     path: "/register",
     loader: () => import("src/view/pages/Auth/SignupPage"),
   },
+  {
+    path: "/forgot-password",
+    loader: () => import("src/view/pages/Auth/ForgotPasswordPage"),
+  },
 ];
 
 // Workspace pages rendered inside LayoutPage (topbar + sidebar).

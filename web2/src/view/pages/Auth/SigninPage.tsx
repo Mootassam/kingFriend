@@ -13,7 +13,6 @@ import type { AppDispatch } from "src/modules/store";
 import InputFormItem from "src/shared/form/InputFormItem";
 import CinematicLink from "src/view/shared/cinematic/CinematicLink";
 import { useCinematicNav } from "src/view/shared/cinematic/CinematicProvider";
-import Modal from "src/view/shared/modals/Modal";
 import AuthHero from "src/view/pages/Auth/AuthHero";
 import "src/view/shared/styles/css/fonts-manrope.css";
 
@@ -35,7 +34,6 @@ export default function SigninPage() {
   const signedIn = useSelector(authSelectors.selectSignedIn);
   const externalErrorMessage = useSelector(authSelectors.selectErrorMessage);
   const [showPassword, setShowPassword] = useState(false);
-  const [forgotOpen, setForgotOpen] = useState(false);
   const [pending, setPending] = useState<Pending>("");
   const [exiting, setExiting] = useState(false);
 
@@ -73,7 +71,6 @@ export default function SigninPage() {
 
   async function onDemo() {
     if (pending) return;
-    setForgotOpen(false);
     setPending("demo");
     form.clearErrors();
     finish(await dispatch(authActions.doDemoLogin()));
@@ -126,7 +123,14 @@ export default function SigninPage() {
               </button>
             </InputFormItem>
 
-            <button type="button" className="text-btn forgot" onClick={() => setForgotOpen(true)}>
+            <button
+              type="button"
+              className="text-btn forgot"
+              onClick={() => {
+                setExiting(true);
+                go("/forgot-password");
+              }}
+            >
               Forgot Password?
             </button>
             <button className="primary signin" type="submit" disabled={busy} aria-busy={pending === "signin"}>
@@ -160,18 +164,6 @@ export default function SigninPage() {
           </form>
         </FormProvider>
       </section>
-
-      {forgotOpen && (
-        <Modal title="Forgot your password?" onClose={() => setForgotOpen(false)}>
-          <p>
-            Password reset isn't available on this page yet. Please contact support to reset your password, or try
-            the platform right away with a demo account.
-          </p>
-          <button className="primary" onClick={onDemo} disabled={busy}>
-            Start a demo account
-          </button>
-        </Modal>
-      )}
     </div>
   );
 }
