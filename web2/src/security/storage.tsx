@@ -3,8 +3,8 @@ export const storageKeys = {
   demo: "nexora-demo",
   jwt: "jwt",
   tenant: "tenant",
-  welcome: "kingfriend-welcome",
-  theme: "kingfriend-theme",
+  welcome: "FXCC-welcome",
+  theme: "FXCC-theme",
 };
 
 const safe = <T,>(fn: () => T, fallback: T): T => {

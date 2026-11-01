@@ -125,7 +125,7 @@ export default function LayoutPage({ children }: { children: ReactNode }) {
             {isDemo
               ? "Demo account ready — virtual funds loaded!"
               : notice === "signup"
-                ? `Welcome to KingFriend, ${displayName}! Your account is ready.`
+                ? `Welcome to FXCC, ${displayName}! Your account is ready.`
                 : `Welcome back, ${displayName}!`}
           </span>
           <button type="button" aria-label="Dismiss welcome message" onClick={() => setNotice(null)}>

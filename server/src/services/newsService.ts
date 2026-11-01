@@ -139,7 +139,7 @@ async function fetchFeed(feed: (typeof FEEDS)[number]): Promise<NewsArticle[]> {
   const response = await axios.get(feed.url, {
     timeout: TIMEOUT_MS,
     responseType: "text",
-    headers: { "User-Agent": "Mozilla/5.0 (compatible; KingFriendNews/1.0)", Accept: "application/rss+xml, application/xml, text/xml" },
+    headers: { "User-Agent": "Mozilla/5.0 (compatible; FXCCNews/1.0)", Accept: "application/rss+xml, application/xml, text/xml" },
     maxContentLength: 5 * 1024 * 1024,
   });
   const xml = parser.parse(response.data);

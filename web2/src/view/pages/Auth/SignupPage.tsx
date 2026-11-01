@@ -124,7 +124,7 @@ export default function SignupPage() {
             <h2>
               Open <span>Account</span>
             </h2>
-            <p>Create your KingFriend account</p>
+            <p>Create your FXCC account</p>
 
             {errorMessage && (
               <div className="login-error" role="alert">

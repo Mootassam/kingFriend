@@ -34,7 +34,7 @@ export default function SupportPage() {
       </div>
       <div className="service-page">
         <h2>Need help?</h2>
-        <p>Find your way around KingFriend, or chat with our support team.</p>
+        <p>Find your way around FXCC, or chat with our support team.</p>
         <div className="service-grid">
           <button className="panel help-card" onClick={() => chatWidgetBus.open()}>
             <MessageCircle className="blue" size={29} />

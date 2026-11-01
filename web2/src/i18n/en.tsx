@@ -1,6 +1,6 @@
 const en = {
   app: {
-    title: "KingFriend | Demo Trading",
+    title: "FXCC ",
   },
   menu: {
     home: "Home",

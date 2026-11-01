@@ -7,7 +7,7 @@ export const tradingGuideItems: FaqItem[] = [
     id: "1",
     question: "Getting started: demo and live accounts",
     answer:
-      "KingFriend offers two kinds of account.\n\n" +
+      "FXCC offers two kinds of account.\n\n" +
       "Demo account: trades with virtual funds on live market prices. It is the safest way to learn the platform — nothing you do can lose real money, and deposits and withdrawals are not available.\n\n" +
       "Live account: trades with the funds held in your wallets. Orders, balances and history are stored on our servers, so you see the same positions on every device.\n\n" +
       "Tip: practise each step of this guide on a demo account first, then open a live account when you feel confident.",

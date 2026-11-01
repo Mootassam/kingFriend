@@ -89,7 +89,7 @@ export default function SigninPage() {
             <h2>
               Sign <span>In</span>
             </h2>
-            <p>Access your KingFriend account</p>
+            <p>Access your FXCC account</p>
 
             {externalErrorMessage && (
               <div className="login-error" role="alert">
@@ -154,7 +154,7 @@ export default function SigninPage() {
               <ArrowRight className="demo-arrow" size={17} aria-hidden="true" />
             </button>
             <small id="login-help">
-              Sign in with your KingFriend account, or start a demo account instantly.
+              Sign in with your FXCC account, or start a demo account instantly.
               <br />
               Demo accounts use virtual funds only.
             </small>

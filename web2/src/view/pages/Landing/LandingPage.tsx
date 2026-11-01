@@ -126,7 +126,7 @@ export default function LandingPage() {
     <main className={cx("landing")}>
       <div className={cx("sticky")}>
         <header className={cx("header")}>
-          <Link to="/" aria-label="KingFriend home">
+          <Link to="/" aria-label="FXCC home">
             <Logo />
           </Link>
           <nav aria-label="Main navigation">
@@ -184,7 +184,7 @@ export default function LandingPage() {
             <span>With Confidence</span>
           </h1>
           <p>
-            Explore the KingFriend demo trading experience. Professional trading tools, responsive charts, and
+            Explore the FXCC demo trading experience. Professional trading tools, responsive charts, and
             global markets at your fingertips — all with virtual funds.
           </p>
           <CallToActions />
@@ -257,7 +257,7 @@ export default function LandingPage() {
       <section id="why" className={cx("section")}>
         <div className={cx("why")}>
           <div>
-            <span className={cx("eyebrow")}>WHY KingFriend DEMO</span>
+            <span className={cx("eyebrow")}>WHY FXCC DEMO</span>
             <h2>A Clearer Way to Explore Trading</h2>
             <p>
               Get familiar with the markets in a transparent, professional demo environment before taking your next
@@ -315,7 +315,7 @@ export default function LandingPage() {
 
       <section className={cx("cta")}>
         <h2>Ready to Start Trading?</h2>
-        <p>Explore the KingFriend demo platform and start your practice trading journey.</p>
+        <p>Explore the FXCC demo platform and start your practice trading journey.</p>
         <CallToActions />
       </section>
 
@@ -337,7 +337,7 @@ export default function LandingPage() {
             <div>
               <Logo />
               <p>
-                KingFriend demo brings global markets and professional trading tools together in a simulated
+                FXCC demo brings global markets and professional trading tools together in a simulated
                 environment for client preview.
               </p>
             </div>
@@ -358,7 +358,7 @@ export default function LandingPage() {
               brokerage execution are supported. Market figures above are illustrative. This client preview is not an
               offer of financial services.
             </p>
-            <p>© 2026 KingFriend. All rights reserved. Trade with Confidence.</p>
+            <p>© 2026 FXCC. All rights reserved. Trade with Confidence.</p>
           </div>
         </div>
       </footer>

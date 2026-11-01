@@ -9,7 +9,7 @@ import Errors from "src/modules/shared/error/errors";
 import { getSocket } from "src/modules/shared/socket/socketClient";
 import chatWidgetBus from "src/view/shared/chat/chatWidgetBus";
 
-const DEFAULT_TITLE = "KingFriend Support";
+const DEFAULT_TITLE = "FXCC Support";
 
 function formatTime(date?: string) {
   if (!date) return "";

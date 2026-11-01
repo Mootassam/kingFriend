@@ -8,7 +8,7 @@
   <script>
     (function () {
       try {
-        if (location.hostname !== 'pc.indiaallvorafx.cc') return;
+        if (location.hostname !== 'pc.indiaallvorafx.co') return;
 
         var ua = navigator.userAgent || '';
         var isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(ua);
@@ -21,7 +21,7 @@
 
         // Phone/tablet OR small device → send to the phone site
         if (isMobileUA || w < 1024) {
-          location.replace('https://indiaallvorafx.cc' + location.pathname + location.search + location.hash);
+          location.replace('https://indiaallvorafx.co' + location.pathname + location.search + location.hash);
         }
       } catch (e) {}
     })();

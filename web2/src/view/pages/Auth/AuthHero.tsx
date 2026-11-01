@@ -12,9 +12,9 @@ export default function AuthHero() {
     <section className="login-intro">
       <span className="login-kicker">TRADE&nbsp;&nbsp; | &nbsp;&nbsp;LEARN&nbsp;&nbsp; | &nbsp;&nbsp;GROW</span>
       <div className="login-hero-content">
-        <div className="login-wordmark" role="img" aria-label="KingFriend — Trade with Confidence.">
+        <div className="login-wordmark" role="img" aria-label="FXCC — Trade with Confidence.">
           <strong>
-            King<span>Friend</span>
+            FX<span>CC</span>
           </strong>
           <small>TRADE WITH CONFIDENCE.</small>
         </div>

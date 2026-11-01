@@ -6,6 +6,6 @@ export const cx = (...names: string[]) => names.map((name) => PREFIX + name).joi
 export const sectionLinks = [
   { href: "#markets", label: "Markets" },
   { href: "#platforms", label: "Platforms" },
-  { href: "#why", label: "Why KingFriend" },
+  { href: "#why", label: "Why FXCC" },
   { href: "#contact", label: "Contact" },
 ];
