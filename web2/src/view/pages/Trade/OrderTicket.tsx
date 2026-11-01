@@ -1,4 +1,4 @@
-import { CircleCheck, Minus, Plus } from "lucide-react";
+import { CircleCheck, Minus, Moon, Plus } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +20,9 @@ import TradeOrdersService, {
 import { money } from "src/shared/Amount";
 import SwitchTab from "src/view/shared/SwitchTab";
 import Modal from "src/view/shared/modals/Modal";
+import "src/view/pages/Trade/orderTicket.css";
+
+const MARKET_CLOSED_MESSAGE = "Market closed. Trading resumes when it reopens.";
 
 const ticketTabs = ["Market Price", "Pending Orders"] as const;
 
@@ -50,6 +53,7 @@ export default function OrderTicket({ quote }: { quote: Quote }) {
   const [confirmSide, setConfirmSide] = useState<Side | null>(null);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const [closedOpen, setClosedOpen] = useState(false);
 
   const pendingMode = ticket === "Pending Orders";
   const lots = Number(lotsInput);
@@ -62,7 +66,14 @@ export default function OrderTicket({ quote }: { quote: Quote }) {
   const margin = isDemo ? demoCost.margin : realMargin;
   const fee = isDemo ? demoCost.fee : 0;
   const insufficient = !isDemo && realMargin > 0 && usdt < realMargin;
-  const blocked = isDemo ? tradingBlock(quote) : livePrice === null ? "Waiting for the live price…" : null;
+  const closed = quote.open === false;
+  const blocked = closed
+    ? MARKET_CLOSED_MESSAGE
+    : isDemo
+      ? tradingBlock(quote)
+      : livePrice === null
+        ? "Waiting for the live price…"
+        : null;
   const valid = !blocked && !insufficient && lots >= 0.01 && lots <= 100 && entry > 0;
   const marginText = "$" + formatMargin(realMargin);
 
@@ -107,6 +118,12 @@ export default function OrderTicket({ quote }: { quote: Quote }) {
 
   function confirm() {
     if (!confirmSide) return;
+    // The market can close while the confirmation is open.
+    if (closed) {
+      setConfirmSide(null);
+      setClosedOpen(true);
+      return;
+    }
     if (!isDemo) {
       placeOnServer(confirmSide);
       return;
@@ -133,6 +150,17 @@ export default function OrderTicket({ quote }: { quote: Quote }) {
   return (
     <aside className="order-ticket">
       <>
+        <div className="ticket-instrument">
+          <div className="ticket-instrument-name">
+            <b>{quote.symbol}</b>
+            <small>{quote.name}</small>
+          </div>
+          {closed && (
+            <span className="ticket-instrument-status">
+              <Moon size={12} aria-hidden="true" /> Closed
+            </span>
+          )}
+        </div>
         <SwitchTab
           items={ticketTabs}
           value={ticket}
@@ -304,9 +332,13 @@ export default function OrderTicket({ quote }: { quote: Quote }) {
           {(["BUY", "SELL"] as Side[]).map((side) => (
             <button
               key={side}
-              className={side === "BUY" ? "buy-button" : "sell-button"}
-              disabled={!valid}
+              className={(side === "BUY" ? "buy-button" : "sell-button") + (closed ? " is-market-closed" : "")}
+              disabled={!valid && !closed}
               onClick={() => {
+                if (closed) {
+                  setClosedOpen(true);
+                  return;
+                }
                 setError("");
                 setConfirmSide(side);
               }}
@@ -317,6 +349,20 @@ export default function OrderTicket({ quote }: { quote: Quote }) {
           ))}
         </div>
       </>
+
+      {closedOpen && (
+        <Modal title="Market closed" onClose={() => setClosedOpen(false)}>
+          <div className="market-closed-dialog">
+            <p>
+              The {quote.symbol} market is closed right now, so you can't buy or sell it. Trading resumes when it
+              reopens.
+            </p>
+            <button className="primary" onClick={() => setClosedOpen(false)}>
+              OK
+            </button>
+          </div>
+        </Modal>
+      )}
 
       {confirmSide && (
         <Modal
