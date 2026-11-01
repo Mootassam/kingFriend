@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
 import { i18n } from 'src/i18n';
 import { getHistory } from 'src/modules/store';
+import { userListPath } from 'src/modules/user/userListPath';
 import actions from 'src/modules/user/form/userFormActions';
 import selectors from 'src/modules/user/form/userFormSelectors';
 import ContentWrapper from 'src/view/layout/styles/ContentWrapper';
@@ -53,7 +54,7 @@ function UserEditPage(props) {
             user={user}
             saveLoading={saveLoading}
             isEditing={isEditing}
-            onCancel={() => getHistory().push('/user')}
+            onCancel={() => getHistory().push(userListPath())}
           />
         )}
       </ContentWrapper>

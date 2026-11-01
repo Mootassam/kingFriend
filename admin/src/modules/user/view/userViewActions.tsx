@@ -1,5 +1,6 @@
 import Errors from 'src/modules/shared/error/errors';
 import { getHistory } from 'src/modules/store';
+import { userListPath } from 'src/modules/user/userListPath';
 import UserService from 'src/modules/user/userService';
 
 const prefix = 'USER_VIEW';
@@ -28,7 +29,7 @@ const userViewActions = {
         type: userViewActions.FIND_ERROR,
       });
 
-      getHistory().push('/user');
+      getHistory().push(userListPath());
     }
   },
 };

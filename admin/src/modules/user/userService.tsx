@@ -94,6 +94,16 @@ export default class UserService {
     return response.data;
   }
 
+  static async destroyPermanently(id) {
+    const tenantId = AuthCurrentTenant.get();
+
+    const response = await authAxios.delete(
+      `/tenant/${tenantId}/user/${id}/permanent`,
+    );
+
+    return response.data;
+  }
+
   static async destroy(ids) {
     const params = {
       ids,

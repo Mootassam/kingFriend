@@ -39,7 +39,7 @@ function UserToolbar(props) {
   };
 
   const doDestroyAllSelected = () => {
-    dispatch(actions.doDestroyAllSelected());
+    dispatch(actions.doDestroyAllSelected(true));
   };
 
   const renderExportButton = () => {

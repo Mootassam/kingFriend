@@ -86,6 +86,7 @@ const en = {
         'User with this email already exists.',
       userNotFound: 'User not found.',
       destroyingHimself: `You can't delete yourself.`,
+      destroyingAdmin: `Admin accounts can't be deleted from here.`,
       revokingOwnPermission: `You can't revoke your own admin permission.`,
       revokingPlanUser: `You can't revoke the admin permission of the plan manager.`,
       destroyingPlanUser: `You can't delete the plan manager.`,

@@ -18,6 +18,8 @@ function UserTable() {
   const dispatch = useDispatch();
   const [recordIdToDestroy, setRecordIdToDestroy] =
     useState(null);
+  const [clientToDelete, setClientToDelete] = useState<any>(null);
+  const [deleteConfirmText, setDeleteConfirmText] = useState('');
   const [totalTask, setTotalTasks] = useState('');
   const tasksdone = useSelector(
     selectorTaskdone.selectCountRecord,
@@ -49,7 +51,18 @@ function UserTable() {
 
   const doDestroy = (id) => {
     setRecordIdToDestroy(null);
-    dispatch(actions.doDestroy(id));
+    dispatch(actions.doDestroy(id, true));
+  };
+
+  const closeDeleteModal = () => {
+    setClientToDelete(null);
+    setDeleteConfirmText('');
+  };
+
+  const doDeletePermanently = () => {
+    const { id } = clientToDelete;
+    closeDeleteModal();
+    dispatch(actions.doDestroyPermanently(id));
   };
 
   const doChangeSort = (field) => {
@@ -201,7 +214,13 @@ function UserTable() {
                     </td>
                   
                     <td className="table-cell">
-                      <UserStatusView value={row.status} />
+                      <UserStatusView
+                        value={
+                          row.status === 'inactive'
+                            ? 'empty-permissions'
+                            : row.status
+                        }
+                      />
                     </td>
                     <td className="actions-cell">
                       <div className="actions-container">
@@ -209,7 +228,7 @@ function UserTable() {
                  
                           <Link
                             className="btn btn-link"
-                            to={`/user/${row.id}`}
+                            to={`/clients/${row.id}`}
                           >
                             <i className="fas fa-eye"></i>
                             
@@ -218,7 +237,7 @@ function UserTable() {
 
                         <Link
                           className="btn btn-link"
-                          to={`/password-reset/${row.id}`}
+                          to={`/clients/${row.id}/password-reset`}
                         >
                           <i className="fas fa-key"></i>
                         </Link>
@@ -226,7 +245,7 @@ function UserTable() {
                         {hasPermissionToEdit && (
                           <Link
                             className="btn btn-link"
-                            to={`/user/${row.id}/edit`}
+                            to={`/clients/${row.id}/edit`}
                           >
                             <i className="fas fa-edit"></i>
                             
@@ -244,6 +263,16 @@ function UserTable() {
                             {i18n('common.freeze')}
                           </span>
                         </button>
+
+                        {hasPermissionToDestroy && (
+                          <button
+                            className="btn-action delete"
+                            onClick={() => setClientToDelete(row)}
+                          >
+                            <i className="fas fa-trash"></i>
+                            <span>{i18n('common.destroy')}</span>
+                          </button>
+                        )}
 
                       </div>
                     </td>
@@ -270,6 +299,35 @@ function UserTable() {
           okText={i18n('common.yes')}
           cancelText={i18n('common.no')}
         />
+      )}
+      {clientToDelete && (
+        <ConfirmModal
+          title="Delete client permanently?"
+          onConfirm={doDeletePermanently}
+          onClose={closeDeleteModal}
+          okText={i18n('common.destroy')}
+          cancelText={i18n('common.cancel')}
+          okDisabled={deleteConfirmText !== 'DELETE'}
+        >
+          <p>
+            <strong>{clientToDelete.email}</strong> and all
+            their wallets, orders, deposits, withdrawals,
+            KYC, chats and history will be removed. This
+            can't be undone.
+          </p>
+          <label htmlFor="delete-client-confirm">
+            Type DELETE to confirm
+          </label>
+          <input
+            id="delete-client-confirm"
+            className="form-control"
+            autoComplete="off"
+            value={deleteConfirmText}
+            onChange={(e) =>
+              setDeleteConfirmText(e.target.value)
+            }
+          />
+        </ConfirmModal>
       )}
       {!LoadingTasksDone && showTask && (
         <div className="modal__socore">

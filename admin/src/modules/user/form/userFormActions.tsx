@@ -2,6 +2,7 @@ import Errors from 'src/modules/shared/error/errors';
 import Message from 'src/view/shared/message';
 import UserService from 'src/modules/user/userService';
 import { getHistory } from 'src/modules/store';
+import { userListPath } from 'src/modules/user/userListPath';
 import { i18n } from 'src/i18n';
 import authSelectors from 'src/modules/auth/authSelectors';
 import authActions from 'src/modules/auth/authActions';
@@ -49,7 +50,7 @@ const userFormActions = {
         type: userFormActions.INIT_ERROR,
       });
 
-      getHistory().push('/user');
+      getHistory().push(userListPath());
     }
   },
 
@@ -67,7 +68,7 @@ const userFormActions = {
 
       Message.success(i18n('user.doAddSuccess'));
 
-      getHistory().push('/user');
+      getHistory().push(userListPath());
     } catch (error) {
       Errors.handle(error);
 
@@ -99,7 +100,7 @@ const userFormActions = {
 
       Message.success(i18n('user.doUpdateSuccess'));
 
-      getHistory().push('/user');
+      getHistory().push(userListPath());
     } catch (error) {
       Errors.handle(error);
 
@@ -131,7 +132,7 @@ const userFormActions = {
 
       Message.success(i18n('user.doUpdateSuccess'));
 
-      getHistory().push('/user');
+      getHistory().push(userListPath());
     } catch (error) {
       Errors.handle(error);
 

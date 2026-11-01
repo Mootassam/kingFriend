@@ -198,7 +198,7 @@ function UserTable() {
                     </td>
                     
                     <td className="table-cell">
-                      <UserStatusView value={row?.tenants[0]?.status} />
+                      <UserStatusView value={row?.tenants?.[0]?.status ?? row?.status} />
                     </td>
                     <td className="actions-cell">
                       <div className="actions-container">

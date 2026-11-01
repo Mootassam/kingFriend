@@ -1058,9 +1058,21 @@ export default class UserRepository {
       tenants: { $elemMatch: { tenant: currentTenant.id } },
     });
 
-    // 🟩 ADDED: Always filter by role = "member"
+    // Clients are members, plus frozen or waiting users: Freeze empties the roles and sets
+    // the status to "inactive". Staff keep their roles, so they stay out of this list.
     criteriaAnd.push({
-      tenants: { $elemMatch: { roles: "member" } },
+      tenants: {
+        $elemMatch: {
+          tenant: currentTenant.id,
+          $or: [
+            { roles: "member" },
+            {
+              roles: { $size: 0 },
+              status: { $in: ["inactive", "empty-permissions"] },
+            },
+          ],
+        },
+      },
     });
 
     if (filter) {
@@ -1105,9 +1117,18 @@ export default class UserRepository {
       }
 
       if (filter.status) {
+        // The admin shows frozen ("inactive") clients as Waiting for Permissions.
+        const statuses =
+          filter.status === "empty-permissions"
+            ? ["empty-permissions", "inactive"]
+            : [filter.status];
+
         criteriaAnd.push({
           tenants: {
-            $elemMatch: { status: filter.status },
+            $elemMatch: {
+              tenant: currentTenant.id,
+              status: { $in: statuses },
+            },
           },
         });
       }
@@ -1145,7 +1166,8 @@ export default class UserRepository {
         .skip(skip)
         .limit(limitEscaped)
         .sort(sort)
-        .populate("wallet"),
+        .populate("wallet")
+        .populate("tenants.tenant"),
       options
     );
 
@@ -1542,6 +1564,8 @@ export default class UserRepository {
     return {
       ...otherData,
       id: user.id,
+      uid: user.uid,
+      ipAddress: user.ipAddress,
       email: user.email,
       phoneNumber: user.phoneNumber,
       firstName: user.firstName,

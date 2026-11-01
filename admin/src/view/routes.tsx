@@ -994,6 +994,24 @@ const privateRoutes = [
     exact: true,
   },
   {
+    path: '/clients/:id/edit',
+    loader: () => import('src/view/user/edit/UserEditPage'),
+    permissionRequired: permissions.categoryDestroy,
+    exact: true,
+  },
+  {
+    path: '/clients/:id/password-reset',
+    loader: () => import('src/view/auth/PasswordReset'),
+    permissionRequired: permissions.categoryDestroy,
+    exact: true,
+  },
+  {
+    path: '/clients/:id',
+    loader: () => import('src/view/user/view/UserDetails'),
+    permissionRequired: permissions.categoryDestroy,
+    exact: true,
+  },
+  {
     path: '/user/:id/edit',
     loader: () => import('src/view/user/edit/UserEditPage'),
     permissionRequired: permissions.categoryDestroy,

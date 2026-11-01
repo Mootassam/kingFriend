@@ -1,10 +1,15 @@
 import UserService from 'src/modules/user/userService';
+import { isClientsPath } from 'src/modules/user/userListPath';
 import selectors from 'src/modules/user/list/userListSelectors';
 import Errors from 'src/modules/shared/error/errors';
 import Message from 'src/view/shared/message';
 import { i18n } from 'src/i18n';
 import exporterFields from 'src/modules/user/list/userListExporterFields';
 import Exporter from 'src/modules/shared/exporter/exporter';
+
+// Only the newest list request may fill the table: /user and /clients share it, so a slow
+// answer from the page the admin just left must not replace the current rows.
+let latestFetchId = 0;
 
 const prefix = 'USER_LIST';
 
@@ -121,7 +126,11 @@ const userListActions = {
       type: userListActions.RESETED,
     });
 
-    dispatch(userListActions.doFetch());
+    dispatch(
+      isClientsPath()
+        ? userListActions.doFetchClients()
+        : userListActions.doFetch(),
+    );
   },
 
   doExport: () => async (dispatch, getState) => {
@@ -135,7 +144,10 @@ const userListActions = {
       });
 
       const filter = selectors.selectFilter(getState());
-      const response = await UserService.fetchUsers(
+      const fetchRows = isClientsPath()
+        ? UserService.fetchClients
+        : UserService.fetchUsers;
+      const response = await fetchRows(
         filter,
         selectors.selectOrderBy(getState()),
         null,
@@ -185,7 +197,11 @@ const userListActions = {
       payload: sorter,
     });
 
-    dispatch(userListActions.doFetchCurrentFilter());
+    dispatch(
+      isClientsPath()
+        ? userListActions.doFetchCurrentFilterClient()
+        : userListActions.doFetchCurrentFilter(),
+    );
   },
 
   doFetchCurrentFilter:
@@ -213,6 +229,8 @@ const userListActions = {
   doFetch:
     (filter?, rawFilter?, keepPagination = false) =>
       async (dispatch, getState) => {
+        const fetchId = ++latestFetchId;
+
         try {
           dispatch({
             type: userListActions.FETCH_STARTED,
@@ -226,6 +244,8 @@ const userListActions = {
             selectors.selectOffset(getState()),
           );
 
+          if (fetchId !== latestFetchId) return;
+
           dispatch({
             type: userListActions.FETCH_SUCCESS,
             payload: {
@@ -234,6 +254,8 @@ const userListActions = {
             },
           });
         } catch (error) {
+          if (fetchId !== latestFetchId) return;
+
           Errors.handle(error);
 
           dispatch({
@@ -245,6 +267,8 @@ const userListActions = {
   doFetchClients:
     (filter?, rawFilter?, keepPagination = false) =>
       async (dispatch, getState) => {
+        const fetchId = ++latestFetchId;
+
         try {
           dispatch({
             type: userListActions.FETCH_STARTED,
@@ -258,6 +282,8 @@ const userListActions = {
             selectors.selectOffset(getState()),
           );
 
+          if (fetchId !== latestFetchId) return;
+
           dispatch({
             type: userListActions.FETCH_SUCCESS,
             payload: {
@@ -266,6 +292,8 @@ const userListActions = {
             },
           });
         } catch (error) {
+          if (fetchId !== latestFetchId) return;
+
           Errors.handle(error);
 
           dispatch({
@@ -276,7 +304,11 @@ const userListActions = {
 
 
 
-  doDestroy: (id) => async (dispatch, getState) => {
+  doDestroy: (id, clients = false) => async (dispatch, getState) => {
+    const refetch = clients
+      ? userListActions.doFetchCurrentFilterClient
+      : userListActions.doFetchCurrentFilter;
+
     try {
       dispatch({
         type: userListActions.DESTROY_STARTED,
@@ -290,7 +322,7 @@ const userListActions = {
 
       Message.success(i18n('user.doDestroySuccess'));
 
-      dispatch(userListActions.doFetchCurrentFilter());
+      dispatch(refetch());
     } catch (error) {
       Errors.handle(error);
 
@@ -298,8 +330,32 @@ const userListActions = {
         type: userListActions.DESTROY_ERROR,
       });
 
-      dispatch(userListActions.doFetchCurrentFilter());
+      dispatch(refetch());
     }
+  },
+
+  doDestroyPermanently: (id) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: userListActions.DESTROY_STARTED,
+      });
+
+      await UserService.destroyPermanently(id);
+
+      dispatch({
+        type: userListActions.DESTROY_SUCCESS,
+      });
+
+      Message.success('Client and all their records deleted');
+    } catch (error) {
+      Errors.handle(error);
+
+      dispatch({
+        type: userListActions.DESTROY_ERROR,
+      });
+    }
+
+    dispatch(userListActions.doFetchCurrentFilterClient());
   },
 
   depositCount: () => async (dispatch, getState) => {
@@ -345,7 +401,11 @@ const userListActions = {
   },
 
   doDestroyAllSelected:
-    () => async (dispatch, getState) => {
+    (clients = false) => async (dispatch, getState) => {
+      const refetch = clients
+        ? userListActions.doFetchCurrentFilterClient
+        : userListActions.doFetchCurrentFilter;
+
       try {
         const selectedRows = selectors.selectSelectedRows(
           getState(),
@@ -367,7 +427,7 @@ const userListActions = {
           i18n('user.doDestroyAllSelectedSuccess'),
         );
 
-        dispatch(userListActions.doFetchCurrentFilter());
+        dispatch(refetch());
       } catch (error) {
         Errors.handle(error);
 
@@ -375,7 +435,7 @@ const userListActions = {
           type: userListActions.DESTROY_ALL_SELECTED_ERROR,
         });
 
-        dispatch(userListActions.doFetchCurrentFilter());
+        dispatch(refetch());
       }
     },
 };

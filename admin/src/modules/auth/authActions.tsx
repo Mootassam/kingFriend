@@ -1,4 +1,5 @@
 import service from 'src/modules/auth/authService';
+import { userListPath } from 'src/modules/user/userListPath';
 import Errors from 'src/modules/shared/error/errors';
 import Message from 'src/view/shared/message';
 import { i18n } from 'src/i18n';
@@ -92,7 +93,7 @@ const authActions = {
         Message.success(
           i18n('auth.passwordChange.success'),
         );
-        getHistory().push('/user');
+        getHistory().push(userListPath());
       } catch (error) {
         Errors.handle(error);
 

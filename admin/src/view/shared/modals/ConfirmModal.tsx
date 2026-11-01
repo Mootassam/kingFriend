@@ -31,6 +31,9 @@ const ConfirmModal = (props) => {
               <span>&times;</span>
             </button>
           </div>
+          {props.children && (
+            <div className="modal-body">{props.children}</div>
+          )}
           <div className="modal-footer">
             <button
               type="button"
@@ -42,6 +45,7 @@ const ConfirmModal = (props) => {
             <button
               type="button"
               onClick={onConfirm}
+              disabled={props.okDisabled}
               className="btn btn-primary btn-sm"
             >
               {props.okText}
