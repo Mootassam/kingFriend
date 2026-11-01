@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import assetsActions from "src/modules/assets/assetsActions";
 import demoSelectors from "src/modules/demo/demoSelectors";
+import type { AppDispatch } from "src/modules/store";
 import TradeOrdersService, { TradeOrder, injectionPrice, orderId } from "src/modules/tradeOrders/tradeOrdersService";
 import useSymbolInjections from "src/modules/tradeOrders/useSymbolInjections";
 
@@ -10,6 +12,7 @@ const REFRESH_MS = 15_000;
 // periodic refresh, live prices, admin price injections, automatic take-profit/stop-loss
 // and pending-order triggers, manual close and cancel.
 export default function useTradeOrders(enabled: boolean) {
+  const dispatch = useDispatch<AppDispatch>();
   const quotes = useSelector(demoSelectors.selectQuotes);
   const [orders, setOrders] = useState<TradeOrder[]>([]);
   const [loading, setLoading] = useState(true);
@@ -19,17 +22,26 @@ export default function useTradeOrders(enabled: boolean) {
   // Prevent double auto-close / double auto-execute while a request is in flight.
   const autoClosing = useRef<Set<string>>(new Set());
   const autoExecuting = useRef<Set<string>>(new Set());
+  const lastStatuses = useRef<string | null>(null);
 
   const fetchOrders = useCallback(async () => {
     if (!enabled) return;
     try {
-      setOrders(await TradeOrdersService.list());
+      const rows = await TradeOrdersService.list();
+      setOrders(rows);
+      // Any status change moves money (manual close, TP/SL, injection result, cancel, pending
+      // fill), so the wallets are reloaded here rather than after each of those actions.
+      const statuses = rows.map((order) => `${orderId(order)}:${order.status}`).sort().join();
+      if (lastStatuses.current !== null && lastStatuses.current !== statuses) {
+        dispatch(assetsActions.doFetch());
+      }
+      lastStatuses.current = statuses;
     } catch {
       setOrders([]);
     } finally {
       setLoading(false);
     }
-  }, [enabled]);
+  }, [enabled, dispatch]);
 
   // Periodic refresh also lets expired injections finalize on the server and credit the wallet.
   useEffect(() => {

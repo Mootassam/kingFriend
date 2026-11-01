@@ -186,7 +186,7 @@ export function createOrder(state: DemoState, request: OrderRequest): DemoState 
   const { margin, fee } = orderCost(quote, entry, request.lots, request.leverage, state.marketQuotes);
 
   if (
-    !Number.isFinite(request.lots) || request.lots < 0.01 || request.lots > 100 ||
+    !Number.isFinite(request.lots) || request.lots < 0.01 ||
     !Number.isFinite(entry) || entry <= 0 ||
     !Number.isFinite(request.leverage) || request.leverage < 1
   ) {

@@ -23,6 +23,7 @@ import Modal from "src/view/shared/modals/Modal";
 import "src/view/pages/Trade/orderTicket.css";
 
 const MARKET_CLOSED_MESSAGE = "Market closed. Trading resumes when it reopens.";
+const MIN_LOTS = 0.01;
 
 const ticketTabs = ["Market Price", "Pending Orders"] as const;
 
@@ -74,7 +75,9 @@ export default function OrderTicket({ quote }: { quote: Quote }) {
       : livePrice === null
         ? "Waiting for the live price…"
         : null;
-  const valid = !blocked && !insufficient && lots >= 0.01 && lots <= 100 && entry > 0;
+  // No fixed maximum: the balance check sets how many lots an order can use.
+  const lotsValid = Number.isFinite(lots) && lots >= MIN_LOTS;
+  const valid = !blocked && !insufficient && lotsValid && entry > 0;
   const marginText = "$" + formatMargin(realMargin);
 
   // SL/TP start at the live price when switched on, as on PC.
@@ -260,14 +263,16 @@ export default function OrderTicket({ quote }: { quote: Quote }) {
                 aria-label="Lots"
                 type="number"
                 min="0.01"
-                max="100"
                 step="0.01"
                 value={lotsInput}
                 onChange={(e) => setLotsInput(e.target.value)}
+                onBlur={() => {
+                  if (!lotsValid) setLotsInput(MIN_LOTS.toFixed(2));
+                }}
               />
               <button
                 aria-label="Increase lots"
-                onClick={() => setLotsInput(Math.min(100, lots + 0.01).toFixed(2))}
+                onClick={() => setLotsInput((lots + 0.01).toFixed(2))}
               >
                 <Plus size={18} />
               </button>
@@ -311,6 +316,11 @@ export default function OrderTicket({ quote }: { quote: Quote }) {
           {blocked && (
             <p role="status" className="ticket-notice">
               {blocked}
+            </p>
+          )}
+          {!lotsValid && (
+            <p role="alert" className="negative ticket-notice">
+              ⚠ Lots must be at least {MIN_LOTS}.
             </p>
           )}
           {insufficient && (
